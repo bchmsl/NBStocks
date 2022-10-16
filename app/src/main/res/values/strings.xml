@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">NB Stocks</string>
+    <string name="stocks">Stocks</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="sing_in">Sing In</string>
+    <string name="don_t_have_an_account">Don\'t have an account?</string>
+    <string name="sign_up_here">Sign up Here</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="sing_up">Sing Up</string>
+    <string name="recovery_email">Recovery Email</string>
+    <string name="recover_password">Recover Password</string>
 </resources>
