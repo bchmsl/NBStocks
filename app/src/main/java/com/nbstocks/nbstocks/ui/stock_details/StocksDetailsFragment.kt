@@ -42,7 +42,11 @@ class StocksDetailsFragment :
         binding.vConfirmBuySell.startAnimation(animation)
         binding.etCash.visibility = View.VISIBLE
         binding.etCash.startAnimation(animation)
+        binding.etCashInputLayout.visibility = View.VISIBLE
+        binding.etCashInputLayout.startAnimation(animation)
         binding.tvResult.visibility = View.VISIBLE
         binding.tvResult.startAnimation(animation)
+        binding.buttonsLinear.visibility = View.VISIBLE
+        binding.buttonsLinear.startAnimation(animation)
     }
 }
