@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <View
         android:id="@+id/view4"
         android:layout_width="match_parent"
@@ -29,6 +28,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <androidx.appcompat.widget.SearchView
+        android:id="@+id/svSearch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="15dp"
@@ -36,16 +36,36 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/ivBackArrow" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvStocks"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
         app:layout_constraintEnd_toEndOf="parent"
+        android:paddingHorizontal="15dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view4"
-        tools:itemCount="6"
-        tools:listitem="@layout/search_stock_item" />
+        app:layout_constraintTop_toBottomOf="@+id/view4">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvStocks"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="15dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:layout_marginEnd="15dp"
+            tools:itemCount="6"
+            tools:listitem="@layout/search_stock_item" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="25dp"
+        android:layout_marginTop="5dp"
+        android:indeterminate="true"
+        app:indicatorColor="#204479"
+        app:layout_constraintBottom_toTopOf="@id/swipeRefresh"
+        app:trackColor="@android:color/darker_gray" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph.xml"
-    app:startDestination="@id/logInFragment">
+    app:startDestination="@id/stocksFragment">
 
     <fragment
         android:id="@+id/homeFragment"
         tools:layout="@layout/fragment_home"
-        android:name="com.nbstocks.nbstocks.ui.home.HomeFragment"
+        android:name="com.nbstocks.nbstocks.presentation.home.HomeFragment"
         android:label="HomeFragment" >
         <action
             android:id="@+id/action_homeFragment_to_stocksDetailsFragment"
@@ -17,7 +17,7 @@
     <fragment
         android:id="@+id/logInFragment"
         tools:layout="@layout/fragment_log_in"
-        android:name="com.nbstocks.nbstocks.ui.log_in.LogInFragment"
+        android:name="com.nbstocks.nbstocks.presentation.log_in.LogInFragment"
         android:label="LogInFragment" >
 
         <action
@@ -33,7 +33,7 @@
     <fragment
         tools:layout="@layout/fragment_password_recovery"
         android:id="@+id/passwordRecoveryFragment"
-        android:name="com.nbstocks.nbstocks.ui.password_recovery.PasswordRecoveryFragment"
+        android:name="com.nbstocks.nbstocks.presentation.password_recovery.PasswordRecoveryFragment"
         android:label="PasswordRecoveryFragment" >
 
         <action
@@ -43,7 +43,7 @@
     <fragment
         android:id="@+id/signUpFragment"
         tools:layout="@layout/fragment_sign_up"
-        android:name="com.nbstocks.nbstocks.ui.sign_up.SignUpFragment"
+        android:name="com.nbstocks.nbstocks.presentation.sign_up.SignUpFragment"
         android:label="SignUpFragment" >
 
         <action
@@ -53,7 +53,7 @@
     <fragment
         android:id="@+id/stocksDetailsFragment"
         tools:layout="@layout/fragment_stocks_details"
-        android:name="com.nbstocks.nbstocks.ui.stock_details.StocksDetailsFragment"
+        android:name="com.nbstocks.nbstocks.presentation.stock_details.StocksDetailsFragment"
         android:label="StocksDetailsFragment" >
 
         <action
@@ -63,13 +63,13 @@
     <fragment
         android:id="@+id/stocksFragment"
         tools:layout="@layout/fragment_stocks"
-        android:name="com.nbstocks.nbstocks.ui.stocks.StocksFragment"
+        android:name="com.nbstocks.nbstocks.presentation.stocks.StocksFragment"
         android:label="StocksFragment" >
 
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.nbstocks.nbstocks.ui.profile.ProfileFragment"
+        android:name="com.nbstocks.nbstocks.presentation.profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
 </navigation>
