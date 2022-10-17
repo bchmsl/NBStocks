@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph.xml"
+    app:startDestination="@id/logInFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        tools:layout="@layout/fragment_home"
+        android:name="com.nbstocks.nbstocks.ui.home.HomeFragment"
+        android:label="HomeFragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_stocksDetailsFragment"
+            app:destination="@id/stocksDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/logInFragment"
+        tools:layout="@layout/fragment_log_in"
+        android:name="com.nbstocks.nbstocks.ui.log_in.LogInFragment"
+        android:label="LogInFragment" >
+
+        <action
+            android:id="@+id/action_logInFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+        <action
+            android:id="@+id/action_logInFragment_to_passwordRecoveryFragment"
+            app:destination="@id/passwordRecoveryFragment" />
+        <action
+            android:id="@+id/action_logInFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_password_recovery"
+        android:id="@+id/passwordRecoveryFragment"
+        android:name="com.nbstocks.nbstocks.ui.password_recovery.PasswordRecoveryFragment"
+        android:label="PasswordRecoveryFragment" >
+
+        <action
+            android:id="@+id/action_passwordRecoveryFragment_to_logInFragment"
+            app:destination="@id/logInFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpFragment"
+        tools:layout="@layout/fragment_sign_up"
+        android:name="com.nbstocks.nbstocks.ui.sign_up.SignUpFragment"
+        android:label="SignUpFragment" >
+
+        <action
+            android:id="@+id/action_signUpFragment_to_logInFragment"
+            app:destination="@id/logInFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/stocksDetailsFragment"
+        tools:layout="@layout/fragment_stocks_details"
+        android:name="com.nbstocks.nbstocks.ui.stock_details.StocksDetailsFragment"
+        android:label="StocksDetailsFragment" >
+
+        <action
+            android:id="@+id/action_stocksDetailsFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/stocksFragment"
+        tools:layout="@layout/fragment_stocks"
+        android:name="com.nbstocks.nbstocks.ui.stocks.StocksFragment"
+        android:label="StocksFragment" >
+
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.nbstocks.nbstocks.ui.profile.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
+</navigation>

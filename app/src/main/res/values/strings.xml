@@ -10,4 +10,6 @@
     <string name="sing_up">Sing Up</string>
     <string name="recovery_email">Recovery Email</string>
     <string name="recover_password">Recover Password</string>
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
