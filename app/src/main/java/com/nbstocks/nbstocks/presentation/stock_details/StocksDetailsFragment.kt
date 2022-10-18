@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import com.nbstocks.nbstocks.MainActivity
 import com.nbstocks.nbstocks.R
 import com.nbstocks.nbstocks.databinding.FragmentStocksDetailsBinding
 import com.nbstocks.nbstocks.presentation.base.BaseFragment
@@ -15,6 +16,11 @@ class StocksDetailsFragment :
     BaseFragment<FragmentStocksDetailsBinding>(FragmentStocksDetailsBinding::inflate) {
     override fun start() {
         listeners()
+
+        val activity = requireActivity() as? MainActivity
+        activity?.hideToolBar()
+
+
     }
 
     private fun listeners() {

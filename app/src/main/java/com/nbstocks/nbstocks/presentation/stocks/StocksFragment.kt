@@ -13,7 +13,9 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
+import com.nbstocks.nbstocks.MainActivity
 import com.nbstocks.nbstocks.R
 import com.nbstocks.nbstocks.databinding.ActivityMainBinding
 import com.nbstocks.nbstocks.databinding.FragmentStocksBinding
@@ -32,6 +34,10 @@ class StocksFragment : BaseFragment<FragmentStocksBinding>(FragmentStocksBinding
         binding.rvStocks.adapter = stocksAdapter
         observe()
         listeners()
+
+        val activity = requireActivity() as? MainActivity
+        activity?.showToolBar()
+
     }
 
     private fun listeners() {
@@ -65,9 +71,20 @@ class StocksFragment : BaseFragment<FragmentStocksBinding>(FragmentStocksBinding
             }
         }
 
-//        binding.fabUp.setOnClickListener {
-//            scrollToTop()
-//        }
+        binding.fabUp.setOnClickListener {
+            scrollToTop()
+        }
+
+
+        stocksAdapter.stockItemClicked = {
+            findNavController().navigate(StocksFragmentDirections.actionStocksFragmentToStocksDetailsFragment())
+        }
+
+        binding.ivBackArrow.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
+
     }
 
     private fun observe() {

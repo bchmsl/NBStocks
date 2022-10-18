@@ -95,6 +95,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="75dp"
         android:layout_marginEnd="75dp"
+        android:layout_marginBottom="25dp"
         android:background="@drawable/sign_in_background"
         android:fontFamily="@font/bpg_nino_mtavruli_normal"
         android:text="@string/sing_up"
@@ -104,33 +105,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/InpuLayout" />
-
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/InpuLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="25dp"
-        android:hint="@string/confirm_password"
-        app:boxStrokeColor="#00AEEF"
-        app:endIconMode="password_toggle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/InputLayout"
-        app:startIconDrawable="@drawable/ic_baseline_lock_24"
-        app:startIconTint="#00AEEF">
+        app:layout_constraintVertical_bias="1.0" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etConfirmPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/bpg_nino_mtavruli_normal"
-            android:textSize="20sp" />
-    </com.google.android.material.textfield.TextInputLayout>
 
 
     <View
@@ -142,4 +119,7 @@
         android:background="@drawable/ic_baseline_arrow_back_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,6 +10,9 @@ import com.nbstocks.nbstocks.databinding.SearchStockItemBinding
 import com.nbstocks.nbstocks.presentation.model.CompanyListingUiModel
 
 class StocksAdapter: ListAdapter<CompanyListingUiModel, StocksAdapter.StocksViewHolder>(callback) {
+
+    var stockItemClicked: ((CompanyListingUiModel) -> Unit)? = null
+
     inner class StocksViewHolder(private val binding: SearchStockItemBinding): ViewHolder(binding.root){
         fun bind(){
             val currentItem = getItem(adapterPosition)
@@ -18,6 +21,9 @@ class StocksAdapter: ListAdapter<CompanyListingUiModel, StocksAdapter.StocksView
                 tvType.text = currentItem.type?.name
                 tvType.backgroundTintList = ColorStateList.valueOf(currentItem.type?.color ?: 0)
                 tvItemSymbol.text = currentItem.symbol
+                root.setOnClickListener{
+                    stockItemClicked?.invoke(currentItem)
+                }
             }
         }
     }
