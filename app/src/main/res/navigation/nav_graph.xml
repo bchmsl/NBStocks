@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph.xml"
-    app:startDestination="@id/stocksFragment">
+    app:startDestination="@id/logInFragment">
 
     <fragment
         android:id="@+id/homeFragment"
@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_homeFragment_to_stocksDetailsFragment"
             app:destination="@id/stocksDetailsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_stocksFragment"
+            app:destination="@id/stocksFragment" />
     </fragment>
     <fragment
         android:id="@+id/logInFragment"
@@ -59,6 +62,9 @@
         <action
             android:id="@+id/action_stocksDetailsFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_stocksDetailsFragment_to_stocksFragment"
+            app:destination="@id/stocksFragment" />
     </fragment>
     <fragment
         android:id="@+id/stocksFragment"
@@ -66,6 +72,9 @@
         android:name="com.nbstocks.nbstocks.presentation.stocks.StocksFragment"
         android:label="StocksFragment" >
 
+        <action
+            android:id="@+id/action_stocksFragment_to_stocksDetailsFragment"
+            app:destination="@id/stocksDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"

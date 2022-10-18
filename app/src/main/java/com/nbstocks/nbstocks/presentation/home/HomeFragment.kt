@@ -2,12 +2,21 @@ package com.nbstocks.nbstocks.presentation.home
 
 
 import androidx.navigation.fragment.findNavController
+import com.nbstocks.nbstocks.MainActivity
 import com.nbstocks.nbstocks.databinding.FragmentHomeBinding
 import com.nbstocks.nbstocks.presentation.base.BaseFragment
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
     override fun start() {
         listeners()
+
+        val activity = requireActivity() as? MainActivity
+        activity?.showToolBar()
+
+        activity?.binding?.fabStocks?.setOnClickListener {
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToStocksFragment())
+        }
+
     }
 
     private fun listeners(){

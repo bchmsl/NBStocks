@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "265418245415",
+    "project_id": "nb-stocks",
+    "storage_bucket": "nb-stocks.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:265418245415:android:99df9770be63e362575502",
+        "android_client_info": {
+          "package_name": "com.nbstocks.nbstocks"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "265418245415-jj0f05ec0g90roqrrqrlivp125j3panc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMIa9DXC4vGHFMRICmvvByXT0f4DdbD1A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "265418245415-jj0f05ec0g90roqrrqrlivp125j3panc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
