@@ -132,6 +132,20 @@
     </LinearLayout>
 
 
+<!--    <com.anychart.AnyChartView-->
+<!--        android:id="@+id/chart"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="160dp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />-->
+
+    <com.github.mikephil.charting.charts.PieChart
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/textView2"
         android:layout_width="match_parent"
@@ -340,9 +354,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
-        android:visibility="invisible"
         android:layout_marginEnd="15dp"
         android:hint="Enter amount of cash"
+        android:visibility="invisible"
         app:boxStrokeColor="#FFFFFF"
         app:endIconMode="clear_text"
         app:layout_constraintEnd_toEndOf="parent"
@@ -353,11 +367,11 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etCash"
-            android:visibility="invisible"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/bpg_nino_mtavruli_normal"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:visibility="invisible" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -365,12 +379,12 @@
         android:id="@+id/tvResult"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="invisible"
         android:layout_marginTop="10dp"
         android:fontFamily="@font/bpg_nino_mtavruli_normal"
         android:text="You'll get 0.005 of Apple"
         android:textColor="@color/white"
         android:textSize="18sp"
+        android:visibility="invisible"
         app:layout_constraintStart_toStartOf="@+id/etCashInputLayout"
         app:layout_constraintTop_toBottomOf="@+id/etCashInputLayout" />
 
