@@ -1,4 +1,4 @@
-package com.nbstocks.nbstocks.presentation.model
+package com.nbstocks.nbstocks.presentation.stocks.model
 
 import com.nbstocks.nbstocks.common.stocktype.StockType
 

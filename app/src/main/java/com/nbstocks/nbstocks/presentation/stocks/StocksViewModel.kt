@@ -5,7 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.nbstocks.nbstocks.common.Resource
 import com.nbstocks.nbstocks.common.mapper.toCompanyListingUiModel
 import com.nbstocks.nbstocks.domain.repositories.StockRepository
-import com.nbstocks.nbstocks.presentation.model.CompanyListingUiModel
+import com.nbstocks.nbstocks.presentation.model.ViewState
+import com.nbstocks.nbstocks.presentation.model.resetViewState
+import com.nbstocks.nbstocks.presentation.stocks.model.CompanyListingUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -23,7 +25,7 @@ class StocksViewModel @Inject constructor(private val repository: StockRepositor
 
     fun getCompanyListings(fetchFromRemote: Boolean, query: String?) {
         viewModelScope.launch {
-            resetViewState()
+            _viewState.resetViewState()
             repository.getCompanyListings(fetchFromRemote, query).collect { it ->
                 _loaderState.value = it.isLoading
                 when (it) {
@@ -42,13 +44,4 @@ class StocksViewModel @Inject constructor(private val repository: StockRepositor
             }
         }
     }
-
-    private fun resetViewState() {
-        _viewState.value = _viewState.value.copy(data = null, error = null)
-    }
-
-    data class ViewState<T>(
-        val data: T? = null,
-        val error: Throwable? = null
-    )
 }

@@ -1,9 +1,7 @@
 package com.nbstocks.nbstocks.data.remote.services
 
 import com.nbstocks.nbstocks.BuildConfig
-import com.nbstocks.nbstocks.data.remote.model.DailyStocksDto
-
-import retrofit2.Response
+import okhttp3.ResponseBody
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Query
@@ -15,11 +13,12 @@ interface StockDaily {
         const val BASE_URL = "https://www.alphavantage.co/"
     }
 
-    @GET("stocks")
+    @GET("query")
     suspend fun getStocksDetails(
         @Query("symbol") symbol: String,
         @Query("function") function: String = "TIME_SERIES_DAILY",
-        @Header("apikey") rapidApiKey: String = API_KEY
-    ): Response<DailyStocksDto>
+        @Query("apikey") apikey: String = "AE2SP6X1JDFC2150",
+        @Query("datatype") datatype: String = "csv"
+    ): ResponseBody
 
 }

@@ -1,8 +1,13 @@
 package com.nbstocks.nbstocks.presentation.stock_details
 
+import android.graphics.Color
+import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import com.google.android.material.snackbar.Snackbar
 //import com.anychart.AnyChart
 //import com.anychart.chart.common.dataentry.DataEntry
 //import com.anychart.chart.common.dataentry.ValueDataEntry
@@ -11,6 +16,7 @@ import com.nbstocks.nbstocks.MainActivity
 import com.nbstocks.nbstocks.databinding.FragmentStocksDetailsBinding
 import com.nbstocks.nbstocks.presentation.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class StocksDetailsFragment :
@@ -19,14 +25,36 @@ class StocksDetailsFragment :
     private val viewModel: StocksDetailsViewModel by viewModels()
 
     override fun start() {
-        viewModel.load()
-
         listeners()
+        observe()
 
         val activity = requireActivity() as? MainActivity
         activity?.hideToolBar()
+    }
 
+    private fun observe(){
+        viewModel.getStocksDetails("AAPL")
+        lifecycleScope.launch {
 
+//            launch { viewModel.loaderState.collect { progressBar.isVisible = it } }
+
+            launch {
+                viewModel.viewState.collect {
+                    it.data?.let { stocksList ->
+                        stocksList.forEach {
+                            Log.wtf("STOCK", it.toString())
+
+                            // TODO("Not yet implemented")
+
+                        }
+                    }
+                    it.error?.let { error ->
+                        Snackbar.make(binding.root, error.localizedMessage ?: "", Snackbar.LENGTH_LONG)
+                            .setBackgroundTint(Color.RED).show()
+                    }
+                }
+            }
+        }
     }
 
 //    private fun loadChart() {

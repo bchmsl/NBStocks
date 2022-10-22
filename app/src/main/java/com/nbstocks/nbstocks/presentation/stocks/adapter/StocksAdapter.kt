@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.nbstocks.nbstocks.databinding.SearchStockItemBinding
-import com.nbstocks.nbstocks.presentation.model.CompanyListingUiModel
+import com.nbstocks.nbstocks.presentation.stocks.model.CompanyListingUiModel
 
 class StocksAdapter: ListAdapter<CompanyListingUiModel, StocksAdapter.StocksViewHolder>(callback) {
 

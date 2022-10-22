@@ -1,7 +1,7 @@
 package com.nbstocks.nbstocks.data.remote.model
 
 
-data class ResponseData(
+data class CompanyListingResponseDto(
     val data: List<CompanyListingDto?>?
 ) {
     data class CompanyListingDto(

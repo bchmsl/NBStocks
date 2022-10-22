@@ -1,7 +1,7 @@
 package com.nbstocks.nbstocks.data.remote.services
 
 import com.nbstocks.nbstocks.BuildConfig
-import com.nbstocks.nbstocks.data.remote.model.ResponseData
+import com.nbstocks.nbstocks.data.remote.model.CompanyListingResponseDto
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -17,7 +17,7 @@ interface StockApi {
     suspend fun getListings(
         @Query("exchange") exchange: String = "NASDAQ",
         @Header("X-RapidAPI-Key") rapidApiKey: String = API_KEY
-    ): Response<ResponseData>
+    ): Response<CompanyListingResponseDto>
 
 
 

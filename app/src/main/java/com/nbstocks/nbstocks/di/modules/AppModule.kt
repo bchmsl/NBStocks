@@ -5,7 +5,10 @@ import androidx.room.Room
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.nbstocks.nbstocks.common.response_handler.ResponseHandler
+import com.nbstocks.nbstocks.csv.CSVParser
+import com.nbstocks.nbstocks.csv.DailyListingsParser
 import com.nbstocks.nbstocks.data.local.database.StockDatabase
+import com.nbstocks.nbstocks.data.remote.model.DailyStockDto
 import com.nbstocks.nbstocks.data.remote.services.StockApi
 import com.nbstocks.nbstocks.data.remote.services.StockDaily
 import com.nbstocks.nbstocks.data.repositories.StockRepositoryImpl
@@ -102,4 +105,7 @@ abstract class BindsModule {
     @Singleton
     abstract fun bindStockDetailsRepository(stockDetailsRepositoryImpl: StockDetailsRepositoryImpl): StockDetailsRepository
 
+    @Binds
+    @Singleton
+    abstract fun bindDailyListingsParser(dailyListingsParser: DailyListingsParser): CSVParser<DailyStockDto>
 }
