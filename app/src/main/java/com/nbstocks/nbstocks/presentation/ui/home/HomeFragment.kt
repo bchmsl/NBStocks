@@ -22,9 +22,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private fun listeners(){
         binding.btnBuy.setOnClickListener {
             //for testing
-            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToStocksDetailsFragment())
+//            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToStocksDetailsFragment())
         }
-        binding.btnSell.setOnClickListener {  }
+        binding.btnSell.setOnClickListener {
+
+        }
     }
 
 }

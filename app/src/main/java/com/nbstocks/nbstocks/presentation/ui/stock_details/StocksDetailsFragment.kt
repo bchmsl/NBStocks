@@ -6,6 +6,8 @@ import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 //import com.anychart.AnyChart
 //import com.anychart.chart.common.dataentry.DataEntry
@@ -14,6 +16,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.nbstocks.nbstocks.presentation.ui.MainActivity
 import com.nbstocks.nbstocks.databinding.FragmentStocksDetailsBinding
 import com.nbstocks.nbstocks.presentation.ui.base.BaseFragment
+import com.nbstocks.nbstocks.presentation.ui.stock_details.model.DailyStockUiModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -22,6 +25,7 @@ class StocksDetailsFragment :
     BaseFragment<FragmentStocksDetailsBinding>(FragmentStocksDetailsBinding::inflate) {
 
     private val viewModel: StocksDetailsViewModel by viewModels()
+    private val args: StocksDetailsFragmentArgs by navArgs()
 
     override fun start() {
         listeners()
@@ -31,8 +35,8 @@ class StocksDetailsFragment :
         activity?.hideToolBar()
     }
 
-    private fun observe(){
-        viewModel.getStocksDetails("AAPL")
+    private fun observe() {
+        viewModel.getStocksDetails(args.stockSymbol)
         lifecycleScope.launch {
 
 //            launch { viewModel.loaderState.collect { progressBar.isVisible = it } }
@@ -40,20 +44,32 @@ class StocksDetailsFragment :
             launch {
                 viewModel.viewState.collect {
                     it.data?.let { stocksList ->
-                        stocksList.forEach {
-                            Log.d("TAG: STOCK", it.toString())
-
-                            // TODO("Not yet implemented")
-
-                        }
+                        handleSuccess(stocksList)
                     }
                     it.error?.let { error ->
-                        Snackbar.make(binding.root, error.localizedMessage ?: "", Snackbar.LENGTH_LONG)
+                        Snackbar.make(
+                            binding.root,
+                            error.localizedMessage ?: "",
+                            Snackbar.LENGTH_LONG
+                        )
                             .setBackgroundTint(Color.RED).show()
                     }
                 }
             }
         }
+    }
+
+    private fun handleSuccess(stocksList: List<DailyStockUiModel>) {
+        stocksList.forEach { stock ->
+            Log.d("TAG: STOCK", stock.toString())
+        }
+
+        // TODO("Not yet implemented")
+
+        Snackbar.make(binding.root, "Stocks size: ${stocksList.size}", Snackbar.LENGTH_LONG)
+            .setBackgroundTint(Color.GREEN).show()
+
+
     }
 
 //    private fun loadChart() {
@@ -117,6 +133,10 @@ class StocksDetailsFragment :
 
         binding.btnSell.setOnClickListener {
             showConfirmation()
+        }
+
+        binding.ivBackArrow.setOnClickListener {
+            findNavController().popBackStack()
         }
 
     }

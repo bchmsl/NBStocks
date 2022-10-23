@@ -15,7 +15,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class CompanyListingsFragment : BaseFragment<FragmentCompanyListingsBinding>(FragmentCompanyListingsBinding::inflate) {
+class CompanyListingsFragment :
+    BaseFragment<FragmentCompanyListingsBinding>(FragmentCompanyListingsBinding::inflate) {
 
     private val viewModel by viewModels<CompanyListingsViewModel>()
     private val stocksAdapter by lazy { CompanyListingsAdapter() }
@@ -43,7 +44,7 @@ class CompanyListingsFragment : BaseFragment<FragmentCompanyListingsBinding>(Fra
                 }.invokeOnCompletion {
                     scrollToTop()
                 }
-                if (newText.isNullOrBlank()){
+                if (newText.isNullOrBlank()) {
                     scrollToTop()
                 }
                 return true
@@ -67,7 +68,13 @@ class CompanyListingsFragment : BaseFragment<FragmentCompanyListingsBinding>(Fra
 
 
         stocksAdapter.stockItemClicked = {
-            findNavController().navigate(CompanyListingsFragmentDirections.actionCompanyListingsFragmentToStocksDetailsFragment())
+            it.symbol?.let { symbol ->
+                findNavController().navigate(
+                    CompanyListingsFragmentDirections.actionCompanyListingsFragmentToStocksDetailsFragment(
+                        symbol
+                    )
+                )
+            }
         }
 
         binding.ivBackArrow.setOnClickListener {

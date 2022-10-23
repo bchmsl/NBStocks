@@ -43,7 +43,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(FragmentSignUpBinding
             viewModel.registerResponse.collect {
                 when (it) {
                     is Resource.Success -> {
-                        findNavController().navigate(SignUpFragmentDirections.actionSignUpFragmentToLogInFragment())
+                        findNavController().navigate(SignUpFragmentDirections.actionSignUpFragmentToHomeFragment())
                     }
                     is Resource.Error -> {
                     }
