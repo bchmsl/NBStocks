@@ -1,8 +1,8 @@
 package com.nbstocks.nbstocks.data.repositories.db_add_user
 
 import com.google.firebase.database.FirebaseDatabase
-import com.nbstocks.nbstocks.common.Resource
-import com.nbstocks.nbstocks.common.response_handler.ResponseHandler
+import com.nbstocks.nbstocks.common.handlers.Resource
+import com.nbstocks.nbstocks.common.handlers.ResponseHandler
 import com.nbstocks.nbstocks.data.remote.model.User
 import com.nbstocks.nbstocks.domain.repositories.db_add_user.DbAddUserRepository
 import kotlinx.coroutines.Dispatchers

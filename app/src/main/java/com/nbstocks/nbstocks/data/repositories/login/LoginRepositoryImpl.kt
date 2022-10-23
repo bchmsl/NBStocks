@@ -2,8 +2,8 @@ package com.nbstocks.nbstocks.data.repositories.login
 
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
-import com.nbstocks.nbstocks.common.Resource
-import com.nbstocks.nbstocks.common.response_handler.ResponseHandler
+import com.nbstocks.nbstocks.common.handlers.Resource
+import com.nbstocks.nbstocks.common.handlers.ResponseHandler
 import com.nbstocks.nbstocks.domain.repositories.login.LoginRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
