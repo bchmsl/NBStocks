@@ -8,21 +8,20 @@ import com.nbstocks.nbstocks.presentation.ui.base.BaseFragment
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
     override fun start() {
+
         listeners()
-
-        val activity = requireActivity() as? MainActivity
-        activity?.showToolBar()
-
-        activity?.binding?.fabStocks?.setOnClickListener {
-            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToStocksFragment())
-        }
 
     }
 
-    private fun listeners(){
+    private fun listeners() {
+
+//        val activity = requireActivity() as? MainActivity
+//        activity?.binding?.fabStocks?.setOnClickListener {
+//            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToStocksFragment())
+//        }
+
         binding.btnBuy.setOnClickListener {
-            //for testing
-//            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToStocksDetailsFragment())
+
         }
         binding.btnSell.setOnClickListener {
 

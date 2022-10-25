@@ -1,50 +1,64 @@
 package com.nbstocks.nbstocks.presentation.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.nbstocks.nbstocks.R
-import com.nbstocks.nbstocks.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    lateinit var binding: ActivityMainBinding
+    private lateinit var navView: BottomNavigationView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_main)
         supportActionBar?.hide()
 
 
+
+        navView = findViewById(R.id.bottomNavigationView)
         val navController = findNavController(R.id.fragmentContainerView)
+
+
         val appBarConfig = AppBarConfiguration(
             setOf(
                 R.id.homeFragment, R.id.companyListingsFragment, R.id.profileFragment
             )
         )
 
+
         setupActionBarWithNavController(navController, appBarConfig)
-        binding.bottomNavigationView.setupWithNavController(navController)
-        hideToolBar()
+        navView.setupWithNavController(navController)
+
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.logInFragment -> hideToolBar()
+                R.id.signUpFragment -> hideToolBar()
+                R.id.passwordRecoveryFragment -> hideToolBar()
+                R.id.stocksDetailsFragment -> hideToolBar()
+                else -> showToolBar()
+
+            }
+        }
+
+
     }
 
     fun showToolBar() {
-        binding.bottomNavigationView.visibility = View.VISIBLE
-        binding.bottomAppBar.visibility = View.VISIBLE
-        binding.fabStocks.visibility = View.VISIBLE
+        navView.isVisible = true
     }
 
     fun hideToolBar() {
-        binding.bottomNavigationView.visibility = View.GONE
-        binding.bottomAppBar.visibility = View.GONE
-        binding.fabStocks.visibility = View.GONE
+        navView.isVisible = false
     }
+
 }

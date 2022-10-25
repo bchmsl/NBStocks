@@ -7,6 +7,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.nbstocks.nbstocks.common.constants.AppModuleParams
 import com.nbstocks.nbstocks.common.handlers.ResponseHandler
 import com.nbstocks.nbstocks.data.local.database.StockDatabase
+import com.nbstocks.nbstocks.data.remote.services.CurrentStock
 import com.nbstocks.nbstocks.data.remote.services.StockApi
 import com.nbstocks.nbstocks.data.remote.services.StockDaily
 import com.nbstocks.nbstocks.data.repositories.db_add_user.DbAddUserRepositoryImpl
@@ -48,6 +49,22 @@ object AppModule {
             .baseUrl(StockDaily.BASE_URL)
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
+
+    @Provides
+    @Singleton
+    @Named(AppModuleParams.CURRENT_STOCK)
+    fun provideRetrofitCurrentStock(): Retrofit =
+        Retrofit.Builder()
+            .baseUrl(CurrentStock.BASE_URL)
+            .addConverterFactory(MoshiConverterFactory.create())
+            .build()
+
+    @Provides
+    @Singleton
+    fun provideCurrentStockApi(
+        @Named(AppModuleParams.CURRENT_STOCK)
+        retrofit: Retrofit): CurrentStock =
+        retrofit.create(CurrentStock::class.java)
 
     @Provides
     @Singleton

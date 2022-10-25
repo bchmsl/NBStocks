@@ -1,19 +1,21 @@
 package com.nbstocks.nbstocks.presentation.ui.stock_details
 
+//import com.anychart.AnyChart
+//import com.anychart.chart.common.dataentry.DataEntry
+//import com.anychart.chart.common.dataentry.ValueDataEntry
+//import com.anychart.charts.Waterfall
 import android.graphics.Color
-import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.anychart.AnyChart
+import com.anychart.chart.common.dataentry.DataEntry
+import com.anychart.chart.common.dataentry.ValueDataEntry
+import com.anychart.charts.Waterfall
 import com.google.android.material.snackbar.Snackbar
-//import com.anychart.AnyChart
-//import com.anychart.chart.common.dataentry.DataEntry
-//import com.anychart.chart.common.dataentry.ValueDataEntry
-//import com.anychart.charts.Waterfall
-import com.nbstocks.nbstocks.presentation.ui.MainActivity
 import com.nbstocks.nbstocks.databinding.FragmentStocksDetailsBinding
 import com.nbstocks.nbstocks.presentation.ui.base.BaseFragment
 import com.nbstocks.nbstocks.presentation.ui.stock_details.model.DailyStockUiModel
@@ -31,12 +33,11 @@ class StocksDetailsFragment :
         listeners()
         observe()
 
-        val activity = requireActivity() as? MainActivity
-        activity?.hideToolBar()
     }
 
     private fun observe() {
         viewModel.getStocksDetails(args.stockSymbol)
+        viewModel.getCurrentStock(args.stockSymbol)
         lifecycleScope.launch {
 
 //            launch { viewModel.loaderState.collect { progressBar.isVisible = it } }
@@ -56,71 +57,63 @@ class StocksDetailsFragment :
                     }
                 }
             }
+            launch {
+                viewModel.currentStockState.collect{
+                    binding.apply {
+                        tvPrice.text = it.data?.price
+                        tvSymbol.text = it.data?.symbol
+                        tvPercentage.text = it.data?.changePercent
+                        tvOverviewSymbol.text = it.data?.symbol
+                        tvCurrentPrice.text = it.data?.price
+                        tvLowPrice.text = it.data?.low
+                        tvHighPrice.text = it.data?.high
+                    }
+                }
+            }
         }
     }
 
     private fun handleSuccess(stocksList: List<DailyStockUiModel>) {
-        stocksList.forEach { stock ->
-            Log.d("TAG: STOCK", stock.toString())
+
+        val chart = binding.chart
+        val waterfall: Waterfall = AnyChart.waterfall()
+
+        waterfall.yScale().minimum(0.0)
+        waterfall.labels().enabled(true)
+
+        val data: MutableList<DataEntry> = ArrayList()
+
+        for (i in stocksList) {
+            if (data.size < 7) {
+                data.add(ValueDataEntry(i.timestamp, i.high?.toDouble()))
+            } else {
+                break
+            }
         }
 
-        // TODO("Not yet implemented")
+        waterfall.yScale().minimum(0.0)
+        waterfall.yAxis(0).labels().format("\${%Value}{scale:(1000000)(1)|(mln)}")
+        waterfall.labels().enabled(true)
+        waterfall.labels().format(
+            """function() {
+                if (this['isTotal']) {
+                    return anychart.format.number(this.absolute, {
+                    scale: true
+                    })
+                }
 
-        Snackbar.make(binding.root, "Stocks size: ${stocksList.size}", Snackbar.LENGTH_LONG)
-            .setBackgroundTint(Color.GREEN).show()
+                return anychart.format.number(this.value, {
+                scale: true
+                })
+            }"""
+        )
 
+
+        waterfall.data(data)
+
+        chart.setChart(waterfall)
 
     }
-
-//    private fun loadChart() {
-//        val chart = binding.chart
-//
-//        val waterfall: Waterfall = AnyChart.waterfall()
-//
-//        waterfall.title("ACME corp. Revenue Flow 2017")
-//
-//        waterfall.yScale().minimum(0.0)
-//
-//        waterfall.yAxis(0).labels().format("\${%Value}{scale:(1000000)(1)|(mln)}")
-//        waterfall.labels().enabled(true)
-//        waterfall.labels().format(
-//            """function() {
-//      if (this['isTotal']) {
-//        return anychart.format.number(this.absolute, {
-//          scale: true
-//        })
-//      }
-//
-//      return anychart.format.number(this.value, {
-//        scale: true
-//      })
-//    }"""
-//        )
-//
-//        val data: MutableList<DataEntry> = ArrayList()
-//        data.add(ValueDataEntry("Start", 23000000))
-//        data.add(ValueDataEntry("Jan", 2200000))
-//        data.add(ValueDataEntry("Feb", -4600000))
-//        data.add(ValueDataEntry("Mar", -9100000))
-//        data.add(ValueDataEntry("Apr", 3700000))
-//        data.add(ValueDataEntry("May", -2100000))
-//        data.add(ValueDataEntry("Jun", 5300000))
-//        data.add(ValueDataEntry("Jul", 3100000))
-//        data.add(ValueDataEntry("Aug", -1500000))
-//        data.add(ValueDataEntry("Sep", 4200000))
-//        data.add(ValueDataEntry("Oct", 5300000))
-//        data.add(ValueDataEntry("Nov", -1500000))
-//        data.add(ValueDataEntry("Dec", 5100000))
-//        val end = DataEntry()
-//        end.setValue("x", "End")
-//        end.setValue("isTotal", true)
-//        data.add(end)
-//
-//        waterfall.data(data)
-//
-//        chart.setChart(waterfall)
-//
-//    }
 
 
     private fun listeners() {

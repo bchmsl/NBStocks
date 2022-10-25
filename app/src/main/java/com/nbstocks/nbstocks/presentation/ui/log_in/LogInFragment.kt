@@ -5,8 +5,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.FirebaseAuth
 import com.nbstocks.nbstocks.common.handlers.Resource
 import com.nbstocks.nbstocks.databinding.FragmentLogInBinding
+import com.nbstocks.nbstocks.presentation.ui.MainActivity
 import com.nbstocks.nbstocks.presentation.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -17,9 +19,15 @@ class LogInFragment : BaseFragment<FragmentLogInBinding>(FragmentLogInBinding::i
     private val viewModel: LogInViewModel by viewModels()
 
     override fun start() {
+
+
+        if (FirebaseAuth.getInstance().currentUser != null) {
+            findNavController().navigate(LogInFragmentDirections.actionLogInFragmentToHomeFragment())
+        }
+
+
         listeners()
         observer()
-
     }
 
     private fun observer() {
