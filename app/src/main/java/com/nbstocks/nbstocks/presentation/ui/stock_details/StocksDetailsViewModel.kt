@@ -61,11 +61,11 @@ class StocksDetailsViewModel @Inject constructor(
                 _loaderState.value = it.isLoading
                 when (it) {
                     is Resource.Success -> {
-                        _currentStockState.value.copy(data = it.data.toCurrentStockUiModel())
+                        _currentStockState.emit(_currentStockState.value.copy(data = it.data.toCurrentStockUiModel()))
                     }
                     is Resource.Error -> {
-                        _currentStockState.value.copy(
-                            error = it.error
+                        _currentStockState.emit(_currentStockState.value.copy(
+                            error = it.error)
                         )
                     }
                     else -> {}

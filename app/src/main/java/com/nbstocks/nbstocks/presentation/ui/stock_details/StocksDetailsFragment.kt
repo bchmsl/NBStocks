@@ -41,6 +41,7 @@ class StocksDetailsFragment :
         viewModel.getStocksDetails(args.stockSymbol, StockPricesRequestFunctions.TIME_SERIES_DAILY)
 
         viewModel.getCurrentStock(args.stockSymbol)
+
         lifecycleScope.launch {
 //            launch { viewModel.loaderState.collect { progressBar.isVisible = it } }
             launch {
@@ -88,35 +89,29 @@ class StocksDetailsFragment :
         val chart = binding.chart
         val waterfall: Waterfall = AnyChart.waterfall()
 
-        waterfall.yScale().minimum(0.0)
-        waterfall.labels().enabled(true)
-
         val data: MutableList<DataEntry> = ArrayList()
 
         for (i in stocksList) {
-            if (data.size < 7) {
-                data.add(ValueDataEntry(i.timestamp, i.high?.toDouble()))
+            if (data.size < 14) {
+                data.add(ValueDataEntry(i.timestamp, ((i.close)!!.toDouble() - (i.open)!!.toDouble())))
             } else {
                 break
             }
         }
 
         waterfall.yScale().minimum(0.0)
-        waterfall.yAxis(0).labels().format("\${%Value}{scale:(1000000)(1)|(mln)}")
-        waterfall.labels().enabled(true)
-        waterfall.labels().format(
-            """function() {
-                if (this['isTotal']) {
-                    return anychart.format.number(this.absolute, {
-                    scale: true
-                    })
-                }
+        waterfall.labels().enabled(false)
 
-                return anychart.format.number(this.value, {
-                scale: true
-                })
-            }"""
-        )
+        val set = com.anychart.data.Set.instantiate()
+        set.data(data)
+
+        val series: com.anychart.core.waterfall.series.Waterfall = waterfall.waterfall(set, "")
+
+        series.normal().fallingFill("#FB3E64", 1.0)
+//        series.normal().fallingStroke("#FB3E64", 1, "10 5", "round", "null");
+
+        series.normal().risingFill("#5DE066", 1.0)
+//        series.normal().risingStroke("#5DE066", 1, "10 5", "round", "null");
 
 
         waterfall.data(data)
