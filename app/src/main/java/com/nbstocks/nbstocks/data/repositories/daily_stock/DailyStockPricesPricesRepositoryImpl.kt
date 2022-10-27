@@ -1,5 +1,6 @@
 package com.nbstocks.nbstocks.data.repositories.daily_stock
 
+import com.nbstocks.nbstocks.common.constants.ModuleParams
 import com.nbstocks.nbstocks.common.handlers.Resource
 import com.nbstocks.nbstocks.csv.CSVParser
 import com.nbstocks.nbstocks.data.mapper.toStockPricesDomainModelList
@@ -10,12 +11,14 @@ import com.nbstocks.nbstocks.domain.repositories.daily_stock.DailyStockPricesRep
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Singleton
 class DailyStockPricesPricesRepositoryImpl @Inject constructor(
     private val api: StockPricesService,
-    private val dailyListingsParser: CSVParser<StockPricesDto>
+    @Named(ModuleParams.STOCK_PRICES_PARSER)
+    private val stockPricesParser: CSVParser<StockPricesDto>
 ) : DailyStockPricesRepository {
 
     override suspend fun getStocksDetails(symbol: String, function:String): Flow<Resource<List<StockPricesDomainModel>>> =
@@ -23,7 +26,7 @@ class DailyStockPricesPricesRepositoryImpl @Inject constructor(
             emit(Resource.Loading(true))
             try {
                 val response = api.getStocksDetails(symbol = symbol, function = function)
-                val stocksList = dailyListingsParser.parse(response.byteStream())
+                val stocksList = stockPricesParser.parse(response.byteStream())
                 emit(Resource.Success(stocksList.toStockPricesDomainModelList()))
                 emit(Resource.Loading(false))
             } catch (e: Throwable) {
