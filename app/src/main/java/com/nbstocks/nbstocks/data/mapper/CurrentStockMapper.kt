@@ -8,6 +8,7 @@ import com.nbstocks.nbstocks.domain.model.CompanyListingDomainModel
 import com.nbstocks.nbstocks.domain.model.CurrentStockDomainModel
 import com.nbstocks.nbstocks.presentation.ui.stock_details.model.CurrentStockUiModel
 
+fun List<CurrentStockDto>.toCurrentStockDomainModelList() = map { it.toCurrentStockDomainModel() }
 
 fun CurrentStockDto.toCurrentStockDomainModel() = CurrentStockDomainModel(
     symbol, open,
@@ -15,7 +16,7 @@ fun CurrentStockDto.toCurrentStockDomainModel() = CurrentStockDomainModel(
     low = low,
     price = price,
     volume = volume,
-    latestTradingDay = latestTradingDay,
+    latestTradingDay = latestDay,
     previousClose = previousClose,
     change = change,
     changePercent = changePercent

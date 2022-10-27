@@ -42,9 +42,7 @@ class StocksDetailsFragment :
 
         viewModel.getCurrentStock(args.stockSymbol)
         lifecycleScope.launch {
-
 //            launch { viewModel.loaderState.collect { progressBar.isVisible = it } }
-
             launch {
                 viewModel.viewState.collect {
                     it.data?.let { stocksList ->
@@ -62,14 +60,23 @@ class StocksDetailsFragment :
             }
             launch {
                 viewModel.currentStockState.collect{
-                    binding.apply {
-                        tvPrice.text = it.data?.price
-                        tvSymbol.text = it.data?.symbol
-                        tvPercentage.text = it.data?.changePercent
-                        tvOverviewSymbol.text = it.data?.symbol
-                        tvCurrentPrice.text = it.data?.price
-                        tvLowPrice.text = it.data?.low
-                        tvHighPrice.text = it.data?.high
+                    it.data?.let { stocksList ->
+                        binding.apply {
+                            tvPrice.text = it.data?.price
+                            tvSymbol.text = it.data?.symbol
+                            tvPercentage.text = it.data?.changePercent
+                            tvOverviewSymbol.text = it.data?.symbol
+                            tvCurrentPrice.text = it.data?.price
+                            tvLowPrice.text = it.data?.low
+                            tvHighPrice.text = it.data?.high
+                        }                    }
+                    it.error?.let { error ->
+                        Snackbar.make(
+                            binding.root,
+                            error.localizedMessage ?: "",
+                            Snackbar.LENGTH_LONG
+                        )
+                            .setBackgroundTint(Color.RED).show()
                     }
                 }
             }

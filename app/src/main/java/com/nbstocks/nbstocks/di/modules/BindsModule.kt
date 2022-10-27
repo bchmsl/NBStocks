@@ -1,7 +1,10 @@
 package com.nbstocks.nbstocks.di.modules
 
+import com.nbstocks.nbstocks.common.constants.ModuleParams
 import com.nbstocks.nbstocks.csv.CSVParser
+import com.nbstocks.nbstocks.csv.CurrentStockParser
 import com.nbstocks.nbstocks.csv.StockPricesParser
+import com.nbstocks.nbstocks.data.remote.model.CurrentStockDto
 import com.nbstocks.nbstocks.data.remote.model.StockPricesDto
 import com.nbstocks.nbstocks.data.repositories.company_listings.CompanyListingsRepositoryImpl
 import com.nbstocks.nbstocks.data.repositories.current_stock.CurrentStockRepositoryImpl
@@ -13,6 +16,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -39,8 +43,15 @@ abstract class BindsModule {
 
     @Binds
     @Singleton
+    @Named(ModuleParams.STOCK_PRICES_PARSER)
     abstract fun bindStockPricesParser(
         stockPricesParser: StockPricesParser
     ): CSVParser<StockPricesDto>
 
+    @Binds
+    @Singleton
+    @Named(ModuleParams.CURRENT_STOCK_PARSER)
+    abstract fun bindCurrentStockParser(
+        currentStockParser: CurrentStockParser
+    ): CSVParser<CurrentStockDto>
 }

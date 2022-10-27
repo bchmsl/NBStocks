@@ -4,10 +4,9 @@ import android.content.Context
 import androidx.room.Room
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-import com.nbstocks.nbstocks.common.constants.AppModuleParams
+import com.nbstocks.nbstocks.common.constants.ModuleParams
 import com.nbstocks.nbstocks.common.handlers.ResponseHandler
 import com.nbstocks.nbstocks.data.local.database.StockDatabase
-import com.nbstocks.nbstocks.data.remote.services.CurrentStockService
 import com.nbstocks.nbstocks.data.remote.services.CompanyListingsService
 import com.nbstocks.nbstocks.data.remote.services.StockPricesService
 import com.nbstocks.nbstocks.data.repositories.db_add_user.DbAddUserRepositoryImpl
@@ -33,7 +32,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    @Named(AppModuleParams.STOCK_API)
+    @Named(ModuleParams.STOCK_API)
     fun provideRetrofit(): Retrofit =
         Retrofit.Builder()
             .baseUrl(CompanyListingsService.BASE_URL)
@@ -43,7 +42,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    @Named(AppModuleParams.DAILY_API)
+    @Named(ModuleParams.QUOTE)
     fun provideRetrofitDailyStock(): Retrofit =
         Retrofit.Builder()
             .baseUrl(StockPricesService.BASE_URL)
@@ -52,24 +51,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    @Named(AppModuleParams.CURRENT_STOCK)
-    fun provideRetrofitCurrentStock(): Retrofit =
-        Retrofit.Builder()
-            .baseUrl(CurrentStockService.BASE_URL)
-            .addConverterFactory(MoshiConverterFactory.create())
-            .build()
-
-    @Provides
-    @Singleton
-    fun provideCurrentStockApi(
-        @Named(AppModuleParams.CURRENT_STOCK)
-        retrofit: Retrofit): CurrentStockService =
-        retrofit.create(CurrentStockService::class.java)
-
-    @Provides
-    @Singleton
     fun provideStockDailyApi(
-        @Named(AppModuleParams.DAILY_API)
+        @Named(ModuleParams.QUOTE)
         retrofit: Retrofit): StockPricesService =
         retrofit.create(StockPricesService::class.java)
 
@@ -77,7 +60,7 @@ object AppModule {
     @Provides
     @Singleton
     fun provideStockApi(
-        @Named(AppModuleParams.STOCK_API)
+        @Named(ModuleParams.STOCK_API)
         retrofit: Retrofit): CompanyListingsService =
         retrofit.create(CompanyListingsService::class.java)
 
@@ -89,7 +72,7 @@ object AppModule {
         Room.databaseBuilder(
             context,
             StockDatabase::class.java,
-            AppModuleParams.STOCK_DB
+            ModuleParams.STOCK_DB
         ).build()
 
 
