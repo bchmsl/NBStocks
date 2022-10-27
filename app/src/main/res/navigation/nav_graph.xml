@@ -8,19 +8,19 @@
     <fragment
         android:id="@+id/homeFragment"
         tools:layout="@layout/fragment_home"
-        android:name="com.nbstocks.nbstocks.presentation.home.HomeFragment"
+        android:name="com.nbstocks.nbstocks.presentation.ui.home.HomeFragment"
         android:label="HomeFragment" >
         <action
             android:id="@+id/action_homeFragment_to_stocksDetailsFragment"
             app:destination="@id/stocksDetailsFragment" />
         <action
             android:id="@+id/action_homeFragment_to_stocksFragment"
-            app:destination="@id/stocksFragment" />
+            app:destination="@id/companyListingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/logInFragment"
         tools:layout="@layout/fragment_log_in"
-        android:name="com.nbstocks.nbstocks.presentation.log_in.LogInFragment"
+        android:name="com.nbstocks.nbstocks.presentation.ui.log_in.LogInFragment"
         android:label="LogInFragment" >
 
         <action
@@ -31,54 +31,47 @@
             app:destination="@id/passwordRecoveryFragment" />
         <action
             android:id="@+id/action_logInFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/nav_graph.xml" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_password_recovery"
         android:id="@+id/passwordRecoveryFragment"
-        android:name="com.nbstocks.nbstocks.presentation.password_recovery.PasswordRecoveryFragment"
-        android:label="PasswordRecoveryFragment" >
-
-        <action
-            android:id="@+id/action_passwordRecoveryFragment_to_logInFragment"
-            app:destination="@id/logInFragment" />
-    </fragment>
+        android:name="com.nbstocks.nbstocks.presentation.ui.password_recovery.PasswordRecoveryFragment"
+        android:label="PasswordRecoveryFragment" />
     <fragment
         android:id="@+id/signUpFragment"
         tools:layout="@layout/fragment_sign_up"
-        android:name="com.nbstocks.nbstocks.presentation.sign_up.SignUpFragment"
+        android:name="com.nbstocks.nbstocks.presentation.ui.sign_up.SignUpFragment"
         android:label="SignUpFragment" >
-
         <action
-            android:id="@+id/action_signUpFragment_to_logInFragment"
-            app:destination="@id/logInFragment" />
+            android:id="@+id/action_signUpFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/nav_graph.xml" />
     </fragment>
     <fragment
         android:id="@+id/stocksDetailsFragment"
         tools:layout="@layout/fragment_stocks_details"
-        android:name="com.nbstocks.nbstocks.presentation.stock_details.StocksDetailsFragment"
+        android:name="com.nbstocks.nbstocks.presentation.ui.stock_details.StocksDetailsFragment"
         android:label="StocksDetailsFragment" >
 
-        <action
-            android:id="@+id/action_stocksDetailsFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
-        <action
-            android:id="@+id/action_stocksDetailsFragment_to_stocksFragment"
-            app:destination="@id/stocksFragment" />
+        <argument
+            android:name="stockSymbol"
+            app:argType="string" />
     </fragment>
     <fragment
-        android:id="@+id/stocksFragment"
-        tools:layout="@layout/fragment_stocks"
-        android:name="com.nbstocks.nbstocks.presentation.stocks.StocksFragment"
-        android:label="StocksFragment" >
+        android:id="@+id/companyListingsFragment"
+        tools:layout="@layout/fragment_company_listings"
+        android:name="com.nbstocks.nbstocks.presentation.ui.company_listings.CompanyListingsFragment"
+        android:label="CompanyListingsFragment">
 
         <action
-            android:id="@+id/action_stocksFragment_to_stocksDetailsFragment"
+            android:id="@+id/action_companyListingsFragment_to_stocksDetailsFragment"
             app:destination="@id/stocksDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.nbstocks.nbstocks.presentation.profile.ProfileFragment"
+        android:name="com.nbstocks.nbstocks.presentation.ui.profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
 </navigation>

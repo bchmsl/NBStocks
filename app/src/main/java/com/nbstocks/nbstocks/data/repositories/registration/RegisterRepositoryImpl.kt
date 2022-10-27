@@ -2,8 +2,8 @@ package com.nbstocks.nbstocks.data.repositories.registration
 
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
-import com.nbstocks.nbstocks.common.Resource
-import com.nbstocks.nbstocks.common.response_handler.ResponseHandler
+import com.nbstocks.nbstocks.common.handlers.Resource
+import com.nbstocks.nbstocks.common.handlers.ResponseHandler
 import com.nbstocks.nbstocks.data.remote.model.User
 import com.nbstocks.nbstocks.data.repositories.db_add_user.DbAddUserRepositoryImpl
 import com.nbstocks.nbstocks.domain.repositories.registration.RegisterRepository

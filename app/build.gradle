@@ -20,7 +20,8 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "API_KEY", API_KEY)
+        buildConfigField("String", "RAPID_API_KEY", RAPID_API_KEY)
+        buildConfigField("String", "ALPHA_VANTAGE_API_KEY", ALPHA_VANTAGE_API_KEY)
 
     }
 
@@ -92,7 +93,12 @@ dependencies {
     //Fragment
     implementation 'androidx.fragment:fragment-ktx:1.5.3'
 
+    //Charts
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    implementation 'com.github.AnyChart:AnyChart-Android:1.1.2'
 
+    // OpenCSV
+    implementation 'com.opencsv:opencsv:5.5.2'
 
 }
 
