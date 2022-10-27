@@ -7,7 +7,7 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Query
 
-interface StockApi {
+interface CompanyListingsService {
     companion object {
         val BASE_URL = RapidApiParams.getRapidApiBaseUrl(RapidApiParams.TWELVE_DATA_RAPID_API_HOST)
         val API_KEY = RapidApiParams.getRapidApiKey()

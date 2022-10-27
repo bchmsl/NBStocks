@@ -4,7 +4,7 @@ import com.nbstocks.nbstocks.common.handlers.Resource
 import com.nbstocks.nbstocks.data.local.database.StockDatabase
 import com.nbstocks.nbstocks.data.mapper.toCompanyListingDomainModel
 import com.nbstocks.nbstocks.data.mapper.toCompanyListingEntity
-import com.nbstocks.nbstocks.data.remote.services.StockApi
+import com.nbstocks.nbstocks.data.remote.services.CompanyListingsService
 import com.nbstocks.nbstocks.domain.model.CompanyListingDomainModel
 import com.nbstocks.nbstocks.domain.repositories.company_listings.CompanyListingsRepository
 import kotlinx.coroutines.flow.Flow
@@ -14,7 +14,7 @@ import javax.inject.Singleton
 
 @Singleton
 class CompanyListingsRepositoryImpl @Inject constructor(
-    private val api: StockApi,
+    private val api: CompanyListingsService,
     db: StockDatabase,
 ) : CompanyListingsRepository {
 

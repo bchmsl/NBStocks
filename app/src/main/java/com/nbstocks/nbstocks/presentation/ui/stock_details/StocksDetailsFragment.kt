@@ -16,9 +16,10 @@ import com.anychart.chart.common.dataentry.DataEntry
 import com.anychart.chart.common.dataentry.ValueDataEntry
 import com.anychart.charts.Waterfall
 import com.google.android.material.snackbar.Snackbar
+import com.nbstocks.nbstocks.common.constants.StockPricesRequestFunctions
 import com.nbstocks.nbstocks.databinding.FragmentStocksDetailsBinding
 import com.nbstocks.nbstocks.presentation.ui.base.BaseFragment
-import com.nbstocks.nbstocks.presentation.ui.stock_details.model.DailyStockUiModel
+import com.nbstocks.nbstocks.presentation.ui.stock_details.model.StockPricesUiModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -36,7 +37,9 @@ class StocksDetailsFragment :
     }
 
     private fun observe() {
-        viewModel.getStocksDetails(args.stockSymbol)
+
+        viewModel.getStocksDetails(args.stockSymbol, StockPricesRequestFunctions.TIME_SERIES_DAILY)
+
         viewModel.getCurrentStock(args.stockSymbol)
         lifecycleScope.launch {
 
@@ -73,7 +76,7 @@ class StocksDetailsFragment :
         }
     }
 
-    private fun handleSuccess(stocksList: List<DailyStockUiModel>) {
+    private fun handleSuccess(stocksList: List<StockPricesUiModel>) {
 
         val chart = binding.chart
         val waterfall: Waterfall = AnyChart.waterfall()

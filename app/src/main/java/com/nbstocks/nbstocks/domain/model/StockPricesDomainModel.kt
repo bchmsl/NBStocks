@@ -1,6 +1,6 @@
 package com.nbstocks.nbstocks.domain.model
 
-data class DailyStockDomainModel(
+data class StockPricesDomainModel(
     val timestamp: String?,
     val open: String?,
     val high: String?,

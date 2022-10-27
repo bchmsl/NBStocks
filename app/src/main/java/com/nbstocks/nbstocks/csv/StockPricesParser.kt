@@ -1,6 +1,6 @@
 package com.nbstocks.nbstocks.csv
 
-import com.nbstocks.nbstocks.data.remote.model.DailyStockDto
+import com.nbstocks.nbstocks.data.remote.model.StockPricesDto
 import com.opencsv.CSVReader
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -10,8 +10,8 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class DailyListingsParser @Inject constructor() : CSVParser<DailyStockDto> {
-    override suspend fun parse(stream: InputStream): List<DailyStockDto> {
+class StockPricesParser @Inject constructor() : CSVParser<StockPricesDto> {
+    override suspend fun parse(stream: InputStream): List<StockPricesDto> {
         val csvReader = CSVReader(InputStreamReader(stream))
         return withContext(Dispatchers.IO) {
             csvReader
@@ -24,7 +24,7 @@ class DailyListingsParser @Inject constructor() : CSVParser<DailyStockDto> {
                     val low = line.getOrNull(3)
                     val close = line.getOrNull(4)
                     val volume = line.getOrNull(5)
-                    DailyStockDto(
+                    StockPricesDto(
                         timestamp = timestamp ?: return@mapNotNull null,
                         open = open ?: return@mapNotNull null,
                         high = high ?: return@mapNotNull null,

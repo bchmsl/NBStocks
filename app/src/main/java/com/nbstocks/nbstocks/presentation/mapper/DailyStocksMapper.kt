@@ -1,12 +1,12 @@
 package com.nbstocks.nbstocks.presentation.mapper
 
-import com.nbstocks.nbstocks.domain.model.DailyStockDomainModel
-import com.nbstocks.nbstocks.presentation.ui.stock_details.model.DailyStockUiModel
+import com.nbstocks.nbstocks.domain.model.StockPricesDomainModel
+import com.nbstocks.nbstocks.presentation.ui.stock_details.model.StockPricesUiModel
 
 
-fun List<DailyStockDomainModel>.toDailyStockUiModelList() = map { it.toDailyStockUiModel() }
+fun List<StockPricesDomainModel>.toStockPricesModelList() = map { it.toStockPricesUiModel() }
 
-fun DailyStockDomainModel.toDailyStockUiModel() = DailyStockUiModel(
+fun StockPricesDomainModel.toStockPricesUiModel() = StockPricesUiModel(
     timestamp = timestamp,
     open = open,
     high = high,

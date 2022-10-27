@@ -2,8 +2,7 @@ package com.nbstocks.nbstocks.data.repositories.current_stock
 
 import com.nbstocks.nbstocks.common.handlers.Resource
 import com.nbstocks.nbstocks.data.mapper.toCurrentStockDomainModel
-import com.nbstocks.nbstocks.data.remote.model.CurrentStockDto
-import com.nbstocks.nbstocks.data.remote.services.CurrentStock
+import com.nbstocks.nbstocks.data.remote.services.CurrentStockService
 import com.nbstocks.nbstocks.domain.model.CurrentStockDomainModel
 import com.nbstocks.nbstocks.domain.repositories.current_stock.CurrentStockRepository
 import kotlinx.coroutines.flow.Flow
@@ -13,7 +12,7 @@ import javax.inject.Singleton
 
 @Singleton
 class CurrentStockRepositoryImpl @Inject constructor(
-    private val api: CurrentStock
+    private val api: CurrentStockService
 ):CurrentStockRepository {
     override suspend fun getCurrentStock(symbol: String): Flow<Resource<CurrentStockDomainModel>> =
         flow {

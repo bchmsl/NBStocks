@@ -1,6 +1,6 @@
 package com.nbstocks.nbstocks.data.remote.model
 
-data class DailyStockDto(
+data class StockPricesDto(
     val timestamp: String?,
     val open: String?,
     val high: String?,

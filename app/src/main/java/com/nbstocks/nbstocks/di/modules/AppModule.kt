@@ -7,9 +7,9 @@ import com.google.firebase.database.FirebaseDatabase
 import com.nbstocks.nbstocks.common.constants.AppModuleParams
 import com.nbstocks.nbstocks.common.handlers.ResponseHandler
 import com.nbstocks.nbstocks.data.local.database.StockDatabase
-import com.nbstocks.nbstocks.data.remote.services.CurrentStock
-import com.nbstocks.nbstocks.data.remote.services.StockApi
-import com.nbstocks.nbstocks.data.remote.services.StockDaily
+import com.nbstocks.nbstocks.data.remote.services.CurrentStockService
+import com.nbstocks.nbstocks.data.remote.services.CompanyListingsService
+import com.nbstocks.nbstocks.data.remote.services.StockPricesService
 import com.nbstocks.nbstocks.data.repositories.db_add_user.DbAddUserRepositoryImpl
 import com.nbstocks.nbstocks.data.repositories.login.LoginRepositoryImpl
 import com.nbstocks.nbstocks.data.repositories.registration.RegisterRepositoryImpl
@@ -36,7 +36,7 @@ object AppModule {
     @Named(AppModuleParams.STOCK_API)
     fun provideRetrofit(): Retrofit =
         Retrofit.Builder()
-            .baseUrl(StockApi.BASE_URL)
+            .baseUrl(CompanyListingsService.BASE_URL)
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
 
@@ -46,7 +46,7 @@ object AppModule {
     @Named(AppModuleParams.DAILY_API)
     fun provideRetrofitDailyStock(): Retrofit =
         Retrofit.Builder()
-            .baseUrl(StockDaily.BASE_URL)
+            .baseUrl(StockPricesService.BASE_URL)
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
 
@@ -55,7 +55,7 @@ object AppModule {
     @Named(AppModuleParams.CURRENT_STOCK)
     fun provideRetrofitCurrentStock(): Retrofit =
         Retrofit.Builder()
-            .baseUrl(CurrentStock.BASE_URL)
+            .baseUrl(CurrentStockService.BASE_URL)
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
 
@@ -63,23 +63,23 @@ object AppModule {
     @Singleton
     fun provideCurrentStockApi(
         @Named(AppModuleParams.CURRENT_STOCK)
-        retrofit: Retrofit): CurrentStock =
-        retrofit.create(CurrentStock::class.java)
+        retrofit: Retrofit): CurrentStockService =
+        retrofit.create(CurrentStockService::class.java)
 
     @Provides
     @Singleton
     fun provideStockDailyApi(
         @Named(AppModuleParams.DAILY_API)
-        retrofit: Retrofit): StockDaily =
-        retrofit.create(StockDaily::class.java)
+        retrofit: Retrofit): StockPricesService =
+        retrofit.create(StockPricesService::class.java)
 
 
     @Provides
     @Singleton
     fun provideStockApi(
         @Named(AppModuleParams.STOCK_API)
-        retrofit: Retrofit): StockApi =
-        retrofit.create(StockApi::class.java)
+        retrofit: Retrofit): CompanyListingsService =
+        retrofit.create(CompanyListingsService::class.java)
 
     @Provides
     @Singleton
