@@ -2,60 +2,65 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="?android:attr/colorBackground"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <View
-        android:id="@+id/view4"
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivHeader"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:background="@drawable/mini_header"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        android:scaleType="fitXY"
+        android:tint="?attr/colorPrimary"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/mini_header" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/ibtnBack"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:scaleType="centerCrop"
+        android:padding="3dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="20dp"
+        android:background="?attr/colorPrimary"
+        android:src="@drawable/ic_arrow_back"
+        android:tint="@color/lightGrey"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/ivBackArrow"
-        android:layout_width="45dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="20dp"
-        android:src="@drawable/ic_baseline_arrow_back_24"
-        app:layout_constraintBottom_toBottomOf="@+id/view4"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilSearch"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:layout_marginHorizontal="25dp"
+        android:hint="@string/search"
+        app:boxBackgroundColor="?background"
+        app:boxCornerRadiusBottomEnd="20dp"
+        app:boxCornerRadiusBottomStart="20dp"
+        app:boxCornerRadiusTopEnd="20dp"
+        app:boxCornerRadiusTopStart="20dp"
+        app:endIconMode="clear_text"
+        app:hintEnabled="false"
+        app:layout_constraintBottom_toBottomOf="@id/ibtnBack"
+        app:layout_constraintEnd_toEndOf="@id/ivHeader"
+        app:layout_constraintStart_toEndOf="@id/ibtnBack"
+        app:layout_constraintTop_toTopOf="@id/ibtnBack"
+        app:startIconDrawable="@drawable/ic_search"
+        app:startIconTint="?attr/colorPrimary">
 
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/svSearch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="15dp"
-        app:layout_constraintBottom_toBottomOf="@+id/ivBackArrow"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/ivBackArrow" />
-
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefresh"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:paddingHorizontal="15dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view4">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvStocks"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etSearch"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="15dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:layout_marginEnd="15dp"
-            tools:itemCount="6"
-            tools:listitem="@layout/search_stock_item" />
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:hint="@string/search"
+            android:textColor="?attr/colorOnSecondary"
+            android:textSize="16sp"
+            tools:text="apple" />
 
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progressBar"
@@ -64,9 +69,28 @@
         android:layout_marginHorizontal="25dp"
         android:layout_marginTop="5dp"
         android:indeterminate="true"
-        app:indicatorColor="#204479"
+        app:indicatorColor="?attr/colorPrimary"
         app:layout_constraintBottom_toTopOf="@id/swipeRefresh"
-        app:trackColor="@android:color/darker_gray" />
+        app:trackColor="?attr/background"
+        app:trackCornerRadius="5dp" />
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivHeader">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvStocks"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:itemCount="10"
+            tools:listitem="@layout/layout_search_stock_item" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabUp"
@@ -74,11 +98,10 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="75dp"
-        android:backgroundTint="#204479"
-        android:foreground="@drawable/ic_baseline_keyboard_double_arrow_up_24"
-        android:foregroundGravity="center"
+        android:backgroundTint="?attr/colorPrimary"
+        android:src="@drawable/ic_double_arrow_up"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="ContentDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

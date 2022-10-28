@@ -23,7 +23,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(FragmentSignUpBinding
         binding.btnSignUp.setOnClickListener {
             registration()
         }
-        binding.vArrowBack.setOnClickListener {
+        binding.tvLogIn.setOnClickListener {
             findNavController().popBackStack()
         }
 

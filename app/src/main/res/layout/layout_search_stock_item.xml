@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="8dp"
-    android:background="@drawable/item_stroke">
+    android:layout_margin="10dp"
+    android:background="@drawable/shape_rectangle">
 
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -13,14 +13,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="15dp"
         android:fontFamily="sans-serif-light"
-        android:textStyle="bold"
-        android:text="Name"
-        android:textColor="#204479"
+        android:textColor="?attr/colorOnSecondary"
         android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="SYM" />
 
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -28,31 +28,32 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="7dp"
-        android:layout_marginBottom="25dp"
+        android:layout_marginBottom="15dp"
         android:fontFamily="sans-serif-light"
-        android:text="company name"
-        android:textColor="#204479"
+        android:textColor="?attr/colorOnSecondary"
         android:textSize="17sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/tvItemSymbol"
-        app:layout_constraintTop_toBottomOf="@+id/tvItemSymbol" />
+        app:layout_constraintTop_toBottomOf="@+id/tvItemSymbol"
+        tools:text="Company Name" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="15dp"
-        android:background="@drawable/balance_background"
-        android:paddingHorizontal="8dp"
+        android:background="@drawable/shape_balance_background"
         android:fontFamily="sans-serif-light"
-        android:textStyle="bold|italic"
+        android:paddingHorizontal="8dp"
         android:paddingVertical="2dp"
-        android:text="Type"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/white"
         android:textSize="16sp"
+        android:textStyle="bold|italic"
         app:layout_constraintBottom_toBottomOf="@+id/tvItemCompanyName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tvItemSymbol"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        tools:backgroundTint="@color/darkBlue"
+        tools:text="Type" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

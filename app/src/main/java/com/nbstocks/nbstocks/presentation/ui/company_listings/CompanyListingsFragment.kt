@@ -3,6 +3,7 @@ package com.nbstocks.nbstocks.presentation.ui.company_listings
 import android.graphics.Color
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -32,26 +33,18 @@ class CompanyListingsFragment :
     }
 
     private fun listeners() {
-        binding.svSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean = false
-
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                lifecycleScope.launch {
-                    if (!binding.progressBar.isVisible) {
-                        viewModel.getCompanyListings(false, newText ?: "")
-                    }
-                }.invokeOnCompletion {
-                    scrollToTop()
+        binding.etSearch.addTextChangedListener { query ->
+            lifecycleScope.launch {
+                if (!binding.progressBar.isVisible) {
+                    viewModel.getCompanyListings(false, query?.let { query.toString() } ?: "")
                 }
-                if (newText.isNullOrBlank()) {
-                    scrollToTop()
-                }
-                return true
+            }.invokeOnCompletion {
+                scrollToTop()
             }
-
-        })
-
+            if (query.toString().isBlank()) {
+                scrollToTop()
+            }
+        }
 
         binding.swipeRefresh.setOnRefreshListener {
             binding.swipeRefresh.isRefreshing = false
@@ -77,7 +70,7 @@ class CompanyListingsFragment :
             }
         }
 
-        binding.ivBackArrow.setOnClickListener {
+        binding.ibtnBack.setOnClickListener {
             findNavController().popBackStack()
         }
 

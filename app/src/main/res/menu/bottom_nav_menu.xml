@@ -3,15 +3,15 @@
 
     <item
         android:id="@+id/homeFragment"
-        android:icon="@drawable/ic_baseline_home_24"
-        android:title="" />
+        android:icon="@drawable/ic_home"
+        android:title="Home" />
     <item
         android:id="@+id/companyListingsFragment"
-        android:icon="@drawable/ic_baseline_stocks_24"
-        android:title="" />
+        android:icon="@drawable/ic_stocks"
+        android:title="Companies" />
     <item
         android:id="@+id/profileFragment"
-        android:icon="@drawable/ic_baseline_person_24"
-        android:title="" />
+        android:icon="@drawable/ic_person"
+        android:title="Profile" />
 
 </menu>

@@ -6,14 +6,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.nbstocks.nbstocks.databinding.SearchStockItemBinding
+import com.nbstocks.nbstocks.databinding.LayoutSearchStockItemBinding
 import com.nbstocks.nbstocks.presentation.ui.company_listings.model.CompanyListingUiModel
 
 class CompanyListingsAdapter: ListAdapter<CompanyListingUiModel, CompanyListingsAdapter.StocksViewHolder>(callback) {
 
     var stockItemClicked: ((CompanyListingUiModel) -> Unit)? = null
 
-    inner class StocksViewHolder(private val binding: SearchStockItemBinding): ViewHolder(binding.root){
+    inner class StocksViewHolder(private val binding: LayoutSearchStockItemBinding): ViewHolder(binding.root){
         fun bind(){
             val currentItem = getItem(adapterPosition)
             binding.apply {
@@ -29,7 +29,7 @@ class CompanyListingsAdapter: ListAdapter<CompanyListingUiModel, CompanyListings
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StocksViewHolder {
-        return StocksViewHolder(SearchStockItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return StocksViewHolder(LayoutSearchStockItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun onBindViewHolder(holder: StocksViewHolder, position: Int) {
