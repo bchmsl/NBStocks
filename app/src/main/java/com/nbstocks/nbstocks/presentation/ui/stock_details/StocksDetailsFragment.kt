@@ -1,12 +1,8 @@
 package com.nbstocks.nbstocks.presentation.ui.stock_details
 
-//import com.anychart.AnyChart
-//import com.anychart.chart.common.dataentry.DataEntry
-//import com.anychart.chart.common.dataentry.ValueDataEntry
-//import com.anychart.charts.Waterfall
 import android.graphics.Color
-import android.view.View
-import android.view.animation.AnimationUtils
+import android.graphics.drawable.ColorDrawable
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -14,36 +10,40 @@ import androidx.navigation.fragment.navArgs
 import com.anychart.AnyChart
 import com.anychart.chart.common.dataentry.DataEntry
 import com.anychart.chart.common.dataentry.ValueDataEntry
-import com.anychart.charts.Waterfall
 import com.google.android.material.snackbar.Snackbar
-import com.nbstocks.nbstocks.common.constants.StockPricesRequestFunctions
-import com.nbstocks.nbstocks.databinding.FragmentStocksDetailsBinding
+import com.nbstocks.nbstocks.common.extensions.currentTab
+import com.nbstocks.nbstocks.common.extensions.onTabSelected
+import com.nbstocks.nbstocks.common.extensions.toMonthDay
+import com.nbstocks.nbstocks.databinding.FragmentStockDetailsBinding
 import com.nbstocks.nbstocks.presentation.ui.base.BaseFragment
 import com.nbstocks.nbstocks.presentation.ui.stock_details.model.StockPricesUiModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.lang.String
+
 
 @AndroidEntryPoint
 class StocksDetailsFragment :
-    BaseFragment<FragmentStocksDetailsBinding>(FragmentStocksDetailsBinding::inflate) {
+    BaseFragment<FragmentStockDetailsBinding>(FragmentStockDetailsBinding::inflate) {
 
     private val viewModel: StocksDetailsViewModel by viewModels()
     private val args: StocksDetailsFragmentArgs by navArgs()
+    private lateinit var set: com.anychart.data.Set
 
     override fun start() {
+        setupChart()
         listeners()
         observe()
-
     }
 
     private fun observe() {
 
-        viewModel.getStocksDetails(args.stockSymbol, StockPricesRequestFunctions.TIME_SERIES_DAILY)
+        viewModel.getStocksDetails(args.stockSymbol, binding.tlSwitchStocks.currentTab)
 
         viewModel.getCurrentStock(args.stockSymbol)
 
         lifecycleScope.launch {
-//            launch { viewModel.loaderState.collect { progressBar.isVisible = it } }
+            launch { viewModel.loaderState.collect { binding.progressBar.isVisible = it } }
             launch {
                 viewModel.viewState.collect {
                     it.data?.let { stocksList ->
@@ -60,17 +60,18 @@ class StocksDetailsFragment :
                 }
             }
             launch {
-                viewModel.currentStockState.collect{
-                    it.data?.let { stocksList ->
+                viewModel.currentStockState.collect {
+                    it.data?.let { stock ->
                         binding.apply {
-                            tvPrice.text = it.data?.price
-                            tvSymbol.text = it.data?.symbol
-                            tvPercentage.text = it.data?.changePercent
-                            tvOverviewSymbol.text = it.data?.symbol
-                            tvCurrentPrice.text = it.data?.price
-                            tvLowPrice.text = it.data?.low
-                            tvHighPrice.text = it.data?.high
-                        }                    }
+                            tvPrice.text = stock.price
+                            tvSymbol.text = stock.symbol
+                            tvPercentage.text = stock.changePercent
+                            tvTitleName.text = stock.symbol
+                            tvCurrentPrice.text = stock.price
+                            tvLowPrice.text = stock.low
+                            tvHighPrice.text = stock.high
+                        }
+                    }
                     it.error?.let { error ->
                         Snackbar.make(
                             binding.root,
@@ -85,46 +86,11 @@ class StocksDetailsFragment :
     }
 
     private fun handleSuccess(stocksList: List<StockPricesUiModel>) {
-
-        val chart = binding.chart
-        val waterfall: Waterfall = AnyChart.waterfall()
-
-        val data: MutableList<DataEntry> = ArrayList()
-
-        for (i in stocksList) {
-            if (data.size < 14) {
-                data.add(ValueDataEntry(i.timestamp, ((i.close)!!.toDouble() - (i.open)!!.toDouble())))
-            } else {
-                break
-            }
-        }
-
-        waterfall.yScale().minimum(0.0)
-        waterfall.labels().enabled(false)
-
-        val set = com.anychart.data.Set.instantiate()
-        set.data(data)
-
-        val series: com.anychart.core.waterfall.series.Waterfall = waterfall.waterfall(set, "")
-
-        series.normal().fallingFill("#FB3E64", 1.0)
-//        series.normal().fallingStroke("#FB3E64", 1, "10 5", "round", "null");
-
-        series.normal().risingFill("#5DE066", 1.0)
-//        series.normal().risingStroke("#5DE066", 1, "10 5", "round", "null");
-
-
-        waterfall.data(data)
-
-        chart.setChart(waterfall)
-
+        setDataToChart(stocksList)
     }
 
 
     private fun listeners() {
-        binding.btnDaily.setOnClickListener { }
-        binding.btnMonthly.setOnClickListener { }
-
         binding.btnBuy.setOnClickListener {
             showConfirmation()
         }
@@ -133,28 +99,72 @@ class StocksDetailsFragment :
             showConfirmation()
         }
 
-        binding.ivBackArrow.setOnClickListener {
+        binding.ibtnBack.setOnClickListener {
             findNavController().popBackStack()
         }
+        binding.tlSwitchStocks.onTabSelected {
+            viewModel.getStocksDetails(args.stockSymbol, binding.tlSwitchStocks.currentTab)
+        }
+    }
 
+    private fun setupChart() {
+        val chart = binding.chart
+        val waterfall = AnyChart.waterfall()
+        waterfall.yScale().minimum(0.0)
+        waterfall.labels().enabled(false)
+
+        set = com.anychart.data.Set.instantiate()
+        val series = waterfall.waterfall(set, "")
+
+        series.normal().fallingFill("#FB3E64", 1.0)
+        series.normal().fallingStroke("#FB3E64", 1, "null", "round", "null");
+        series.normal().risingFill("#5DE066", 1.0)
+        series.normal().risingStroke("#5DE066", 1, "null", "round", "null");
+
+        val layout = binding.root
+        val viewColor = layout.background as ColorDrawable
+        val colorId = viewColor.color
+        val hexColor = String.format("#%06X", 0xFFFFFF and colorId)
+
+        waterfall.background().enabled(true).fill(hexColor)
+
+        chart.setProgressBar(binding.progressBar)
+        chart.setChart(waterfall)
+    }
+
+    private fun setDataToChart(stocksList: List<StockPricesUiModel>){
+        val data = mutableListOf<DataEntry>()
+        for (i in stocksList) {
+            if (data.size < 14) {
+                data.add(
+                    ValueDataEntry(
+                        i.timestamp?.toMonthDay(),
+                        ((i.close)!!.toDouble() - (i.open)!!.toDouble())
+                    )
+                )
+            } else {
+                break
+            }
+        }
+        set.data(data)
     }
 
     private fun showConfirmation() {
-        val animation = AnimationUtils.loadAnimation(
-            requireContext(),
-            androidx.transition.R.anim.abc_slide_in_top
-        )
-        binding.btnSell.visibility = View.INVISIBLE
-        binding.btnBuy.visibility = View.INVISIBLE
-        binding.vConfirmBuySell.visibility = View.VISIBLE
-        binding.vConfirmBuySell.startAnimation(animation)
-        binding.etCash.visibility = View.VISIBLE
-        binding.etCash.startAnimation(animation)
-        binding.etCashInputLayout.visibility = View.VISIBLE
-        binding.etCashInputLayout.startAnimation(animation)
-        binding.tvResult.visibility = View.VISIBLE
-        binding.tvResult.startAnimation(animation)
-        binding.buttonsLinear.visibility = View.VISIBLE
-        binding.buttonsLinear.startAnimation(animation)
+//        val animation = AnimationUtils.loadAnimation(
+//            requireContext(),
+//            androidx.transition.R.anim.abc_slide_in_top
+//        )
+//        binding.btnSell.visibility = View.INVISIBLE
+//        binding.btnBuy.visibility = View.INVISIBLE
+//        binding.vConfirmBuySell.visibility = View.VISIBLE
+//        binding.vConfirmBuySell.startAnimation(animation)
+//        binding.etCash.visibility = View.VISIBLE
+//        binding.etCash.startAnimation(animation)
+//        binding.etCashInputLayout.visibility = View.VISIBLE
+//        binding.etCashInputLayout.startAnimation(animation)
+//        binding.tvResult.visibility = View.VISIBLE
+//        binding.tvResult.startAnimation(animation)
+//        binding.buttonsLinear.visibility = View.VISIBLE
+//        binding.buttonsLinear.startAnimation(animation)
     }
 }

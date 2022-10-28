@@ -62,10 +62,10 @@ class LogInFragment : BaseFragment<FragmentLogInBinding>(FragmentLogInBinding::i
             logIn()
         }
         binding.tvSignUpHere.setOnClickListener {
-            findNavController().navigate(LogInFragmentDirections.actionLogInFragmentToSignUpFragment())
+            findNavController().navigate(LogInFragmentDirections.actionLogInFragmentToSignUpFragment(binding.etEmail.text.toString()))
         }
         binding.tvForgotPassword.setOnClickListener {
-            findNavController().navigate(LogInFragmentDirections.actionLogInFragmentToPasswordRecoveryFragment())
+            findNavController().navigate(LogInFragmentDirections.actionLogInFragmentToPasswordRecoveryFragment(binding.etEmail.text.toString()))
         }
     }
 }

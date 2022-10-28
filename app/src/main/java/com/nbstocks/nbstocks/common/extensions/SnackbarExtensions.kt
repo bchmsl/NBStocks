@@ -1,4 +1,4 @@
-package com.nbstocks.nbstocks.common.extensions.snackbar
+package com.nbstocks.nbstocks.common.extensions
 
 import android.view.View
 import com.google.android.material.snackbar.Snackbar

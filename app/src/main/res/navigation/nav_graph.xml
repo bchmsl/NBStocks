@@ -38,7 +38,11 @@
         tools:layout="@layout/fragment_password_recovery"
         android:id="@+id/passwordRecoveryFragment"
         android:name="com.nbstocks.nbstocks.presentation.ui.password_recovery.PasswordRecoveryFragment"
-        android:label="PasswordRecoveryFragment" />
+        android:label="PasswordRecoveryFragment" >
+        <argument
+            android:name="email"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/signUpFragment"
         tools:layout="@layout/fragment_sign_up"
@@ -48,10 +52,13 @@
             android:id="@+id/action_signUpFragment_to_homeFragment"
             app:destination="@id/homeFragment"
             app:popUpTo="@id/nav_graph.xml" />
+        <argument
+            android:name="email"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/stocksDetailsFragment"
-        tools:layout="@layout/fragment_stocks_details"
+        tools:layout="@layout/fragment_stock_details"
         android:name="com.nbstocks.nbstocks.presentation.ui.stock_details.StocksDetailsFragment"
         android:label="StocksDetailsFragment" >
 
