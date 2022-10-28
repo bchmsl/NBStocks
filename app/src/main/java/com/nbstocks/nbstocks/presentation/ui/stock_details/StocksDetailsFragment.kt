@@ -16,9 +16,11 @@ import com.anychart.chart.common.dataentry.DataEntry
 import com.anychart.chart.common.dataentry.ValueDataEntry
 import com.anychart.charts.Waterfall
 import com.google.android.material.snackbar.Snackbar
+import com.nbstocks.nbstocks.R
 import com.nbstocks.nbstocks.common.constants.StockPricesRequestFunctions
 import com.nbstocks.nbstocks.databinding.FragmentStocksDetailsBinding
 import com.nbstocks.nbstocks.presentation.ui.base.BaseFragment
+import com.nbstocks.nbstocks.presentation.ui.stock_details.model.CurrentStockUiModel
 import com.nbstocks.nbstocks.presentation.ui.stock_details.model.StockPricesUiModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -28,12 +30,13 @@ class StocksDetailsFragment :
     BaseFragment<FragmentStocksDetailsBinding>(FragmentStocksDetailsBinding::inflate) {
 
     private val viewModel: StocksDetailsViewModel by viewModels()
+
     private val args: StocksDetailsFragmentArgs by navArgs()
+
 
     override fun start() {
         listeners()
         observe()
-
     }
 
     private fun observe() {
@@ -60,7 +63,7 @@ class StocksDetailsFragment :
                 }
             }
             launch {
-                viewModel.currentStockState.collect{
+                viewModel.currentStockState.collect {
                     it.data?.let { stocksList ->
                         binding.apply {
                             tvPrice.text = it.data?.price
@@ -70,7 +73,8 @@ class StocksDetailsFragment :
                             tvCurrentPrice.text = it.data?.price
                             tvLowPrice.text = it.data?.low
                             tvHighPrice.text = it.data?.high
-                        }                    }
+                        }
+                    }
                     it.error?.let { error ->
                         Snackbar.make(
                             binding.root,
@@ -78,11 +82,13 @@ class StocksDetailsFragment :
                             Snackbar.LENGTH_LONG
                         )
                             .setBackgroundTint(Color.RED).show()
+
                     }
                 }
             }
         }
     }
+
 
     private fun handleSuccess(stocksList: List<StockPricesUiModel>) {
 
@@ -93,7 +99,12 @@ class StocksDetailsFragment :
 
         for (i in stocksList) {
             if (data.size < 14) {
-                data.add(ValueDataEntry(i.timestamp, ((i.close)!!.toDouble() - (i.open)!!.toDouble())))
+                data.add(
+                    ValueDataEntry(
+                        i.timestamp,
+                        ((i.close)!!.toDouble() - (i.open)!!.toDouble())
+                    )
+                )
             } else {
                 break
             }
@@ -120,10 +131,31 @@ class StocksDetailsFragment :
 
     }
 
+    private fun addWatchlistStock(currentStockUiModel: CurrentStockUiModel) {
+        viewModel.addStockInWatchlist(currentStockUiModel)
+    }
+
+    private fun removeWatchlistStock(currentStockUiModel: CurrentStockUiModel){
+        viewModel.removeStockInWatchlist(currentStockUiModel)
+    }
+
 
     private fun listeners() {
         binding.btnDaily.setOnClickListener { }
         binding.btnMonthly.setOnClickListener { }
+
+
+        binding.btnAddToWatchlist.apply {
+            setOnClickListener {
+                viewLifecycleOwner.lifecycleScope.launch {
+                    viewModel.currentStockState.collect {
+                        it.data?.let { it1 -> addWatchlistStock(it1) }
+                    }
+                }
+                setImageResource(R.drawable.ic_baseline_favorite_24)
+            }
+        }
+
 
         binding.btnBuy.setOnClickListener {
             showConfirmation()
@@ -138,6 +170,7 @@ class StocksDetailsFragment :
         }
 
     }
+
 
     private fun showConfirmation() {
         val animation = AnimationUtils.loadAnimation(
@@ -157,4 +190,5 @@ class StocksDetailsFragment :
         binding.buttonsLinear.visibility = View.VISIBLE
         binding.buttonsLinear.startAnimation(animation)
     }
+
 }

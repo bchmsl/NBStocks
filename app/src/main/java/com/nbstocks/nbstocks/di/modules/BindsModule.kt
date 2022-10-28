@@ -6,9 +6,11 @@ import com.nbstocks.nbstocks.csv.CurrentStockParser
 import com.nbstocks.nbstocks.csv.StockPricesParser
 import com.nbstocks.nbstocks.data.remote.model.CurrentStockDto
 import com.nbstocks.nbstocks.data.remote.model.StockPricesDto
+import com.nbstocks.nbstocks.data.repositories.watchlist_stock.WatchlistStockRepositoryImpl
 import com.nbstocks.nbstocks.data.repositories.company_listings.CompanyListingsRepositoryImpl
 import com.nbstocks.nbstocks.data.repositories.current_stock.CurrentStockRepositoryImpl
 import com.nbstocks.nbstocks.data.repositories.daily_stock.DailyStockPricesPricesRepositoryImpl
+import com.nbstocks.nbstocks.domain.repositories.watchlist_stock.WatchlistStockRepository
 import com.nbstocks.nbstocks.domain.repositories.company_listings.CompanyListingsRepository
 import com.nbstocks.nbstocks.domain.repositories.current_stock.CurrentStockRepository
 import com.nbstocks.nbstocks.domain.repositories.daily_stock.DailyStockPricesRepository
@@ -40,6 +42,13 @@ abstract class BindsModule {
     abstract fun bindCurrentStockRepository(
         currentStockRepositoryImpl: CurrentStockRepositoryImpl
     ): CurrentStockRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindWatchlistStockRepository(
+        watchlistStockRepositoryImpl: WatchlistStockRepositoryImpl
+    ): WatchlistStockRepository
+
 
     @Binds
     @Singleton

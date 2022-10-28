@@ -49,12 +49,12 @@
             app:layout_constraintTop_toTopOf="@+id/ivBackArrow" />
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/appCompatImageView2"
+            android:id="@+id/btnAddToWatchlist"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginStart="15dp"
             android:layout_marginTop="10dp"
-            android:src="@drawable/ic_launcher_background"
+            android:src="@drawable/ic_baseline_favorite_border_24"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view4" />
 
@@ -67,9 +67,9 @@
             android:text="Name"
             android:textColor="#204479"
             android:textSize="22sp"
-            app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView2"
-            app:layout_constraintStart_toEndOf="@+id/appCompatImageView2"
-            app:layout_constraintTop_toTopOf="@+id/appCompatImageView2" />
+            app:layout_constraintBottom_toBottomOf="@+id/btnAddToWatchlist"
+            app:layout_constraintStart_toEndOf="@+id/btnAddToWatchlist"
+            app:layout_constraintTop_toTopOf="@+id/btnAddToWatchlist" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvPrice"
@@ -80,9 +80,9 @@
             android:textColor="#204479"
             android:textSize="22sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView2"
+            app:layout_constraintBottom_toBottomOf="@+id/btnAddToWatchlist"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/appCompatImageView2"
+            app:layout_constraintTop_toTopOf="@+id/btnAddToWatchlist"
             app:layout_constraintVertical_bias="0.0" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -91,7 +91,7 @@
             android:layout_height="wrap_content"
             android:text="+5.00%"
             android:textColor="#8BC34A"
-            app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView2"
+            app:layout_constraintBottom_toBottomOf="@+id/btnAddToWatchlist"
             app:layout_constraintEnd_toEndOf="@+id/tvPrice"
             app:layout_constraintTop_toBottomOf="@+id/tvPrice" />
 
@@ -107,7 +107,7 @@
             android:weightSum="2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appCompatImageView2">
+            app:layout_constraintTop_toBottomOf="@+id/btnAddToWatchlist">
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnDaily"
@@ -132,11 +132,9 @@
                 android:background="@drawable/item_stroke"
                 android:fontFamily="@font/bpg_nino_mtavruli_normal"
                 android:text="Monthly"
-
                 android:textAllCaps="false"
                 android:textColor="#204479"
                 android:textSize="20sp" />
-
         </LinearLayout>
 
 
@@ -145,10 +143,18 @@
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:layout_marginTop="15dp"
-
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+<!--        <com.github.mikephil.charting.charts.PieChart-->
+<!--            android:id="@+id/chart"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="250dp"-->
+<!--            android:layout_marginTop="15dp"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />-->
 
 
         <View

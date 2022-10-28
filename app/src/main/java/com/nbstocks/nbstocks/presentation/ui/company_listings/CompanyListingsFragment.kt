@@ -26,8 +26,6 @@ class CompanyListingsFragment :
         observe()
         listeners()
 
-        val activity = requireActivity() as? MainActivity
-        activity?.showToolBar()
 
     }
 
