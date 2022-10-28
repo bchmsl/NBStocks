@@ -33,4 +33,7 @@
     <string name="repeat_password">Repeat Password</string>
     <string name="remember_password">Remember password?   </string>
     <string name="send_recovery_email">Send Recovery Email</string>
+    <string name="home">Home</string>
+    <string name="companies">Companies</string>
+    <string name="profile">Profile</string>
 </resources>

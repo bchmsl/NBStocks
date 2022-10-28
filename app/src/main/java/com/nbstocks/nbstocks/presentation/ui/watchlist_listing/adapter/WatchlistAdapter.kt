@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.nbstocks.nbstocks.databinding.WatchlistItemBinding
+import com.nbstocks.nbstocks.databinding.LayoutWatchlistItemBinding
 import com.nbstocks.nbstocks.presentation.ui.stock_details.model.CurrentStockUiModel
 
 
@@ -14,7 +14,7 @@ class WatchlistAdapter : ListAdapter<CurrentStockUiModel, WatchlistAdapter.Watch
 
     var stockItemClicked: ((CurrentStockUiModel) -> Unit)? = null
 
-    inner class WatchlistViewHolder(private val binding: WatchlistItemBinding) :
+    inner class WatchlistViewHolder(private val binding: LayoutWatchlistItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind() {
             val currentItem = getItem(adapterPosition)
@@ -30,7 +30,7 @@ class WatchlistAdapter : ListAdapter<CurrentStockUiModel, WatchlistAdapter.Watch
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WatchlistViewHolder {
         return WatchlistViewHolder(
-            WatchlistItemBinding.inflate(
+            LayoutWatchlistItemBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false

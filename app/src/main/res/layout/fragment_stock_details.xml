@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="?android:attr/colorBackground"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?android:attr/colorBackground">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -25,9 +25,9 @@
             android:layout_height="35dp"
             android:layout_marginStart="15dp"
             android:layout_marginTop="20dp"
-            android:scaleType="centerCrop"
-            android:padding="3dp"
             android:background="?attr/colorPrimary"
+            android:padding="3dp"
+            android:scaleType="centerCrop"
             android:src="@drawable/ic_arrow_back"
             android:tint="@color/lightGrey"
             app:layout_constraintStart_toStartOf="parent"
@@ -67,7 +67,22 @@
             app:layout_constraintBottom_toBottomOf="@id/ivCompanyLogo"
             app:layout_constraintStart_toEndOf="@id/ivCompanyLogo"
             app:layout_constraintTop_toTopOf="@id/ivCompanyLogo"
-            tools:text="Company" />
+            tools:text="SYM" />
+
+        <androidx.appcompat.widget.AppCompatToggleButton
+            android:id="@+id/tbFavorite"
+            android:layout_width="40dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="15dp"
+            android:background="@drawable/ic_favorite_selector"
+            android:backgroundTint="?attr/colorPrimary"
+            android:checked="false"
+            android:textOff=""
+            android:textOn=""
+            app:layout_constraintBottom_toBottomOf="@id/tvSymbol"
+            app:layout_constraintDimensionRatio="1"
+            app:layout_constraintEnd_toStartOf="@id/tvPrice"
+            app:layout_constraintTop_toTopOf="@id/tvSymbol" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvPrice"
@@ -270,13 +285,13 @@
             android:layout_margin="15dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/button_background"
-            android:text="@string/buy"
             android:fontFamily="sans-serif-light"
+            android:text="@string/buy"
+            android:textAllCaps="false"
             android:textColor="@color/lightGrey"
             android:textSize="20sp"
-            android:textAllCaps="false"
-            app:layout_constraintHorizontal_weight="1"
             app:layout_constraintEnd_toStartOf="@id/btnSell"
+            app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toStartOf="@id/viewCardPrices"
             app:layout_constraintTop_toBottomOf="@id/viewCardPrices" />
 
@@ -284,16 +299,16 @@
             android:id="@+id/btnSell"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/button_stroke"
-            android:text="@string/sell"
             android:layout_margin="15dp"
+            android:background="@drawable/button_stroke"
             android:fontFamily="sans-serif-light"
-            android:textSize="20sp"
-            android:textColor="?attr/colorOnSecondary"
+            android:text="@string/sell"
             android:textAllCaps="false"
-            app:layout_constraintHorizontal_weight="1"
+            android:textColor="?attr/colorOnSecondary"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@id/btnBuy"
             app:layout_constraintEnd_toEndOf="@id/viewCardPrices"
+            app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toEndOf="@id/btnBuy"
             app:layout_constraintTop_toTopOf="@id/btnBuy" />
 
