@@ -1,4 +1,4 @@
-package com.nbstocks.nbstocks.presentation.ui.home
+package com.nbstocks.nbstocks.presentation.ui.watchlist_listing
 
 import android.util.Log.d
 import androidx.lifecycle.ViewModel
@@ -13,14 +13,13 @@ import com.nbstocks.nbstocks.presentation.ui.stock_details.model.CurrentStockUiM
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
+class WatchlistViewModel @Inject constructor(
     private val watchlistStockRepositoryImpl: WatchlistStockRepositoryImpl
-): ViewModel() {
+) : ViewModel() {
 
     private val _watchlistStockState = MutableStateFlow<ViewState<List<CurrentStockUiModel>>>(ViewState())
     val watchlistStockState: StateFlow<ViewState<List<CurrentStockUiModel>>> get() = _watchlistStockState
@@ -32,7 +31,7 @@ class HomeViewModel @Inject constructor(
             watchlistStockRepositoryImpl.stockState.collect {
                 when (it) {
                     is Resource.Success -> {
-                        d("stocks_vm","${it.data}")
+//                        d("stocks_vm","${it.data}")
                         _watchlistStockState.emit(_watchlistStockState.value.copy(data = it.data.map { it.toCurrentStockUiModel() }))
                     }
                     is Resource.Error -> {
@@ -43,4 +42,5 @@ class HomeViewModel @Inject constructor(
             }
         }
     }
+
 }

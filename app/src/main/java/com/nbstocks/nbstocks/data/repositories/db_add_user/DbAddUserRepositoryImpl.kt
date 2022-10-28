@@ -14,8 +14,7 @@ class DbAddUserRepositoryImpl @Inject constructor(
     private val db: FirebaseDatabase
 ) : DbAddUserRepository, ResponseHandler {
 
-    override suspend fun addUserToDb(uid: String, user: User)
-            : Resource<Void> =
+    override suspend fun addUserToDb(uid: String, user: User): Resource<Void> =
         withContext(Dispatchers.IO) {
             return@withContext try {
                 val dbReference = db.getReference("Users")

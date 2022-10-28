@@ -10,5 +10,5 @@ data class CurrentStockUiModel(
     val latestTradingDay: String,
     val previousClose: String,
     val change: String,
-    val changePercent: String
+    val changePercent: String,
 )

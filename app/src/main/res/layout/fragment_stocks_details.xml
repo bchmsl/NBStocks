@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <View
+            android:id="@+id/view4"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@drawable/mini_header"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivBackArrow"
+            android:layout_width="45dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/ic_baseline_arrow_back_24"
+            app:layout_constraintBottom_toBottomOf="@+id/view4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:fontFamily="@font/bpg_nino_mtavruli_normal"
+            android:text="Stocks Details"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/ivBackArrow"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/ivBackArrow" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/appCompatImageView2"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_launcher_background"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view4" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSymbol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:fontFamily="@font/bpg_nino_mtavruli_normal"
+            android:text="Name"
+            android:textColor="#204479"
+            android:textSize="22sp"
+            app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView2"
+            app:layout_constraintStart_toEndOf="@+id/appCompatImageView2"
+            app:layout_constraintTop_toTopOf="@+id/appCompatImageView2" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:text="100$"
+            android:textColor="#204479"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/appCompatImageView2"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvPercentage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+5.00%"
+            android:textColor="#8BC34A"
+            app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView2"
+            app:layout_constraintEnd_toEndOf="@+id/tvPrice"
+            app:layout_constraintTop_toBottomOf="@+id/tvPrice" />
+
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="15dp"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appCompatImageView2">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnDaily"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/sign_in_background"
+                android:backgroundTint="#00AEEF"
+                android:fontFamily="@font/bpg_nino_mtavruli_normal"
+                android:text="Daily"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnMonthly"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/item_stroke"
+                android:fontFamily="@font/bpg_nino_mtavruli_normal"
+                android:text="Monthly"
+
+                android:textAllCaps="false"
+                android:textColor="#204479"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+
+        <com.anychart.AnyChartView
+            android:id="@+id/chart"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_marginTop="15dp"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+
+        <View
+            android:id="@+id/view6"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="15dp"
+            android:background="@drawable/item_stroke"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chart" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvOverviewSymbol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/bpg_nino_mtavruli_normal"
+            android:text="Name"
+            android:textColor="#204479"
+            android:textSize="22sp"
+            app:layout_constraintStart_toStartOf="@+id/view6"
+            app:layout_constraintTop_toTopOf="@+id/view6" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:fontFamily="@font/bpg_nino_mtavruli_normal"
+            android:text="Overview"
+            android:textColor="#204479"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvOverviewSymbol"
+            app:layout_constraintEnd_toEndOf="@+id/view6"
+            app:layout_constraintTop_toTopOf="@+id/tvOverviewSymbol" />
+
+        <View
+            android:id="@+id/view7"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginEnd="15dp"
+            android:background="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvOverviewSymbol" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/appCompatTextView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/bpg_nino_mtavruli_normal"
+            android:text="Current"
+            android:textColor="#817A7A"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/view6"
+            app:layout_constraintTop_toBottomOf="@+id/view7" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/appCompatTextView13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/bpg_nino_mtavruli_normal"
+            android:text="Day low"
+            android:textColor="#817A7A"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@+id/appCompatTextView12"
+            app:layout_constraintStart_toEndOf="@+id/appCompatTextView11"
+            app:layout_constraintTop_toBottomOf="@+id/view7" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/appCompatTextView12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="25dp"
+            android:fontFamily="@font/bpg_nino_mtavruli_normal"
+            android:text="Day high"
+            android:textColor="#817A7A"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@+id/view6"
+            app:layout_constraintTop_toBottomOf="@+id/view7" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvCurrentPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="500$"
+            android:textColor="#204479"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/view6"
+            app:layout_constraintEnd_toEndOf="@+id/appCompatTextView11"
+            app:layout_constraintStart_toStartOf="@+id/appCompatTextView11"
+            app:layout_constraintTop_toBottomOf="@+id/appCompatTextView11"
+            app:layout_constraintVertical_bias="0.25" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvLowPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="500$"
+            android:textColor="#204479"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/view6"
+            app:layout_constraintEnd_toEndOf="@+id/appCompatTextView13"
+            app:layout_constraintStart_toStartOf="@+id/appCompatTextView13"
+            app:layout_constraintTop_toBottomOf="@+id/appCompatTextView13"
+            app:layout_constraintVertical_bias="0.25" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvHighPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="500$"
+            android:textColor="#204479"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/view6"
+            app:layout_constraintEnd_toEndOf="@+id/appCompatTextView12"
+            app:layout_constraintStart_toStartOf="@+id/appCompatTextView12"
+            app:layout_constraintTop_toBottomOf="@+id/appCompatTextView12"
+            app:layout_constraintVertical_bias="0.25" />
+
+
+        <LinearLayout
+            android:id="@+id/linerLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_marginTop="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view6"
+            app:layout_constraintVertical_bias="0.65">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnBuy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/sign_in_background"
+                android:backgroundTint="#00AEEF"
+                android:fontFamily="@font/bpg_nino_mtavruli_normal"
+                android:text="Buy"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSell"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/balance_background"
+                android:fontFamily="@font/bpg_nino_mtavruli_normal"
+                android:text="Sell"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+
+        <View
+            android:id="@+id/vConfirmBuySell"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:background="@drawable/balance_background"
+            android:backgroundTint="#00AEEF"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/etCashInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
+            android:hint="Enter amount of cash"
+            android:visibility="invisible"
+            app:boxStrokeColor="#FFFFFF"
+            app:endIconMode="clear_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/vConfirmBuySell"
+            app:startIconDrawable="@drawable/ic_baseline_monetization_on_24"
+            app:startIconTint="@color/white">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etCash"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/bpg_nino_mtavruli_normal"
+                android:textSize="20sp"
+                android:visibility="invisible" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/bpg_nino_mtavruli_normal"
+            android:text="You'll get 0.005 of Apple"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="@+id/etCashInputLayout"
+            app:layout_constraintTop_toBottomOf="@+id/etCashInputLayout" />
+
+        <LinearLayout
+            android:id="@+id/buttonsLinear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:orientation="horizontal"
+            android:visibility="invisible"
+            android:weightSum="2"
+            app:layout_constraintBottom_toBottomOf="@+id/vConfirmBuySell"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvResult">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnBuyConfirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/item_stroke"
+                android:backgroundTint="#FFFFFF"
+                android:fontFamily="@font/bpg_nino_mtavruli_normal"
+                android:text="Buy"
+                android:textAllCaps="false"
+                android:textColor="#204479"
+                android:textSize="20sp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSellConfirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/balance_background"
+                android:fontFamily="@font/bpg_nino_mtavruli_normal"
+                android:text="Go back"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+</androidx.core.widget.NestedScrollView>

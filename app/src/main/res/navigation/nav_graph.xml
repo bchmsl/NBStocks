@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_homeFragment_to_stocksFragment"
             app:destination="@id/companyListingsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_watchlistFragment"
+            app:destination="@id/watchlistFragment" />
     </fragment>
     <fragment
         android:id="@+id/logInFragment"
@@ -65,6 +68,9 @@
         <argument
             android:name="stockSymbol"
             app:argType="string" />
+        <action
+            android:id="@+id/action_stocksDetailsFragment_to_companyListingsFragment"
+            app:destination="@id/companyListingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/companyListingsFragment"
@@ -81,4 +87,13 @@
         android:name="com.nbstocks.nbstocks.presentation.ui.profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/watchlistFragment"
+        android:name="com.nbstocks.nbstocks.presentation.ui.watchlist_listing.WatchlistFragment"
+        android:label="fragment_watchlist"
+        tools:layout="@layout/fragment_watchlist" >
+        <action
+            android:id="@+id/action_watchlistFragment_to_stocksDetailsFragment"
+            app:destination="@id/stocksDetailsFragment" />
+    </fragment>
 </navigation>
