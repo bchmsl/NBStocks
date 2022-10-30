@@ -12,6 +12,8 @@ import com.anychart.chart.common.dataentry.DataEntry
 import com.anychart.chart.common.dataentry.ValueDataEntry
 import com.google.android.material.snackbar.Snackbar
 import com.nbstocks.nbstocks.common.extensions.currentTab
+import com.nbstocks.nbstocks.common.extensions.makeSnackbar
+import com.nbstocks.nbstocks.common.extensions.onTabSelected
 import com.nbstocks.nbstocks.common.extensions.toMonthDay
 import com.nbstocks.nbstocks.databinding.FragmentStockDetailsBinding
 import com.nbstocks.nbstocks.presentation.ui.base.BaseFragment
@@ -26,14 +28,24 @@ class StocksDetailsFragment :
 
     private val viewModel: StocksDetailsViewModel by viewModels()
     private val args: StocksDetailsFragmentArgs by navArgs()
-    private lateinit var set: com.anychart.data.Set
-
-
+    private val stockPricesChart by lazy { StockPricesChart()}
 
     override fun start() {
         setupChart()
         listeners()
         observe()
+    }
+
+    private fun setupChart() {
+        val viewColor = binding.root.background as ColorDrawable
+        val hexColor = String.format("#%06X", 0xFFFFFF and viewColor.color)
+        stockPricesChart.backgroundColor = hexColor
+        stockPricesChart.initChart()
+        binding.chart.apply {
+            setBackgroundColor(hexColor)
+            setChart(stockPricesChart.waterfall)
+            setProgressBar(binding.pbChartLoader)
+        }
     }
 
     private fun observe() {
@@ -84,49 +96,7 @@ class StocksDetailsFragment :
 
 
     private fun handleSuccess(stocksList: List<StockPricesUiModel>) {
-        setDataToChart(stocksList)
-    }
-
-    private fun setupChart() {
-        val chart = binding.chart
-        val waterfall = AnyChart.waterfall()
-        waterfall.yScale().minimum(0.0)
-        waterfall.labels().enabled(false)
-
-        set = com.anychart.data.Set.instantiate()
-        val series = waterfall.waterfall(set, "")
-
-        series.normal().fallingFill("#FB3E64", 1.0)
-        series.normal().fallingStroke("#FB3E64", 1, "null", "round", "null")
-        series.normal().risingFill("#5DE066", 1.0)
-        series.normal().risingStroke("#5DE066", 1, "null", "round", "null")
-
-        val layout = binding.root
-        val viewColor = layout.background as ColorDrawable
-        val colorId = viewColor.color
-        val hexColor = String.format("#%06X", 0xFFFFFF and colorId)
-
-        waterfall.background().enabled(true).fill(hexColor)
-
-        chart.setProgressBar(binding.progressBar)
-        chart.setChart(waterfall)
-    }
-
-    private fun setDataToChart(stocksList: List<StockPricesUiModel>){
-        val data = mutableListOf<DataEntry>()
-        for (i in stocksList) {
-            if (data.size < 14) {
-                data.add(
-                    ValueDataEntry(
-                        i.timestamp?.toMonthDay(),
-                        ((i.close)!!.toDouble() - (i.open)!!.toDouble())
-                    )
-                )
-            } else {
-                break
-            }
-        }
-        set.data(data)
+        stockPricesChart.submitData(stocksList)
     }
 
 
@@ -144,20 +114,23 @@ class StocksDetailsFragment :
             viewLifecycleOwner.lifecycleScope.launch {
                 viewModel.currentStockState.collect {
                     it.data?.let { stock ->
-                        if (isFavoriteChecked){
+                        if (isFavoriteChecked) {
                             addWatchlistStock(stock)
-                        }else{
+                        } else {
                             removeWatchlistStock(stock)
                         }
                     }
                 }
             }
         }
+        binding.tlSwitchStocks.onTabSelected {
+            viewModel.getStocksDetails(binding.tvSymbol.text.toString(), binding.tlSwitchStocks.currentTab)
+        }
         binding.btnBuy.setOnClickListener {
-            showConfirmation()
+            showConfirmation(binding.tvPrice.text.toString().toDouble(), true)
         }
         binding.btnSell.setOnClickListener {
-            showConfirmation()
+            showConfirmation(binding.tvPrice.text.toString().toDouble(), false)
         }
         binding.ibtnBack.setOnClickListener {
             findNavController().popBackStack()
@@ -165,8 +138,50 @@ class StocksDetailsFragment :
     }
 
 
-    private fun showConfirmation() {
-//         TODO("Dialog box for buying or selling stock")
+    private fun showConfirmation(price: Double, isBuying: Boolean) {
+        val dialog = BuySellDialog(requireContext(), price, isBuying)
+        dialog.show()
+
+        dialog.confirmCallback = { stockAmount ->
+            confirm(stockAmount, isBuying) { isTaskSuccessful, message ->
+                binding.root.makeSnackbar(message, !isTaskSuccessful)
+            }
+        }
     }
 
+    private fun confirm(
+        amountOfStock: Double?,
+        isBuying: Boolean,
+        doAfterTask: (isTaskSuccessful: Boolean, message: String) -> Unit
+    ) {
+        if (isBuying) {
+            buyStock(amountOfStock) { isTaskSuccessful, message ->
+                doAfterTask(isTaskSuccessful, message)
+            }
+        } else {
+            sellStock(amountOfStock) { isTaskSuccessful, message ->
+                doAfterTask(isTaskSuccessful, message)
+            }
+        }
+    }
+
+    private fun buyStock(
+        amountOfStock: Double?,
+        doAfterTask: (isTaskSuccessful: Boolean, message: String) -> Unit
+    ) {
+
+        // TODO("Add to database")
+        doAfterTask(true, "$amountOfStock stocks bought successfully!")
+
+    }
+
+    private fun sellStock(
+        amountOfStock: Double?,
+        doAfterTask: (isTaskSuccessful: Boolean, message: String) -> Unit
+    ) {
+
+        // TODO("Change in database")
+        doAfterTask(true, "$amountOfStock stocks sold successfully")
+
+    }
 }

@@ -23,6 +23,7 @@ abstract class BaseFragment<VB : ViewBinding>(private val inflater: Inflater<VB>
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         start()
