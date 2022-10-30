@@ -3,12 +3,18 @@
     <style name="Theme.NBStocks" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
         <item name="background">@color/lightGrey</item>
-        <item name="android:colorBackground">#FFFFFF</item>
+        <item name="actionModeBackground">@color/lightGreyVariant</item>
+
         <item name="colorPrimary">@color/lightBlue</item>
+        <item name="colorPrimaryVariant">@color/lightBlueVariant</item>
         <item name="colorOnPrimary">@color/lightGrey</item>
+        <item name="colorOnPrimaryContainer">@color/lightGreyVariant</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/darkBlue</item>
+        <item name="colorSecondaryVariant">@color/darkBlueVariant</item>
         <item name="colorOnSecondary">@color/darkGrey</item>
+        <item name="colorOnSecondaryContainer">@color/darkGreyVariant</item>
+
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimary</item>
         <!-- Customize your theme here. -->
