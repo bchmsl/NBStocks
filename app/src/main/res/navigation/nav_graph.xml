@@ -68,9 +68,6 @@
         <argument
             android:name="stockSymbol"
             app:argType="string" />
-        <action
-            android:id="@+id/action_stocksDetailsFragment_to_companyListingsFragment"
-            app:destination="@id/companyListingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/companyListingsFragment"

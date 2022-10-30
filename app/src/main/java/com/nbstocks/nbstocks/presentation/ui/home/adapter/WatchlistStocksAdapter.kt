@@ -20,6 +20,7 @@ class WatchlistStocksAdapter :
             binding.tvItemSymbol.text = currentItem.symbol
             binding.tvWatchlistPrice.text = currentItem.price
             binding.tvWatchlistPercentage.text = currentItem.changePercent
+            binding.root.setOnClickListener { stockItemClicked?.invoke(currentItem) }
         }
     }
 

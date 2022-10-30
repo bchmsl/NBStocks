@@ -51,7 +51,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     }
 
     private fun listeners() {
-
         binding.btnBuy.setOnClickListener {
 
         }
@@ -60,6 +59,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         }
         binding.tvWatchlistSeeAll.setOnClickListener {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToWatchlistFragment())
+        }
+        watchlistAdapter.stockItemClicked = {
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToStocksDetailsFragment(it.symbol))
         }
     }
 

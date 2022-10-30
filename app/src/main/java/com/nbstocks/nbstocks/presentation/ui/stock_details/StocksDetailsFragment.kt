@@ -1,14 +1,8 @@
 package com.nbstocks.nbstocks.presentation.ui.stock_details
 
-import android.app.AlertDialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.view.LayoutInflater
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
 import androidx.core.view.isVisible
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -17,9 +11,7 @@ import com.anychart.AnyChart
 import com.anychart.chart.common.dataentry.DataEntry
 import com.anychart.chart.common.dataentry.ValueDataEntry
 import com.google.android.material.snackbar.Snackbar
-import com.nbstocks.nbstocks.R
 import com.nbstocks.nbstocks.common.extensions.currentTab
-import com.nbstocks.nbstocks.common.extensions.isValid
 import com.nbstocks.nbstocks.common.extensions.makeSnackbar
 import com.nbstocks.nbstocks.common.extensions.toMonthDay
 import com.nbstocks.nbstocks.databinding.FragmentStockDetailsBinding
@@ -174,43 +166,14 @@ class StocksDetailsFragment :
 
 
     private fun showConfirmation(price: Double, isBuying: Boolean) {
-        val dialogLayout =
-            LayoutInflater.from(requireContext()).inflate(R.layout.dialog_buy_stock, null)
-        val dialogBuilder = AlertDialog.Builder(requireContext())
-            .setView(dialogLayout)
-        val alertDialog = dialogBuilder.show()
+        val dialog = BuySellDialog(requireContext(), price, isBuying)
+        dialog.show()
 
-        val tvTitle = dialogLayout.findViewById<TextView>(R.id.tvDialogTitle)
-        val etMoney = dialogLayout.findViewById<EditText>(R.id.etMoney)
-        val etStock = dialogLayout.findViewById<EditText>(R.id.etStock)
-        val btnConfirm = dialogLayout.findViewById<Button>(R.id.btnDialogConfirm)
-
-        tvTitle.text = (if (isBuying) "Buy" else "Sell")+" Stock"
-        btnConfirm.text = if (isBuying) "Buy" else "Sell"
-
-        btnConfirm.setOnClickListener {
-            if (etStock.isValid()) {
-                confirm(etStock.text.toString().toDoubleOrNull(), isBuying){isTaskSuccessful, message ->
-                    alertDialog.cancel()
-                    binding.root.makeSnackbar(message, isTaskSuccessful)
-                }
-            }else if (etMoney.isValid()){
-                confirm(etMoney.text.toString().toDoubleOrNull()?.div(price), isBuying){isTaskSuccessful, message ->
-                    alertDialog.cancel()
-                    binding.root.makeSnackbar(message, isTaskSuccessful)
-                }
+        dialog.confirmCallback = { stockAmount ->
+            confirm(stockAmount, isBuying) { isTaskSuccessful, message ->
+                binding.root.makeSnackbar(message, !isTaskSuccessful)
             }
         }
-//        etMoney.addTextChangedListener {
-//            etStock.setText(
-//                (it.toString().toDouble() / price).toString()
-//            )
-//        }
-//        etStock.addTextChangedListener {
-//            etMoney.setText(
-//                (it.toString().toDouble() * price).toString()
-//            )
-//        }
     }
 
     private fun confirm(
@@ -218,12 +181,12 @@ class StocksDetailsFragment :
         isBuying: Boolean,
         doAfterTask: (isTaskSuccessful: Boolean, message: String) -> Unit
     ) {
-        if (isBuying){
-            buyStock(amountOfStock){isTaskSuccessful, message ->
+        if (isBuying) {
+            buyStock(amountOfStock) { isTaskSuccessful, message ->
                 doAfterTask(isTaskSuccessful, message)
             }
-        }else{
-            sellStock(amountOfStock){isTaskSuccessful, message ->
+        } else {
+            sellStock(amountOfStock) { isTaskSuccessful, message ->
                 doAfterTask(isTaskSuccessful, message)
             }
         }
@@ -233,18 +196,19 @@ class StocksDetailsFragment :
         amountOfStock: Double?,
         doAfterTask: (isTaskSuccessful: Boolean, message: String) -> Unit
     ) {
-        //TODO("Add to database")
 
+        // TODO("Add to database")
         doAfterTask(true, "$amountOfStock stocks bought successfully!")
+
     }
 
     private fun sellStock(
         amountOfStock: Double?,
         doAfterTask: (isTaskSuccessful: Boolean, message: String) -> Unit
     ) {
-        //TODO("Modify in database")
 
+        // TODO("Change in database")
         doAfterTask(true, "$amountOfStock stocks sold successfully")
-    }
 
+    }
 }
