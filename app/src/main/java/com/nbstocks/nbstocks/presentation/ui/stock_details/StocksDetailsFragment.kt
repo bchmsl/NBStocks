@@ -1,8 +1,14 @@
 package com.nbstocks.nbstocks.presentation.ui.stock_details
 
+import android.app.AlertDialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.view.LayoutInflater
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -11,7 +17,10 @@ import com.anychart.AnyChart
 import com.anychart.chart.common.dataentry.DataEntry
 import com.anychart.chart.common.dataentry.ValueDataEntry
 import com.google.android.material.snackbar.Snackbar
+import com.nbstocks.nbstocks.R
 import com.nbstocks.nbstocks.common.extensions.currentTab
+import com.nbstocks.nbstocks.common.extensions.isValid
+import com.nbstocks.nbstocks.common.extensions.makeSnackbar
 import com.nbstocks.nbstocks.common.extensions.toMonthDay
 import com.nbstocks.nbstocks.databinding.FragmentStockDetailsBinding
 import com.nbstocks.nbstocks.presentation.ui.base.BaseFragment
@@ -27,7 +36,6 @@ class StocksDetailsFragment :
     private val viewModel: StocksDetailsViewModel by viewModels()
     private val args: StocksDetailsFragmentArgs by navArgs()
     private lateinit var set: com.anychart.data.Set
-
 
 
     override fun start() {
@@ -112,7 +120,7 @@ class StocksDetailsFragment :
         chart.setChart(waterfall)
     }
 
-    private fun setDataToChart(stocksList: List<StockPricesUiModel>){
+    private fun setDataToChart(stocksList: List<StockPricesUiModel>) {
         val data = mutableListOf<DataEntry>()
         for (i in stocksList) {
             if (data.size < 14) {
@@ -144,9 +152,9 @@ class StocksDetailsFragment :
             viewLifecycleOwner.lifecycleScope.launch {
                 viewModel.currentStockState.collect {
                     it.data?.let { stock ->
-                        if (isFavoriteChecked){
+                        if (isFavoriteChecked) {
                             addWatchlistStock(stock)
-                        }else{
+                        } else {
                             removeWatchlistStock(stock)
                         }
                     }
@@ -154,10 +162,10 @@ class StocksDetailsFragment :
             }
         }
         binding.btnBuy.setOnClickListener {
-            showConfirmation()
+            showConfirmation(binding.tvPrice.text.toString().toDouble(), true)
         }
         binding.btnSell.setOnClickListener {
-            showConfirmation()
+            showConfirmation(binding.tvPrice.text.toString().toDouble(), false)
         }
         binding.ibtnBack.setOnClickListener {
             findNavController().popBackStack()
@@ -165,8 +173,78 @@ class StocksDetailsFragment :
     }
 
 
-    private fun showConfirmation() {
-//         TODO("Dialog box for buying or selling stock")
+    private fun showConfirmation(price: Double, isBuying: Boolean) {
+        val dialogLayout =
+            LayoutInflater.from(requireContext()).inflate(R.layout.dialog_buy_stock, null)
+        val dialogBuilder = AlertDialog.Builder(requireContext())
+            .setView(dialogLayout)
+        val alertDialog = dialogBuilder.show()
+
+        val tvTitle = dialogLayout.findViewById<TextView>(R.id.tvDialogTitle)
+        val etMoney = dialogLayout.findViewById<EditText>(R.id.etMoney)
+        val etStock = dialogLayout.findViewById<EditText>(R.id.etStock)
+        val btnConfirm = dialogLayout.findViewById<Button>(R.id.btnDialogConfirm)
+
+        tvTitle.text = (if (isBuying) "Buy" else "Sell")+" Stock"
+        btnConfirm.text = if (isBuying) "Buy" else "Sell"
+
+        btnConfirm.setOnClickListener {
+            if (etStock.isValid()) {
+                confirm(etStock.text.toString().toDoubleOrNull(), isBuying){isTaskSuccessful, message ->
+                    alertDialog.cancel()
+                    binding.root.makeSnackbar(message, isTaskSuccessful)
+                }
+            }else if (etMoney.isValid()){
+                confirm(etMoney.text.toString().toDoubleOrNull()?.div(price), isBuying){isTaskSuccessful, message ->
+                    alertDialog.cancel()
+                    binding.root.makeSnackbar(message, isTaskSuccessful)
+                }
+            }
+        }
+//        etMoney.addTextChangedListener {
+//            etStock.setText(
+//                (it.toString().toDouble() / price).toString()
+//            )
+//        }
+//        etStock.addTextChangedListener {
+//            etMoney.setText(
+//                (it.toString().toDouble() * price).toString()
+//            )
+//        }
+    }
+
+    private fun confirm(
+        amountOfStock: Double?,
+        isBuying: Boolean,
+        doAfterTask: (isTaskSuccessful: Boolean, message: String) -> Unit
+    ) {
+        if (isBuying){
+            buyStock(amountOfStock){isTaskSuccessful, message ->
+                doAfterTask(isTaskSuccessful, message)
+            }
+        }else{
+            sellStock(amountOfStock){isTaskSuccessful, message ->
+                doAfterTask(isTaskSuccessful, message)
+            }
+        }
+    }
+
+    private fun buyStock(
+        amountOfStock: Double?,
+        doAfterTask: (isTaskSuccessful: Boolean, message: String) -> Unit
+    ) {
+        //TODO("Add to database")
+
+        doAfterTask(true, "$amountOfStock stocks bought successfully!")
+    }
+
+    private fun sellStock(
+        amountOfStock: Double?,
+        doAfterTask: (isTaskSuccessful: Boolean, message: String) -> Unit
+    ) {
+        //TODO("Modify in database")
+
+        doAfterTask(true, "$amountOfStock stocks sold successfully")
     }
 
 }

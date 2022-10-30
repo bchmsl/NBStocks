@@ -36,4 +36,7 @@
     <string name="home">Home</string>
     <string name="companies">Companies</string>
     <string name="profile">Profile</string>
+    <string name="or">or</string>
+    <string name="amount_of_stocks">Amount of stocks</string>
+    <string name="amount_of_money_in_usd">Amount of money in USD</string>
 </resources>
