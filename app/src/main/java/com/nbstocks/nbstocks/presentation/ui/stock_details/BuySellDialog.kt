@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
+import com.nbstocks.nbstocks.common.custom_views.CustomDialog
 import com.nbstocks.nbstocks.common.extensions.isValid
 import com.nbstocks.nbstocks.databinding.DialogBuyStockBinding
 

@@ -28,13 +28,24 @@ class StocksDetailsFragment :
 
     private val viewModel: StocksDetailsViewModel by viewModels()
     private val args: StocksDetailsFragmentArgs by navArgs()
-    private lateinit var set: com.anychart.data.Set
-
+    private val stockPricesChart by lazy { StockPricesChart()}
 
     override fun start() {
         setupChart()
         listeners()
         observe()
+    }
+
+    private fun setupChart() {
+        val viewColor = binding.root.background as ColorDrawable
+        val hexColor = String.format("#%06X", 0xFFFFFF and viewColor.color)
+        stockPricesChart.backgroundColor = hexColor
+        stockPricesChart.initChart()
+        binding.chart.apply {
+            setBackgroundColor(hexColor)
+            setChart(stockPricesChart.waterfall)
+            setProgressBar(binding.pbChartLoader)
+        }
     }
 
     private fun observe() {
@@ -85,49 +96,7 @@ class StocksDetailsFragment :
 
 
     private fun handleSuccess(stocksList: List<StockPricesUiModel>) {
-        setDataToChart(stocksList)
-    }
-
-    private fun setupChart() {
-        val chart = binding.chart
-        val waterfall = AnyChart.waterfall()
-        waterfall.yScale().minimum(0.0)
-        waterfall.labels().enabled(false)
-
-        set = com.anychart.data.Set.instantiate()
-        val series = waterfall.waterfall(set, "")
-
-        series.normal().fallingFill("#FB3E64", 1.0)
-        series.normal().fallingStroke("#FB3E64", 1, "null", "round", "null")
-        series.normal().risingFill("#5DE066", 1.0)
-        series.normal().risingStroke("#5DE066", 1, "null", "round", "null")
-
-        val layout = binding.root
-        val viewColor = layout.background as ColorDrawable
-        val colorId = viewColor.color
-        val hexColor = String.format("#%06X", 0xFFFFFF and colorId)
-
-        waterfall.background().enabled(true).fill(hexColor)
-
-        chart.setProgressBar(binding.progressBar)
-        chart.setChart(waterfall)
-    }
-
-    private fun setDataToChart(stocksList: List<StockPricesUiModel>) {
-        val data = mutableListOf<DataEntry>()
-        for (i in stocksList) {
-            if (data.size < 14) {
-                data.add(
-                    ValueDataEntry(
-                        i.timestamp?.toMonthDay(),
-                        ((i.close)!!.toDouble() - (i.open)!!.toDouble())
-                    )
-                )
-            } else {
-                break
-            }
-        }
-        set.data(data)
+        stockPricesChart.submitData(stocksList)
     }
 
 

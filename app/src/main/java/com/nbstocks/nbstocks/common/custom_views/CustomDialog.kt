@@ -1,4 +1,4 @@
-package com.nbstocks.nbstocks.presentation.ui.stock_details
+package com.nbstocks.nbstocks.common.custom_views
 
 import android.app.AlertDialog
 import android.content.Context

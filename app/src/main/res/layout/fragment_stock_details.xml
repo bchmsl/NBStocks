@@ -307,4 +307,13 @@
         app:layout_constraintStart_toEndOf="@id/btnBuy"
         app:layout_constraintTop_toTopOf="@id/btnBuy" />
 
+    <ProgressBar
+        android:id="@+id/pbChartLoader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/chart"
+        app:layout_constraintEnd_toEndOf="@id/chart"
+        app:layout_constraintTop_toTopOf="@id/chart"
+        app:layout_constraintBottom_toBottomOf="@id/chart"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
