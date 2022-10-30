@@ -15,10 +15,11 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class SignUpViewModel @Inject constructor(private val repository: RegisterRepositoryImpl) : ViewModel() {
+class SignUpViewModel @Inject constructor(private val repository: RegisterRepositoryImpl) :
+    ViewModel() {
 
     private val _registerResponse = MutableSharedFlow<Resource<AuthResult>>()
-    val registerResponse : SharedFlow<Resource<AuthResult>> = _registerResponse
+    val registerResponse: SharedFlow<Resource<AuthResult>> = _registerResponse
 
     fun signUp(email: String, password: String) =
         viewModelScope.launch {
@@ -28,5 +29,4 @@ class SignUpViewModel @Inject constructor(private val repository: RegisterReposi
                 )
             }
         }
-
 }

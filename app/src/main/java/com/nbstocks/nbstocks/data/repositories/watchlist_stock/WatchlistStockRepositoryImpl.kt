@@ -33,7 +33,6 @@ class WatchlistStockRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getWatchlistStock() {
-
         db.reference.child("Users").child(auth.currentUser!!.uid).child("Watchlist")
             .addChildEventListener(object : ChildEventListener {
                 override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
@@ -49,7 +48,6 @@ class WatchlistStockRepositoryImpl @Inject constructor(
                 override fun onChildRemoved(snapshot: DataSnapshot) {}
                 override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
                 override fun onCancelled(error: DatabaseError) {}
-
             })
     }
 

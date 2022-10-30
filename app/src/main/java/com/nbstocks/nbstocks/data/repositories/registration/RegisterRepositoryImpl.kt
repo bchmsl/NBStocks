@@ -2,9 +2,10 @@ package com.nbstocks.nbstocks.data.repositories.registration
 
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import com.nbstocks.nbstocks.common.encrypt_password.AESCrypt
 import com.nbstocks.nbstocks.common.handlers.Resource
 import com.nbstocks.nbstocks.common.handlers.ResponseHandler
-import com.nbstocks.nbstocks.data.remote.model.User
+import com.nbstocks.nbstocks.presentation.ui.sign_up.model.User
 import com.nbstocks.nbstocks.data.repositories.db_add_user.DbAddUserRepositoryImpl
 import com.nbstocks.nbstocks.domain.repositories.registration.RegisterRepository
 import kotlinx.coroutines.Dispatchers
@@ -23,7 +24,7 @@ class RegisterRepositoryImpl @Inject constructor(
             return@withContext try {
                 val result = auth.createUserWithEmailAndPassword(email, password).await()
                 val currentUser = auth.currentUser?.uid
-                val user = User(email, password)
+                val user = User(auth.currentUser!!.toString(), email, AESCrypt.encrypt(password))
                 repository.addUserToDb(currentUser!!, user)
                 handleSuccess(result)
             } catch (exception: Exception) {

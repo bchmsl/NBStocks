@@ -3,6 +3,7 @@ package com.nbstocks.nbstocks.presentation.ui.sign_up
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.nbstocks.nbstocks.common.extensions.makeSnackbar
 import com.nbstocks.nbstocks.common.handlers.Resource
 import com.nbstocks.nbstocks.databinding.FragmentSignUpBinding
 import com.nbstocks.nbstocks.presentation.ui.base.BaseFragment
@@ -46,6 +47,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(FragmentSignUpBinding
                         findNavController().navigate(SignUpFragmentDirections.actionSignUpFragmentToHomeFragment())
                     }
                     is Resource.Error -> {
+                        binding.root.makeSnackbar("Register Failed", true)
                     }
                     is Resource.Loading -> {
 
