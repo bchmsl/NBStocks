@@ -13,6 +13,7 @@ import com.anychart.chart.common.dataentry.ValueDataEntry
 import com.google.android.material.snackbar.Snackbar
 import com.nbstocks.nbstocks.common.extensions.currentTab
 import com.nbstocks.nbstocks.common.extensions.makeSnackbar
+import com.nbstocks.nbstocks.common.extensions.onTabSelected
 import com.nbstocks.nbstocks.common.extensions.toMonthDay
 import com.nbstocks.nbstocks.databinding.FragmentStockDetailsBinding
 import com.nbstocks.nbstocks.presentation.ui.base.BaseFragment
@@ -152,6 +153,9 @@ class StocksDetailsFragment :
                     }
                 }
             }
+        }
+        binding.tlSwitchStocks.onTabSelected {
+            viewModel.getStocksDetails(binding.tvSymbol.text.toString(), binding.tlSwitchStocks.currentTab)
         }
         binding.btnBuy.setOnClickListener {
             showConfirmation(binding.tvPrice.text.toString().toDouble(), true)
