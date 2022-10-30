@@ -6,9 +6,21 @@
     <item
         android:width="135dp"
         android:height="135dp"
-        android:drawable="@drawable/ic_logo"
+        android:drawable="@drawable/ic_logo_3d"
         android:gravity="center" />
 
+    <item
+        android:width="192dp"
+        android:height="192dp"
+        android:top="3dp"
+        android:right="2dp"
+        android:gravity="center">
+        <shape android:shape="oval">
+            <stroke
+                android:width="3dp"
+                android:color="@color/darkGreyVariant" />
+        </shape>
+    </item>
     <item
         android:width="192dp"
         android:height="192dp"
@@ -17,7 +29,7 @@
         <shape android:shape="oval">
             <stroke
                 android:width="3dp"
-                android:color="@color/lightBlue" />
+                android:color="@color/white" />
         </shape>
 
     </item>

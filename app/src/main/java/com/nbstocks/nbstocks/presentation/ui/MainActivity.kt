@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun showToolBar() {
+    private fun showToolBar() {
         navView.isVisible = true
     }
 

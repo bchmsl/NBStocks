@@ -1,6 +1,7 @@
 package com.nbstocks.nbstocks.presentation.ui.company_listings
 
 import android.graphics.Color
+import android.os.Bundle
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
@@ -26,8 +27,11 @@ class CompanyListingsFragment :
         binding.rvStocks.adapter = stocksAdapter
         observe()
         listeners()
+    }
 
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.getCompanyListings(true, null)
     }
 
     private fun listeners() {
@@ -76,11 +80,9 @@ class CompanyListingsFragment :
     }
 
     private fun observe() {
-        viewModel.getCompanyListings(true, null)
         lifecycleScope.launch {
             binding.apply {
                 launch { viewModel.loaderState.collect { progressBar.isVisible = it } }
-
                 launch {
                     viewModel.viewState.collect {
                         it.data?.let { stocks ->

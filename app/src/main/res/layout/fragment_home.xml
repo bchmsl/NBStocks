@@ -38,7 +38,6 @@
         android:padding="3dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_person"
-        android:tint="@color/lightGrey"
         app:layout_constraintBottom_toBottomOf="@id/ivLogo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/ivLogo" />
