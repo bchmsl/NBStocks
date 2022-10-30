@@ -157,7 +157,7 @@
             android:layout_width="match_parent"
             android:layout_height="130dp"
             android:layout_margin="15dp"
-            android:background="@drawable/shape_rectangle"
+            android:background="@drawable/shape_stock_detail_card"
             app:layout_constraintTop_toBottomOf="@id/chart" />
 
         <androidx.appcompat.widget.AppCompatTextView
