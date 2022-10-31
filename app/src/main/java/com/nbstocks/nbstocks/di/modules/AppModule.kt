@@ -11,6 +11,7 @@ import com.nbstocks.nbstocks.data.local.database.StockDatabase
 import com.nbstocks.nbstocks.data.remote.services.CompanyListingsService
 import com.nbstocks.nbstocks.data.remote.services.CurrentStockPriceService
 import com.nbstocks.nbstocks.data.remote.services.IntervalStockPricesService
+import com.nbstocks.nbstocks.data.remote.services.WatchlistStockInfoService
 import com.nbstocks.nbstocks.data.repositories.db_add_user.DbAddUserRepositoryImpl
 import com.nbstocks.nbstocks.data.repositories.login.LoginRepositoryImpl
 import com.nbstocks.nbstocks.data.repositories.registration.RegisterRepositoryImpl
@@ -72,6 +73,14 @@ object AppModule {
         @Named(ModuleParams.YAHOO_FINANCE) retrofit: Retrofit
     ): IntervalStockPricesService =
         retrofit.create(IntervalStockPricesService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideWatchlistStockApi(
+        @Named(ModuleParams.YAHOO_FINANCE) retrofit: Retrofit
+    ): WatchlistStockInfoService =
+        retrofit.create(WatchlistStockInfoService::class.java)
+
 
 
 

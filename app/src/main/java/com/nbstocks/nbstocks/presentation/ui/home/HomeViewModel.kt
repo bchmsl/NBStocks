@@ -20,34 +20,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val watchlistStockRepositoryImpl: WatchlistStockRepositoryImpl,
     private val usersStockRepositoryImpl: DbManageUsersStockRepositoryImpl
 ): ViewModel() {
 
-    private val _watchlistStockState = MutableStateFlow<ViewState<List<String>>>(ViewState())
-    val watchlistStockState: StateFlow<ViewState<List<String>>> get() = _watchlistStockState
-
     private val _usersStockState = MutableStateFlow<ViewState<List<UsersStockUiModel>>>(ViewState())
     val usersStockState: StateFlow<ViewState<List<UsersStockUiModel>>> get() = _usersStockState
-
-    fun getStockFromWatchlist() {
-        viewModelScope.launch {
-            watchlistStockRepositoryImpl.getWatchlistStock()
-            _watchlistStockState.resetViewState()
-            watchlistStockRepositoryImpl.stockState.collect {
-                when (it) {
-                    is Resource.Success -> {
-                        d("stocks_vm","${it.data}")
-                        _watchlistStockState.emit(_watchlistStockState.value.copy(data = it.data))
-                    }
-                    is Resource.Error -> {
-                        _watchlistStockState.emit(_watchlistStockState.value.copy(error = it.error))
-                    }
-                    is Resource.Loading -> TODO()
-                }
-            }
-        }
-    }
 
     fun getUsersStocks(){
         viewModelScope.launch {
