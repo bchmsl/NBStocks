@@ -1,15 +1,15 @@
 package com.nbstocks.nbstocks.presentation.ui.company_listings
 
 import android.graphics.Color
-import android.os.Bundle
-import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
-import com.nbstocks.nbstocks.presentation.ui.MainActivity
+import com.nbstocks.nbstocks.common.extensions.disable
+import com.nbstocks.nbstocks.common.extensions.enable
+import com.nbstocks.nbstocks.common.extensions.makeSnackbar
 import com.nbstocks.nbstocks.databinding.FragmentCompanyListingsBinding
 import com.nbstocks.nbstocks.presentation.ui.base.BaseFragment
 import com.nbstocks.nbstocks.presentation.ui.company_listings.adapter.CompanyListingsAdapter
@@ -29,68 +29,77 @@ class CompanyListingsFragment :
         listeners()
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel.getCompanyListings(true, null)
-    }
-
     private fun listeners() {
-        binding.etSearch.addTextChangedListener { query ->
-            lifecycleScope.launch {
-                if (!binding.progressBar.isVisible) {
-                    viewModel.getCompanyListings(false, query?.let { query.toString() } ?: "")
+        binding.apply {
+            etSearch.addTextChangedListener { query ->
+                lifecycleScope.launch {
+                    if (!progressBar.isVisible) {
+                        viewModel.getCompanyListings(false, query?.let { query.toString() } ?: "") {
+                            scrollToTop()
+                        }
+                    }
+                }.invokeOnCompletion {
+                    scrollToTop()
                 }
-            }.invokeOnCompletion {
+                if (query.toString().isBlank()) {
+                    scrollToTop()
+                }
+            }
+
+            swipeRefresh.setOnRefreshListener {
+                swipeRefresh.isRefreshing = false
+                tilSearch.apply {
+                    disable()
+                    editText?.setText("")
+
+                }
+                lifecycleScope.launch {
+                    viewModel.getCompanyListings(true, null) {
+                        tilSearch.enable()
+                    }
+                }
                 scrollToTop()
             }
-            if (query.toString().isBlank()) {
+
+            fabUp.setOnClickListener {
                 scrollToTop()
             }
-        }
-
-        binding.swipeRefresh.setOnRefreshListener {
-            binding.swipeRefresh.isRefreshing = false
-            lifecycleScope.launch {
-                viewModel.getCompanyListings(true, null)
-            }.invokeOnCompletion {
-                scrollToTop()
-            }
-        }
-
-        binding.fabUp.setOnClickListener {
-            scrollToTop()
-        }
 
 
-        stocksAdapter.stockItemClicked = {
-            it.symbol?.let { symbol ->
-                findNavController().navigate(
-                    CompanyListingsFragmentDirections.actionCompanyListingsFragmentToStocksDetailsFragment(
-                        symbol
+            stocksAdapter.stockItemClicked = {
+                it.symbol?.let { symbol ->
+                    findNavController().navigate(
+                        CompanyListingsFragmentDirections.actionCompanyListingsFragmentToStocksDetailsFragment(
+                            symbol
+                        )
                     )
-                )
+                }
             }
         }
-
-        binding.ibtnBack.setOnClickListener {
-            findNavController().popBackStack()
-        }
-
-
     }
 
     private fun observe() {
-        lifecycleScope.launch {
-            binding.apply {
-                launch { viewModel.loaderState.collect { progressBar.isVisible = it } }
+        binding.apply {
+            lifecycleScope.apply {
+                launch {
+                    viewModel.getCompanyListings(true, "") {
+                        tilSearch.enable()
+                    }
+                }
+
+                launch {
+                    viewModel.loaderState.collect {
+                        progressBar.isVisible = it
+                    }
+                }
+
                 launch {
                     viewModel.viewState.collect {
                         it.data?.let { stocks ->
                             stocksAdapter.submitList(stocks)
                         }
                         it.error?.let { error ->
-                            Snackbar.make(root, error.localizedMessage ?: "", Snackbar.LENGTH_LONG)
-                                .setBackgroundTint(Color.RED).show()
+                            error.localizedMessage?.let { message -> root.makeSnackbar(message, true) }
                         }
                     }
                 }

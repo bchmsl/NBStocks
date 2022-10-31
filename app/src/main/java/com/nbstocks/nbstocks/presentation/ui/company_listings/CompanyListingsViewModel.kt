@@ -23,7 +23,7 @@ class CompanyListingsViewModel @Inject constructor(private val repository: Compa
     private val _loaderState = MutableStateFlow(false)
     val loaderState: StateFlow<Boolean> get() = _loaderState
 
-    fun getCompanyListings(fetchFromRemote: Boolean, query: String?) {
+    fun getCompanyListings(fetchFromRemote: Boolean, query: String?, invokeOnCompletion: (() -> Unit)? = null) {
         viewModelScope.launch {
             _viewState.resetViewState()
             repository.getCompanyListings(fetchFromRemote, query).collect { it ->
@@ -42,6 +42,7 @@ class CompanyListingsViewModel @Inject constructor(private val repository: Compa
                     else -> {}
                 }
             }
+            invokeOnCompletion?.invoke()
         }
     }
 }
