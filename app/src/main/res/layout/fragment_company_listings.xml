@@ -15,24 +15,13 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/mini_header" />
 
-    <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/ibtnBack"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:scaleType="centerCrop"
-        android:padding="3dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="20dp"
-        android:background="?attr/colorPrimary"
-        android:src="@drawable/ic_arrow_back"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilSearch"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
-        android:layout_height="55dp"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="25dp"
         android:hint="@string/search"
         app:boxBackgroundColor="?background"
@@ -40,12 +29,14 @@
         app:boxCornerRadiusBottomStart="20dp"
         app:boxCornerRadiusTopEnd="20dp"
         app:boxCornerRadiusTopStart="20dp"
+        android:enabled="false"
         app:endIconMode="clear_text"
         app:hintEnabled="false"
-        app:layout_constraintBottom_toBottomOf="@id/ibtnBack"
+        app:layout_constraintBottom_toBottomOf="@id/ivHeader"
+        android:layout_marginBottom="20dp"
         app:layout_constraintEnd_toEndOf="@id/ivHeader"
-        app:layout_constraintStart_toEndOf="@id/ibtnBack"
-        app:layout_constraintTop_toTopOf="@id/ibtnBack"
+        app:layout_constraintStart_toStartOf="@id/ivHeader"
+        app:layout_constraintTop_toTopOf="@id/ivHeader"
         app:startIconDrawable="@drawable/ic_search"
         app:startIconTint="?attr/colorPrimary">
 
@@ -56,8 +47,7 @@
             android:fontFamily="sans-serif"
             android:hint="@string/search"
             android:textColor="?attr/colorOnSecondary"
-            android:textSize="16sp"
-            tools:text="apple" />
+            android:textSize="16sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

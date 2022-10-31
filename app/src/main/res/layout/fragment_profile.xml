@@ -1,13 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.ui.profile.ProfileFragment">
+    tools:context=".presentation.ui.profile.ProfileFragment"
+    tools:targetApi="m">
 
-    <TextView
+    <View
+        android:id="@+id/viewHeader"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
+        android:layout_height="150dp"
+        android:background="?attr/colorPrimary"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="Welcome back, User!"
+        android:textSize="20sp"
+        android:layout_margin="20dp"
+        android:fontFamily="sans-serif-light"
+        android:textColor="@color/white"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/civProfileImage"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        app:civ_border_color="?attr/colorPrimary"
+        app:civ_border_width="15dp"
+        app:layout_constraintBottom_toBottomOf="@id/viewHeader"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/viewHeader"
+        android:src="@drawable/img_avatar"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvTitleAppSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/application_settings"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/civProfileImage" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/swBalanceVisible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:drawableBottom="@drawable/shape_line"
+        android:drawablePadding="15dp"
+        android:drawableTint="?attr/colorOnSecondary"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="10dp"
+        android:text="@string/balance_visible"
+        android:textColor="?attr/colorOnSecondary"
+        android:textSize="20sp"
+        app:drawableStartCompat="@drawable/ic_eye"
+        app:layout_constraintTop_toBottomOf="@id/tvTitleAppSettings" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvAbout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:drawableBottom="@drawable/shape_line"
+        android:drawablePadding="15dp"
+        android:drawableTint="?attr/colorOnSecondary"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="10dp"
+        android:text="@string/about_nb_stocks"
+        android:textColor="?attr/colorOnSecondary"
+        android:textSize="20sp"
+        app:drawableStartCompat="@drawable/ic_info"
+        app:layout_constraintTop_toBottomOf="@id/swBalanceVisible" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvTitleProfileSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/profile_settings"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvAbout" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvChangeEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableBottom="@drawable/shape_line"
+        android:drawablePadding="15dp"
+        android:drawableTint="?attr/colorOnSecondary"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="10dp"
+        android:text="@string/change_email_address"
+        android:textColor="?attr/colorOnSecondary"
+        android:textSize="20sp"
+        app:drawableEndCompat="@drawable/ic_arrow_forward"
+        app:drawableStartCompat="@drawable/ic_email"
+        app:layout_constraintTop_toBottomOf="@id/tvTitleProfileSettings" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvChangePassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableBottom="@drawable/shape_line"
+        android:drawablePadding="15dp"
+        android:drawableTint="?attr/colorOnSecondary"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="20dp"
+        app:drawableEndCompat="@drawable/ic_arrow_forward"
+        android:paddingVertical="10dp"
+        android:text="@string/change_password"
+        android:textColor="?attr/colorOnSecondary"
+        android:textSize="20sp"
+        app:drawableStartCompat="@drawable/ic_lock"
+        app:layout_constraintTop_toBottomOf="@id/tvChangeEmail" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvLogOut"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableBottom="@drawable/shape_line"
+        android:drawablePadding="15dp"
+        app:drawableEndCompat="@drawable/ic_arrow_forward"
+        android:drawableTint="@android:color/holo_red_dark"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="10dp"
+        android:text="@string/log_out"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="20sp"
+        app:drawableStartCompat="@drawable/ic_logout"
+        app:layout_constraintTop_toBottomOf="@id/tvChangePassword" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
