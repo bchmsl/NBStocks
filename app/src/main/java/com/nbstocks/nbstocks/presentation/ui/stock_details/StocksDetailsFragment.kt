@@ -7,18 +7,15 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.anychart.AnyChart
-import com.anychart.chart.common.dataentry.DataEntry
-import com.anychart.chart.common.dataentry.ValueDataEntry
 import com.google.android.material.snackbar.Snackbar
 import com.nbstocks.nbstocks.common.extensions.currentTab
 import com.nbstocks.nbstocks.common.extensions.makeSnackbar
 import com.nbstocks.nbstocks.common.extensions.onTabSelected
-import com.nbstocks.nbstocks.common.extensions.toMonthDay
 import com.nbstocks.nbstocks.databinding.FragmentStockDetailsBinding
 import com.nbstocks.nbstocks.presentation.ui.base.BaseFragment
 import com.nbstocks.nbstocks.presentation.ui.stock_details.model.CurrentStockUiModel
 import com.nbstocks.nbstocks.presentation.ui.stock_details.model.StockPricesUiModel
+import com.nbstocks.nbstocks.presentation.ui.stock_details.model.UsersStockUiModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -28,7 +25,7 @@ class StocksDetailsFragment :
 
     private val viewModel: StocksDetailsViewModel by viewModels()
     private val args: StocksDetailsFragmentArgs by navArgs()
-    private val stockPricesChart by lazy { StockPricesChart()}
+    private val stockPricesChart by lazy { StockPricesChart() }
 
     override fun start() {
         setupChart()
@@ -124,7 +121,10 @@ class StocksDetailsFragment :
             }
         }
         binding.tlSwitchStocks.onTabSelected {
-            viewModel.getStocksDetails(binding.tvSymbol.text.toString(), binding.tlSwitchStocks.currentTab)
+            viewModel.getStocksDetails(
+                binding.tvSymbol.text.toString(),
+                binding.tlSwitchStocks.currentTab
+            )
         }
         binding.btnBuy.setOnClickListener {
             showConfirmation(binding.tvPrice.text.toString().toDouble(), true)
@@ -170,7 +170,15 @@ class StocksDetailsFragment :
         doAfterTask: (isTaskSuccessful: Boolean, message: String) -> Unit
     ) {
 
-        // TODO("Add to database")
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.buyStockToOwner(
+                UsersStockUiModel(
+                    symbol = binding.tvSymbol.text.toString(),
+                    price = binding.tvCurrentPrice.text.toString(),
+                    amountInStocks = amountOfStock.toString())
+            )
+        }
+
         doAfterTask(true, "$amountOfStock stocks bought successfully!")
 
     }

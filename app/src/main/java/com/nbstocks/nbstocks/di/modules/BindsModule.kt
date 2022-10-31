@@ -10,10 +10,12 @@ import com.nbstocks.nbstocks.data.repositories.watchlist_stock.WatchlistStockRep
 import com.nbstocks.nbstocks.data.repositories.company_listings.CompanyListingsRepositoryImpl
 import com.nbstocks.nbstocks.data.repositories.current_stock.CurrentStockRepositoryImpl
 import com.nbstocks.nbstocks.data.repositories.daily_stock.DailyStockPricesPricesRepositoryImpl
+import com.nbstocks.nbstocks.data.repositories.db_add_users_stock.DbManageUsersStockRepositoryImpl
 import com.nbstocks.nbstocks.domain.repositories.watchlist_stock.WatchlistStockRepository
 import com.nbstocks.nbstocks.domain.repositories.company_listings.CompanyListingsRepository
 import com.nbstocks.nbstocks.domain.repositories.current_stock.CurrentStockRepository
 import com.nbstocks.nbstocks.domain.repositories.daily_stock.DailyStockPricesRepository
+import com.nbstocks.nbstocks.domain.repositories.db_add_users_stock.DbManageUsersStockRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -48,6 +50,12 @@ abstract class BindsModule {
     abstract fun bindWatchlistStockRepository(
         watchlistStockRepositoryImpl: WatchlistStockRepositoryImpl
     ): WatchlistStockRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindUsersStockRepository(
+        dbAddUsersStockRepositoryImpl: DbManageUsersStockRepositoryImpl
+    ): DbManageUsersStockRepository
 
 
     @Binds
