@@ -4,23 +4,23 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.nbstocks.nbstocks.databinding.LayoutWatchlistItemBinding
-import com.nbstocks.nbstocks.presentation.ui.stock_details.model.CurrentStockUiModel
 
+import androidx.recyclerview.widget.RecyclerView
+import com.nbstocks.nbstocks.databinding.LayoutOwnStockItemBinding
+import com.nbstocks.nbstocks.presentation.ui.stock_details.model.UsersStockUiModel
 
-class WatchlistStocksAdapter :
-    ListAdapter<CurrentStockUiModel, WatchlistStocksAdapter.WatchlistViewHolder>(callback) {
+class UserStockAdapter :
+    ListAdapter<UsersStockUiModel, UserStockAdapter.WatchlistViewHolder>(callback) {
 
-    var stockItemClicked: ((CurrentStockUiModel) -> Unit)? = null
+    var stockItemClicked: ((UsersStockUiModel) -> Unit)? = null
 
-    inner class WatchlistViewHolder(private val binding: LayoutWatchlistItemBinding) :
-        ViewHolder(binding.root) {
+    inner class WatchlistViewHolder(private val binding: LayoutOwnStockItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun onBind() {
             val currentItem = getItem(adapterPosition)
             binding.tvItemSymbol.text = currentItem.symbol
-            binding.tvWatchlistPrice.text = currentItem.price
-            binding.tvWatchlistPercentage.text = currentItem.changePercent
+            binding.tvItemPrice.text = currentItem.price
+            binding.tvItemPercentage.text = currentItem.amountInStocks
             binding.root.setOnClickListener { stockItemClicked?.invoke(currentItem) }
         }
     }
@@ -28,7 +28,7 @@ class WatchlistStocksAdapter :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WatchlistViewHolder {
         return WatchlistViewHolder(
-            LayoutWatchlistItemBinding.inflate(
+            LayoutOwnStockItemBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -42,17 +42,17 @@ class WatchlistStocksAdapter :
     }
 
     companion object {
-        val callback = object : DiffUtil.ItemCallback<CurrentStockUiModel>() {
+        val callback = object : DiffUtil.ItemCallback<UsersStockUiModel>() {
             override fun areItemsTheSame(
-                oldItem: CurrentStockUiModel,
-                newItem: CurrentStockUiModel
+                oldItem: UsersStockUiModel,
+                newItem: UsersStockUiModel
             ): Boolean {
                 return oldItem.symbol == newItem.symbol
             }
 
             override fun areContentsTheSame(
-                oldItem: CurrentStockUiModel,
-                newItem: CurrentStockUiModel
+                oldItem: UsersStockUiModel,
+                newItem: UsersStockUiModel
             ): Boolean {
                 return oldItem == newItem
             }

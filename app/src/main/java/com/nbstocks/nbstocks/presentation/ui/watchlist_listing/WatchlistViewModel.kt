@@ -1,15 +1,13 @@
 package com.nbstocks.nbstocks.presentation.ui.watchlist_listing
 
-import android.util.Log.d
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nbstocks.nbstocks.common.handlers.Resource
 import com.nbstocks.nbstocks.data.mapper.toCurrentStockUiModel
+import com.nbstocks.nbstocks.presentation.ui.stock_details.model.CurrentStockUiModel
 import com.nbstocks.nbstocks.data.repositories.watchlist_stock.WatchlistStockRepositoryImpl
-import com.nbstocks.nbstocks.domain.repositories.watchlist_stock.WatchlistStockRepository
 import com.nbstocks.nbstocks.presentation.model.ViewState
 import com.nbstocks.nbstocks.presentation.model.resetViewState
-import com.nbstocks.nbstocks.presentation.ui.stock_details.model.CurrentStockUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

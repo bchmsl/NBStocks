@@ -1,4 +1,4 @@
-package com.nbstocks.nbstocks.presentation.ui.stock_details.model
+package com.nbstocks.nbstocks.presentation.ui.home.model
 
 data class CurrentStockUiModel(
     val symbol: String,
@@ -10,5 +10,5 @@ data class CurrentStockUiModel(
     val latestTradingDay: String,
     val previousClose: String,
     val change: String,
-    val changePercent: String,
+    val changePercent: String
 )
