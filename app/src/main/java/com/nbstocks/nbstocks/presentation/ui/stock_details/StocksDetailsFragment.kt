@@ -2,19 +2,20 @@ package com.nbstocks.nbstocks.presentation.ui.stock_details
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.util.Log
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
-import com.nbstocks.nbstocks.common.extensions.currentTab
+import com.nbstocks.nbstocks.common.extensions.doWhenSelected
 import com.nbstocks.nbstocks.common.extensions.makeSnackbar
 import com.nbstocks.nbstocks.common.extensions.onTabSelected
 import com.nbstocks.nbstocks.databinding.FragmentStockDetailsBinding
 import com.nbstocks.nbstocks.presentation.ui.base.BaseFragment
 import com.nbstocks.nbstocks.presentation.ui.stock_details.model.CurrentStockUiModel
-import com.nbstocks.nbstocks.presentation.ui.stock_details.model.StockPricesUiModel
+import com.nbstocks.nbstocks.presentation.ui.stock_details.model.IntervalStockPricesUiModel
 import com.nbstocks.nbstocks.presentation.ui.stock_details.model.UsersStockUiModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -47,12 +48,14 @@ class StocksDetailsFragment :
 
     private fun observe() {
         lifecycleScope.launch {
-            viewModel.getStocksDetails(args.stockSymbol, binding.tlSwitchStocks.currentTab)
+            binding.tlSwitchStocks.doWhenSelected { range, interval ->
+                viewModel.getStocksDetails(args.stockSymbol, range, interval)
+            }
             launch { viewModel.loaderState.collect { binding.progressBar.isVisible = it } }
             launch {
                 viewModel.viewState.collect {
-                    it.data?.let { stocksList ->
-                        handleSuccess(stocksList)
+                    it.data?.let { stockModel ->
+                        handleSuccess(stockModel)
                     }
                     it.error?.let { error ->
                         Snackbar.make(
@@ -69,13 +72,7 @@ class StocksDetailsFragment :
                 viewModel.currentStockState.collect {
                     it.data?.let { stock ->
                         binding.apply {
-                            tvPrice.text = stock.price
-                            tvSymbol.text = stock.symbol
-                            tvPercentage.text = stock.changePercent
-                            tvTitleName.text = stock.symbol
-                            tvCurrentPrice.text = stock.price
-                            tvLowPrice.text = stock.low
-                            tvHighPrice.text = stock.high
+                            Log.d("TAG", stock.toString())
                         }
                     }
                     it.error?.let { error ->
@@ -92,17 +89,17 @@ class StocksDetailsFragment :
     }
 
 
-    private fun handleSuccess(stocksList: List<StockPricesUiModel>) {
-        stockPricesChart.submitData(stocksList)
+    private fun handleSuccess(stockModel: IntervalStockPricesUiModel) {
+        stockPricesChart.submitData(stockModel.data)
     }
 
 
-    private fun addWatchlistStock(currentStockUiModel: CurrentStockUiModel) {
-        viewModel.addStockInWatchlist(currentStockUiModel)
+    private fun addWatchlistStock(symbol: String) {
+        viewModel.addStockInWatchlist(symbol)
     }
 
-    private fun removeWatchlistStock(currentStockUiModel: CurrentStockUiModel) {
-        viewModel.removeStockInWatchlist(currentStockUiModel)
+    private fun removeWatchlistStock(symbol: String) {
+        viewModel.removeStockInWatchlist(symbol)
     }
 
 
@@ -112,19 +109,18 @@ class StocksDetailsFragment :
                 viewModel.currentStockState.collect {
                     it.data?.let { stock ->
                         if (isFavoriteChecked) {
-                            addWatchlistStock(stock)
+                            addWatchlistStock(stock.symbol)
                         } else {
-                            removeWatchlistStock(stock)
+                            removeWatchlistStock(stock.symbol)
                         }
                     }
                 }
             }
         }
         binding.tlSwitchStocks.onTabSelected {
-            viewModel.getStocksDetails(
-                binding.tvSymbol.text.toString(),
-                binding.tlSwitchStocks.currentTab
-            )
+            binding.tlSwitchStocks.doWhenSelected { range, interval ->
+                viewModel.getStocksDetails(args.stockSymbol, range, interval)
+            }
         }
         binding.btnBuy.setOnClickListener {
             showConfirmation(binding.tvPrice.text.toString().toDouble(), true)

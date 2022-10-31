@@ -17,19 +17,19 @@ class WatchlistStockRepositoryImpl @Inject constructor(
     private val auth: FirebaseAuth
 ) : WatchlistStockRepository {
 
-    private val stockList = mutableListOf<CurrentStockDomainModel>()
+    private val stockList = mutableListOf<String>()
 
-    private val _stockState = MutableStateFlow<Resource<List<CurrentStockDomainModel>>>(Resource.Success(emptyList()))
+    private val _stockState = MutableStateFlow<Resource<List<String>>>(Resource.Success(emptyList()))
     var stockState = _stockState.asStateFlow()
 
-    override suspend fun addWatchlistStock(currentStockDomainModel: CurrentStockDomainModel) {
+    override suspend fun addWatchlistStock(symbol: String) {
         db.reference.child("Users").child(auth.currentUser!!.uid).child("Watchlist")
-            .child(currentStockDomainModel.symbol).setValue(currentStockDomainModel)
+            .child(symbol).setValue(symbol)
     }
 
-    override suspend fun removeWatchlistStock(currentStockDomainModel: CurrentStockDomainModel) {
+    override suspend fun removeWatchlistStock(symbol: String) {
         db.reference.child("Users").child(auth.currentUser!!.uid).child("Watchlist")
-            .child(currentStockDomainModel.symbol).removeValue()
+            .child(symbol).removeValue()
     }
 
     override suspend fun getWatchlistStock() {
@@ -38,7 +38,7 @@ class WatchlistStockRepositoryImpl @Inject constructor(
                 override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                     if (snapshot.exists()) {
 
-                        snapshot.getValue(CurrentStockDomainModel::class.java)
+                        snapshot.getValue(String::class.java)
                             ?.let { stockList.add(it) }
                         _stockState.tryEmit(Resource.Success(stockList))
 

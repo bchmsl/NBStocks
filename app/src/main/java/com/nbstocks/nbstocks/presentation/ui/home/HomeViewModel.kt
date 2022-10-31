@@ -4,10 +4,10 @@ import android.util.Log.d
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nbstocks.nbstocks.common.handlers.Resource
-import com.nbstocks.nbstocks.data.mapper.toCurrentStockUiModel
 import com.nbstocks.nbstocks.data.mapper.toUserStockUiModel
 import com.nbstocks.nbstocks.data.repositories.db_add_users_stock.DbManageUsersStockRepositoryImpl
 import com.nbstocks.nbstocks.data.repositories.watchlist_stock.WatchlistStockRepositoryImpl
+import com.nbstocks.nbstocks.presentation.mapper.toCurrentStockUiModel
 import com.nbstocks.nbstocks.presentation.model.ViewState
 import com.nbstocks.nbstocks.presentation.model.resetViewState
 import com.nbstocks.nbstocks.presentation.ui.stock_details.model.CurrentStockUiModel
@@ -24,8 +24,8 @@ class HomeViewModel @Inject constructor(
     private val usersStockRepositoryImpl: DbManageUsersStockRepositoryImpl
 ): ViewModel() {
 
-    private val _watchlistStockState = MutableStateFlow<ViewState<List<CurrentStockUiModel>>>(ViewState())
-    val watchlistStockState: StateFlow<ViewState<List<CurrentStockUiModel>>> get() = _watchlistStockState
+    private val _watchlistStockState = MutableStateFlow<ViewState<List<String>>>(ViewState())
+    val watchlistStockState: StateFlow<ViewState<List<String>>> get() = _watchlistStockState
 
     private val _usersStockState = MutableStateFlow<ViewState<List<UsersStockUiModel>>>(ViewState())
     val usersStockState: StateFlow<ViewState<List<UsersStockUiModel>>> get() = _usersStockState
@@ -38,7 +38,7 @@ class HomeViewModel @Inject constructor(
                 when (it) {
                     is Resource.Success -> {
                         d("stocks_vm","${it.data}")
-                        _watchlistStockState.emit(_watchlistStockState.value.copy(data = it.data.map { it.toCurrentStockUiModel() }))
+                        _watchlistStockState.emit(_watchlistStockState.value.copy(data = it.data))
                     }
                     is Resource.Error -> {
                         _watchlistStockState.emit(_watchlistStockState.value.copy(error = it.error))

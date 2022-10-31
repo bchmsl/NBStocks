@@ -6,21 +6,20 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.nbstocks.nbstocks.databinding.LayoutWatchlistItemBinding
-import com.nbstocks.nbstocks.presentation.ui.stock_details.model.CurrentStockUiModel
 
 
 class WatchlistStocksAdapter :
-    ListAdapter<CurrentStockUiModel, WatchlistStocksAdapter.WatchlistViewHolder>(callback) {
+    ListAdapter<String, WatchlistStocksAdapter.WatchlistViewHolder>(callback) {
 
-    var stockItemClicked: ((CurrentStockUiModel) -> Unit)? = null
+    var stockItemClicked: ((String) -> Unit)? = null
 
     inner class WatchlistViewHolder(private val binding: LayoutWatchlistItemBinding) :
         ViewHolder(binding.root) {
         fun onBind() {
             val currentItem = getItem(adapterPosition)
-            binding.tvItemSymbol.text = currentItem.symbol
-            binding.tvWatchlistPrice.text = currentItem.price
-            binding.tvWatchlistPercentage.text = currentItem.changePercent
+            binding.tvItemSymbol.text = currentItem
+//            binding.tvWatchlistPrice.text = currentItem.currentPrice?.fmt
+//            binding.tvWatchlistPercentage.text = currentItem.revenueGrowth?.fmt
             binding.root.setOnClickListener { stockItemClicked?.invoke(currentItem) }
         }
     }
@@ -42,17 +41,17 @@ class WatchlistStocksAdapter :
     }
 
     companion object {
-        val callback = object : DiffUtil.ItemCallback<CurrentStockUiModel>() {
+        val callback = object : DiffUtil.ItemCallback<String>() {
             override fun areItemsTheSame(
-                oldItem: CurrentStockUiModel,
-                newItem: CurrentStockUiModel
+                oldItem: String,
+                newItem: String
             ): Boolean {
-                return oldItem.symbol == newItem.symbol
+                return oldItem == newItem
             }
 
             override fun areContentsTheSame(
-                oldItem: CurrentStockUiModel,
-                newItem: CurrentStockUiModel
+                oldItem: String,
+                newItem: String
             ): Boolean {
                 return oldItem == newItem
             }

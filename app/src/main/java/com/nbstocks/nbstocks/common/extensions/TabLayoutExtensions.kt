@@ -2,7 +2,7 @@ package com.nbstocks.nbstocks.common.extensions
 
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.Tab
-import com.nbstocks.nbstocks.common.constants.StockPricesRequestFunctions
+import com.nbstocks.nbstocks.common.constants.ApiServiceHelpers.YahooFinanceService.ServiceTimestamps
 
 
 fun TabLayout.onTabSelected(function: () -> Unit) {
@@ -16,10 +16,11 @@ fun TabLayout.onTabSelected(function: () -> Unit) {
     })
 }
 
-val TabLayout.currentTab
-    get() = run {
-        when (this.selectedTabPosition) {
-            0 -> StockPricesRequestFunctions.TIME_SERIES_DAILY
-            else -> StockPricesRequestFunctions.TIME_SERIES_MONTHLY
-        }
+fun TabLayout.doWhenSelected(function: (range: String, interval: String) -> Unit) {
+    if (this.selectedTabPosition == 0) {
+        function(ServiceTimestamps.MONTH1, ServiceTimestamps.DAY1)
+    }else if(this.selectedTabPosition == 1){
+        function(ServiceTimestamps.YEAR1, ServiceTimestamps.MONTH1)
+
     }
+}

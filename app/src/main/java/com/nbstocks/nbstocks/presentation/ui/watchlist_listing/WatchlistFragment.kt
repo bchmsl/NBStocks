@@ -46,7 +46,7 @@ class WatchlistFragment : BaseFragment<FragmentWatchlistBinding>(FragmentWatchli
 
     private fun listeners(){
         watchlistAdapter.stockItemClicked = {
-            findNavController().navigate(WatchlistFragmentDirections.actionWatchlistFragmentToStocksDetailsFragment(it.symbol))
+            findNavController().navigate(WatchlistFragmentDirections.actionWatchlistFragmentToStocksDetailsFragment(it))
         }
     }
 

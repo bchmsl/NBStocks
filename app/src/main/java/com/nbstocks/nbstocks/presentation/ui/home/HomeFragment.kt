@@ -75,7 +75,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToWatchlistFragment())
         }
         watchlistAdapter.stockItemClicked = {
-            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToStocksDetailsFragment(it.symbol))
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToStocksDetailsFragment(it))
         }
     }
 

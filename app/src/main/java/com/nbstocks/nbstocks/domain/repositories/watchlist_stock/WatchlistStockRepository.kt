@@ -5,7 +5,7 @@ import com.nbstocks.nbstocks.domain.model.CurrentStockDomainModel
 import kotlinx.coroutines.flow.Flow
 
 interface WatchlistStockRepository {
-    suspend fun addWatchlistStock(currentStockDomainModel: CurrentStockDomainModel)
+    suspend fun addWatchlistStock(symbol: String)
     suspend fun getWatchlistStock()
-    suspend fun removeWatchlistStock(currentStockDomainModel: CurrentStockDomainModel)
+    suspend fun removeWatchlistStock(symbol: String)
 }
