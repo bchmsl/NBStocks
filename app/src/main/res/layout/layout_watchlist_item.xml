@@ -2,60 +2,84 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="300dp"
+    android:layout_height="120dp"
     android:layout_margin="10dp"
     android:background="@drawable/shape_rectangle_clickable">
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/ivCompanyLogo"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/ic_logo"
-        tools:tint="?attr/colorOnSecondary" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvItemSymbol"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:fontFamily="sans-serif"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="5dp"
+        android:fontFamily="sans-serif-medium"
         android:textColor="?attr/colorOnSecondary"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/ivCompanyLogo"
-        app:layout_constraintStart_toEndOf="@+id/ivCompanyLogo"
-        app:layout_constraintTop_toTopOf="@+id/ivCompanyLogo"
-        tools:text="Company" />
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/appCompatTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="AAPL" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/appCompatTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/tvItemSymbol"
+        app:layout_constraintTop_toBottomOf="@+id/tvItemSymbol"
+        tools:text="Apple, Inc." />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvExchangeName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:fontFamily="sans-serif-condensed-light"
+        app:layout_constraintBottom_toBottomOf="@id/tvItemSymbol"
+        app:layout_constraintStart_toEndOf="@id/tvItemSymbol"
+        tools:text="NasdaqGS" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvWatchlistPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="15dp"
+        android:layout_marginEnd="20dp"
+        android:fontFamily="sans-serif-condensed-medium"
         android:textColor="?attr/colorOnSecondary"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/ivCompanyLogo"
-        app:layout_constraintTop_toBottomOf="@+id/ivCompanyLogo"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/tvWatchlistPercentage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
         tools:text="$458.49" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvWatchlistPercentage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="45dp"
-        android:layout_marginEnd="15dp"
-        android:fontFamily="sans-serif-light"
-        android:textColor="#8BC34A"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvItemSymbol"
-        app:layout_constraintTop_toTopOf="@+id/ivCompanyLogo"
-        tools:text="+5.5%" />
+        android:fontFamily="sans-serif-medium"
+        tools:textColor="?attr/colorError"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/ivChart"
+        app:layout_constraintEnd_toEndOf="@id/tvWatchlistPrice"
+        app:layout_constraintTop_toBottomOf="@+id/tvWatchlistPrice"
+        tools:text="-5.50%" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivChart"
+        android:layout_width="49dp"
+        android:layout_height="39dp"
+        android:rotationX="180"
+        android:src="@drawable/ic_increase"
+        tools:tint="?attr/colorError"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/tvWatchlistPrice"
+        app:layout_constraintStart_toStartOf="@+id/tvWatchlistPercentage"
+        app:layout_constraintTop_toBottomOf="@+id/tvWatchlistPercentage" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,5 +17,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimary</item>
         <!-- Customize your theme here. -->
+        <item name="colorError">@color/red_dark</item>
+        <item name="colorOnError">@color/green_dark</item>
     </style>
 </resources>
