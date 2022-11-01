@@ -1,6 +1,7 @@
 package com.nbstocks.nbstocks.presentation.ui.stock_details
 
 import android.graphics.drawable.ColorDrawable
+import android.util.Log.d
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -12,7 +13,7 @@ import com.nbstocks.nbstocks.presentation.ui.stock_details.model.CurrentStockUiM
 import com.nbstocks.nbstocks.presentation.ui.stock_details.model.IntervalStockPricesUiModel
 import com.nbstocks.nbstocks.presentation.ui.stock_details.model.UsersStockUiModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class StocksDetailsFragment :
@@ -21,6 +22,7 @@ class StocksDetailsFragment :
     private val viewModel: StocksDetailsViewModel by viewModels()
     private val args: StocksDetailsFragmentArgs by navArgs()
     private val stockPricesChart by lazy { StockPricesChart() }
+    private var amount: Double = 0.0
 
     override fun start() {
         setupChart()
@@ -61,6 +63,16 @@ class StocksDetailsFragment :
             viewModel.getCurrentStock(args.stockSymbol)
             viewModel.currentStockViewState.collectViewState(binding) {
                 handleCurrentStockSuccess(it)
+            }
+        }
+
+        asynchronously {
+            viewModel.getStockAmount(args.stockSymbol)
+        }
+
+        asynchronously {
+            viewModel.amountOfStock.collect {
+                amount = it.data?.toDouble() ?: 0.0
             }
         }
 
@@ -145,19 +157,32 @@ class StocksDetailsFragment :
         }
     }
 
+
     private fun buyStock(
         amountOfStock: Double?,
         doAfterTask: (isTaskSuccessful: Boolean, message: String) -> Unit
     ) {
-        asynchronously {
+
+
+        if (amount == 0.0) {
             viewModel.buyStockToOwner(
                 UsersStockUiModel(
                     symbol = binding.tvSymbol.text.toString(),
                     price = binding.tvCurrentPrice.text.toString(),
-                    amountInStocks = amountOfStock.toString()
+                    amountInStocks = amountOfStock
+                )
+            )
+        } else {
+            viewModel.buyStockToOwner(
+                UsersStockUiModel(
+                    symbol = binding.tvSymbol.text.toString(),
+                    price = binding.tvCurrentPrice.text.toString(),
+                    amountInStocks = amountOfStock?.plus(amount)
                 )
             )
         }
+
+
         doAfterTask(true, "$amountOfStock stocks bought successfully!")
     }
 
@@ -166,7 +191,18 @@ class StocksDetailsFragment :
         doAfterTask: (isTaskSuccessful: Boolean, message: String) -> Unit
     ) {
 
-        // TODO("Change in database")
+        if (amount == 0.0 || amount < amountOfStock!!) {
+            binding.root.makeSnackbar("Not enough Balance", true)
+        } else {
+            viewModel.buyStockToOwner(
+                UsersStockUiModel(
+                    symbol = binding.tvSymbol.text.toString(),
+                    price = binding.tvCurrentPrice.text.toString(),
+                    amountInStocks = amount.minus(amountOfStock)
+                )
+            )
+        }
+
         doAfterTask(true, "$amountOfStock stocks sold successfully")
 
     }
