@@ -10,7 +10,6 @@ interface WatchlistStockInfoService {
     companion object{
         const val PATH = YahooFinanceService.PATH_QUOTE
     }
-
     @GET(PATH)
     suspend fun getWatchlistStockInfo(
         @Query("symbols") symbols: String,

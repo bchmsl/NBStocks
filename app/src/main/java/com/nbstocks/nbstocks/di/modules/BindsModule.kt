@@ -1,10 +1,12 @@
 package com.nbstocks.nbstocks.di.modules
 
+import com.nbstocks.nbstocks.data.repositories.base_repository.BaseRepositoryImpl
 import com.nbstocks.nbstocks.data.repositories.company_listings.CompanyListingsRepositoryImpl
 import com.nbstocks.nbstocks.data.repositories.current_stock.CurrentStockRepositoryImpl
 import com.nbstocks.nbstocks.data.repositories.daily_stock.DailyStockPricesPricesRepositoryImpl
 import com.nbstocks.nbstocks.data.repositories.db_add_users_stock.DbManageUsersStockRepositoryImpl
 import com.nbstocks.nbstocks.data.repositories.watchlist_stock.WatchlistStockRepositoryImpl
+import com.nbstocks.nbstocks.domain.repositories.base_repository.BaseRepository
 import com.nbstocks.nbstocks.domain.repositories.company_listings.CompanyListingsRepository
 import com.nbstocks.nbstocks.domain.repositories.current_stock.CurrentStockRepository
 import com.nbstocks.nbstocks.domain.repositories.daily_stock.DailyStockPricesRepository
@@ -49,4 +51,10 @@ abstract class BindsModule {
     abstract fun bindUsersStockRepository(
         dbAddUsersStockRepositoryImpl: DbManageUsersStockRepositoryImpl
     ): DbManageUsersStockRepository
+    
+    @Binds
+    @Singleton
+    abstract fun bindBaseRepository(
+        baseRepositoryImpl: BaseRepositoryImpl
+    ): BaseRepository
 }
