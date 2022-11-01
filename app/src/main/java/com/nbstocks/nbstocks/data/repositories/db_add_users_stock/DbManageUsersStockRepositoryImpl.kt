@@ -22,7 +22,7 @@ class DbManageUsersStockRepositoryImpl @Inject constructor(
     db: FirebaseDatabase,
     auth: FirebaseAuth,
 
-) : DbManageUsersStockRepository {
+    ) : DbManageUsersStockRepository {
 
     private val dbReference = db.reference
         .child("Users")
@@ -49,12 +49,26 @@ class DbManageUsersStockRepositoryImpl @Inject constructor(
 
     override suspend fun getUsersStock() {
         stockList.clear()
-        dbReference.onChildAddedListener { snapshot, _ ->
+        dbReference.onChildAddedListener({ snapshot, _ ->
             if (snapshot.exists()) {
                 snapshot.getValue(UsersStockDomainModel::class.java)
                     ?.let { stockList.add(it) }
                 _stockState.tryEmit(Resource.Success(stockList.toList()))
             }
-        }
+        },{snapshot, _ ->
+            if (snapshot.exists()) {
+                snapshot.getValue(UsersStockDomainModel::class.java)
+                    ?.let {
+                        stockList.find { element ->
+                            element.symbol == it.symbol
+                        }?.copy(
+                            amountInStocks = it.amountInStocks,
+                            price = it.price,
+                            symbol = it.symbol
+                        )
+                    }
+                _stockState.tryEmit(Resource.Success(stockList.toList()))
+            }
+            })
     }
 }

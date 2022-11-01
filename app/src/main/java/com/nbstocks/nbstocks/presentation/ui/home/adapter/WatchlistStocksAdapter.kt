@@ -1,18 +1,23 @@
 package com.nbstocks.nbstocks.presentation.ui.home.adapter
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.nbstocks.nbstocks.R
 import com.nbstocks.nbstocks.common.extensions.toCurrencyString
 import com.nbstocks.nbstocks.common.extensions.toPercentString
+import com.nbstocks.nbstocks.common.extensions.toPercentStringTimes100
 import com.nbstocks.nbstocks.databinding.LayoutWatchlistItemBinding
 import com.nbstocks.nbstocks.presentation.ui.common.model.WatchlistStockInfoUiModel
 
 
 class WatchlistStocksAdapter :
-    ListAdapter<WatchlistStockInfoUiModel.DataItem, WatchlistStocksAdapter.WatchlistViewHolder>(callback) {
+    ListAdapter<WatchlistStockInfoUiModel.DataItem, WatchlistStocksAdapter.WatchlistViewHolder>(
+        callback
+    ) {
 
     var stockItemClicked: ((WatchlistStockInfoUiModel.DataItem) -> Unit)? = null
 
@@ -20,10 +25,24 @@ class WatchlistStocksAdapter :
         ViewHolder(binding.root) {
         fun onBind() {
             val currentItem = getItem(adapterPosition)
-            binding.tvItemSymbol.text = currentItem.symbol
-            binding.tvWatchlistPrice.text = currentItem.regularMarketPrice.toCurrencyString()
-            binding.tvWatchlistPercentage.text = currentItem.regularMarketChangePercent.toPercentString()
-            binding.root.setOnClickListener { stockItemClicked?.invoke(currentItem) }
+            binding.apply {
+                tvItemSymbol.text = currentItem.symbol
+                tvWatchlistPrice.text = currentItem.regularMarketPrice.toCurrencyString()
+                tvNameShort.text = currentItem.shortName
+                tvExchangeName.text = currentItem.fullExchangeName
+                currentItem.regularMarketChangePercent?.let {
+                    if (currentItem.regularMarketChangePercent < 0) {
+                        tvWatchlistPercentage.setTextColor(Color.RED)
+                        ivChart.setImageResource(R.drawable.ic_decrease)
+                    } else {
+                        tvWatchlistPercentage.setTextColor(Color.GREEN)
+                        ivChart.setImageResource(R.drawable.ic_increase)
+                    }
+                }
+                tvWatchlistPercentage.text =
+                    currentItem.regularMarketChangePercent.toPercentString()
+                root.setOnClickListener { stockItemClicked?.invoke(currentItem) }
+            }
         }
     }
 
