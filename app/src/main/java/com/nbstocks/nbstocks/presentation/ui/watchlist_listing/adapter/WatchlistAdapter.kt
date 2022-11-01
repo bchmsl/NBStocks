@@ -7,20 +7,20 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.nbstocks.nbstocks.databinding.LayoutWatchlistItemBinding
-import com.nbstocks.nbstocks.presentation.ui.stock_details.model.CurrentStockUiModel
+import com.nbstocks.nbstocks.presentation.ui.common.model.WatchlistStockInfoUiModel
 
 
-class WatchlistAdapter : ListAdapter<CurrentStockUiModel, WatchlistAdapter.WatchlistViewHolder>(callback) {
+class WatchlistAdapter : ListAdapter<WatchlistStockInfoUiModel.DataItem, WatchlistAdapter.WatchlistViewHolder>(callback) {
 
-    var stockItemClicked: ((CurrentStockUiModel) -> Unit)? = null
+    var stockItemClicked: ((WatchlistStockInfoUiModel.DataItem) -> Unit)? = null
 
     inner class WatchlistViewHolder(private val binding: LayoutWatchlistItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind() {
             val currentItem = getItem(adapterPosition)
             binding.tvItemSymbol.text = currentItem.symbol
-            binding.tvWatchlistPrice.text = currentItem.price
-            binding.tvWatchlistPercentage.text = currentItem.changePercent
+            binding.tvWatchlistPrice.text = currentItem.regularMarketPrice.toString()
+            binding.tvWatchlistPercentage.text = currentItem.regularMarketChangePercent.toString()
             binding.root.setOnClickListener {
                 stockItemClicked!!.invoke(currentItem)
             }
@@ -43,17 +43,17 @@ class WatchlistAdapter : ListAdapter<CurrentStockUiModel, WatchlistAdapter.Watch
     }
 
     companion object {
-        val callback = object : DiffUtil.ItemCallback<CurrentStockUiModel>() {
+        val callback = object : DiffUtil.ItemCallback<WatchlistStockInfoUiModel.DataItem>() {
             override fun areItemsTheSame(
-                oldItem: CurrentStockUiModel,
-                newItem: CurrentStockUiModel
+                oldItem: WatchlistStockInfoUiModel.DataItem,
+                newItem: WatchlistStockInfoUiModel.DataItem
             ): Boolean {
-                return oldItem.symbol == newItem.symbol
+                return oldItem == newItem
             }
 
             override fun areContentsTheSame(
-                oldItem: CurrentStockUiModel,
-                newItem: CurrentStockUiModel
+                oldItem: WatchlistStockInfoUiModel.DataItem,
+                newItem: WatchlistStockInfoUiModel.DataItem
             ): Boolean {
                 return oldItem == newItem
             }

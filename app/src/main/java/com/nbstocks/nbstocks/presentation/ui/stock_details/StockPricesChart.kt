@@ -6,16 +6,18 @@ import com.nbstocks.nbstocks.common.custom_views.CustomWaterfallChart
 import com.nbstocks.nbstocks.common.extensions.toMonthDay
 import com.nbstocks.nbstocks.presentation.ui.stock_details.model.StockPricesUiModel
 import com.anychart.core.waterfall.series.Waterfall
+import com.nbstocks.nbstocks.common.extensions.toDate
+import com.nbstocks.nbstocks.presentation.ui.stock_details.model.IntervalStockPricesUiModel
 
-class StockPricesChart : CustomWaterfallChart<StockPricesUiModel>() {
+class StockPricesChart : CustomWaterfallChart<IntervalStockPricesUiModel.DailyData>() {
     var backgroundColor = ""
-    override fun mapData(list: List<StockPricesUiModel>): List<DataEntry> {
+    override fun mapData(list: List<IntervalStockPricesUiModel.DailyData>): List<DataEntry> {
         val data = mutableListOf<DataEntry>()
         for (i in list) {
             if (data.size < 14) {
                 data.add(
                     ValueDataEntry(
-                        i.timestamp?.toMonthDay(),
+                        i.timestamp?.toDate(),
                         ((i.close)!!.toDouble() - (i.open)!!.toDouble())
                     )
                 )

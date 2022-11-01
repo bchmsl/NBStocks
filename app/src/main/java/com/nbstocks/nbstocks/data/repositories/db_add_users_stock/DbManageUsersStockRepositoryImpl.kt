@@ -6,6 +6,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.nbstocks.nbstocks.common.extensions.onChildAddedListener
 import com.nbstocks.nbstocks.common.handlers.Resource
 import com.nbstocks.nbstocks.domain.model.UsersStockDomainModel
 import com.nbstocks.nbstocks.domain.repositories.db_add_users_stock.DbManageUsersStockRepository
@@ -14,9 +15,14 @@ import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 class DbManageUsersStockRepositoryImpl @Inject constructor(
-    private val db: FirebaseDatabase,
-    private val auth: FirebaseAuth
+    db: FirebaseDatabase,
+    auth: FirebaseAuth
 ) : DbManageUsersStockRepository {
+
+    private val dbReference = db.reference
+        .child("Users")
+        .child(auth.currentUser!!.uid)
+        .child("OwnedStocks")
 
     private val stockList = mutableListOf<UsersStockDomainModel>()
 
@@ -25,12 +31,8 @@ class DbManageUsersStockRepositoryImpl @Inject constructor(
     var stockState = _stockState.asStateFlow()
 
     override suspend fun buyUsersStock(usersStockDomainModel: UsersStockDomainModel) {
-
         if (stockList.contains(usersStockDomainModel)) {
-
-            db.reference.child("Users").child(auth.currentUser!!.uid)
-                .child("OwnedStocks")
-                .child(usersStockDomainModel.symbol)
+            dbReference.child(usersStockDomainModel.symbol)
                 .setValue(
                     UsersStockDomainModel(
                         symbol = usersStockDomainModel.symbol,
@@ -38,35 +40,23 @@ class DbManageUsersStockRepositoryImpl @Inject constructor(
                         amountInStocks = (usersStockDomainModel.amountInStocks.toDouble()).toString()
                     )
                 )
-
         } else {
-            db.reference.child("Users").child(auth.currentUser!!.uid).child("OwnedStocks")
-                .child(usersStockDomainModel.symbol).setValue(usersStockDomainModel)
+            dbReference.child(usersStockDomainModel.symbol).setValue(usersStockDomainModel)
         }
-
     }
 
     override suspend fun sellUsersStock(usersStockDomainModel: UsersStockDomainModel) {
-        db.reference.child("Users").child(auth.currentUser!!.uid).child("OwnedStocks")
-            .child(usersStockDomainModel.symbol).removeValue()
+        dbReference.child(usersStockDomainModel.symbol).removeValue()
     }
 
     override suspend fun getUsersStock() {
-        db.reference.child("Users").child(auth.currentUser!!.uid).child("OwnedStocks")
-            .addChildEventListener(object : ChildEventListener {
-                override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-                    if (snapshot.exists()) {
-
-                        snapshot.getValue(UsersStockDomainModel::class.java)
-                            ?.let { stockList.add(it) }
-                        _stockState.tryEmit(Resource.Success(stockList))
-
-                    }
-                }
-                override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {}
-                override fun onChildRemoved(snapshot: DataSnapshot) {}
-                override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
-                override fun onCancelled(error: DatabaseError) {}
-            })
+        stockList.clear()
+        dbReference.onChildAddedListener { snapshot, _ ->
+            if (snapshot.exists()) {
+                snapshot.getValue(UsersStockDomainModel::class.java)
+                    ?.let { stockList.add(it) }
+                _stockState.tryEmit(Resource.Success(stockList.toList()))
+            }
+        }
     }
 }

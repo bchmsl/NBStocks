@@ -15,7 +15,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/mini_header" />
 
-
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivLogo"
         android:layout_width="35dp"
@@ -147,11 +146,23 @@
         app:layout_constraintEnd_toEndOf="@+id/viewCardBalance"
         app:layout_constraintTop_toTopOf="@+id/tvTitleWatchlist" />
 
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/pbWatchlist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="25dp"
+        android:layout_marginTop="5dp"
+        android:indeterminate="true"
+        app:indicatorColor="?attr/colorPrimary"
+        app:layout_constraintBottom_toTopOf="@id/rvWatchlist"
+        app:trackColor="?attr/background"
+        app:trackCornerRadius="5dp" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvWatchlist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintTop_toBottomOf="@+id/tvTitleWatchlist"
@@ -183,6 +194,19 @@
         app:layout_constraintBottom_toBottomOf="@+id/appCompatTextView4"
         app:layout_constraintEnd_toEndOf="@+id/tvWatchlistSeeAll"
         app:layout_constraintTop_toTopOf="@+id/appCompatTextView4" />
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/pbYourStocks"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="25dp"
+        android:layout_marginTop="5dp"
+        android:visibility="gone"
+        android:indeterminate="true"
+        app:indicatorColor="?attr/colorPrimary"
+        app:layout_constraintBottom_toTopOf="@id/rvYourStocks"
+        app:trackColor="?attr/background"
+        app:trackCornerRadius="5dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvYourStocks"

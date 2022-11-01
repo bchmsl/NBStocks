@@ -2,25 +2,34 @@ package com.nbstocks.nbstocks.presentation.ui.home
 
 
 import android.os.Bundle
+import android.util.Log
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
+import com.nbstocks.nbstocks.common.extensions.asynchronously
+import com.nbstocks.nbstocks.common.extensions.collectViewState
+import com.nbstocks.nbstocks.common.extensions.obtainViewModel
 import com.nbstocks.nbstocks.common.extensions.safeSubList
 import com.nbstocks.nbstocks.databinding.FragmentHomeBinding
 import com.nbstocks.nbstocks.presentation.ui.base.BaseFragment
+import com.nbstocks.nbstocks.presentation.ui.common.viewmodel.WatchlistViewModel
 import com.nbstocks.nbstocks.presentation.ui.home.adapter.UserStockAdapter
 import com.nbstocks.nbstocks.presentation.ui.home.adapter.WatchlistStocksAdapter
-import com.nbstocks.nbstocks.presentation.ui.watchlist_listing.adapter.WatchlistAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
 
     private val viewModel: HomeViewModel by viewModels()
-
+    private val watchlistViewModel: WatchlistViewModel by lazy {
+        obtainViewModel(
+            requireActivity(),
+            WatchlistViewModel::class.java,
+            defaultViewModelProviderFactory
+        )
+    }
     private val watchlistAdapter by lazy { WatchlistStocksAdapter() }
     private val userStockAdapter by lazy { UserStockAdapter() }
 
@@ -33,20 +42,30 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.getStockFromWatchlist()
+        watchlistViewModel.getItemsFromWatchlist()
         viewModel.getUsersStocks()
     }
 
     private fun observer() {
-        lifecycleScope.launch {
-            viewModel.watchlistStockState.collect {
-                watchlistAdapter.submitList(it.data?.safeSubList(5))
+        asynchronously {
+            watchlistViewModel.watchlistItemsState.collectViewState(binding) {
+                watchlistViewModel.getWatchlistStocksInformation(it.safeSubList(5))
             }
         }
-
-        lifecycleScope.launch {
-            viewModel.usersStockState.collect{
-                userStockAdapter.submitList(it.data?.safeSubList(5))
+        asynchronously {
+            watchlistViewModel.watchlistStocksState.collectViewState(binding) {
+                watchlistAdapter.submitList(it.data)
+                Log.w("TAG", it.toString())
+            }
+        }
+        asynchronously {
+            watchlistViewModel.loaderState.collect {
+                binding.pbWatchlist.isVisible = it
+            }
+        }
+        asynchronously {
+            viewModel.usersStockState.collectViewState(binding) {
+                userStockAdapter.submitList(it)
             }
         }
 
@@ -75,7 +94,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToWatchlistFragment())
         }
         watchlistAdapter.stockItemClicked = {
-            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToStocksDetailsFragment(it.symbol))
+            it.symbol?.let {
+                findNavController().navigate(
+                    HomeFragmentDirections.actionHomeFragmentToStocksDetailsFragment(
+                        it
+                    )
+                )
+            }
         }
     }
 

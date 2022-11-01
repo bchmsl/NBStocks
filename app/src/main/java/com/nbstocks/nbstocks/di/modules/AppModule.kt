@@ -4,11 +4,14 @@ import android.content.Context
 import androidx.room.Room
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.nbstocks.nbstocks.common.constants.ApiServiceHelpers
 import com.nbstocks.nbstocks.common.constants.ModuleParams
 import com.nbstocks.nbstocks.common.handlers.ResponseHandler
 import com.nbstocks.nbstocks.data.local.database.StockDatabase
 import com.nbstocks.nbstocks.data.remote.services.CompanyListingsService
-import com.nbstocks.nbstocks.data.remote.services.StockPricesService
+import com.nbstocks.nbstocks.data.remote.services.CurrentStockPriceService
+import com.nbstocks.nbstocks.data.remote.services.IntervalStockPricesService
+import com.nbstocks.nbstocks.data.remote.services.WatchlistStockInfoService
 import com.nbstocks.nbstocks.data.repositories.db_add_user.DbAddUserRepositoryImpl
 import com.nbstocks.nbstocks.data.repositories.login.LoginRepositoryImpl
 import com.nbstocks.nbstocks.data.repositories.registration.RegisterRepositoryImpl
@@ -32,37 +35,55 @@ object AppModule {
 
     @Provides
     @Singleton
-    @Named(ModuleParams.STOCK_API)
-    fun provideRetrofit(): Retrofit =
+    @Named(ModuleParams.TWELVE_DATA)
+    fun provideTwelveDataRetrofit(): Retrofit =
         Retrofit.Builder()
             .baseUrl(CompanyListingsService.BASE_URL)
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
 
+    @Provides
+    @Singleton
+    fun provideCompanyListingsApi(
+        @Named(ModuleParams.TWELVE_DATA) retrofit: Retrofit
+    ): CompanyListingsService =
+        retrofit.create(CompanyListingsService::class.java)
+
+
 
     @Provides
     @Singleton
-    @Named(ModuleParams.QUOTE)
-    fun provideRetrofitDailyStock(): Retrofit =
+    @Named(ModuleParams.YAHOO_FINANCE)
+    fun provideYahooFinanceRetrofit(): Retrofit =
         Retrofit.Builder()
-            .baseUrl(StockPricesService.BASE_URL)
+            .baseUrl(ApiServiceHelpers.YahooFinanceService.BASE_URL)
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
 
     @Provides
     @Singleton
-    fun provideStockDailyApi(
-        @Named(ModuleParams.QUOTE)
-        retrofit: Retrofit): StockPricesService =
-        retrofit.create(StockPricesService::class.java)
-
+    fun provideStockApi(
+        @Named(ModuleParams.YAHOO_FINANCE) retrofit: Retrofit
+    ): CurrentStockPriceService =
+        retrofit.create(CurrentStockPriceService::class.java)
 
     @Provides
     @Singleton
-    fun provideStockApi(
-        @Named(ModuleParams.STOCK_API)
-        retrofit: Retrofit): CompanyListingsService =
-        retrofit.create(CompanyListingsService::class.java)
+    fun provideIntervalStockApi(
+        @Named(ModuleParams.YAHOO_FINANCE) retrofit: Retrofit
+    ): IntervalStockPricesService =
+        retrofit.create(IntervalStockPricesService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideWatchlistStockApi(
+        @Named(ModuleParams.YAHOO_FINANCE) retrofit: Retrofit
+    ): WatchlistStockInfoService =
+        retrofit.create(WatchlistStockInfoService::class.java)
+
+
+
+
 
     @Provides
     @Singleton

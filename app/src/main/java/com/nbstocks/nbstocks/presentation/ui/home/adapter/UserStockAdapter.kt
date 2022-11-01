@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 
 import androidx.recyclerview.widget.RecyclerView
+import com.nbstocks.nbstocks.common.extensions.toCurrencyString
 import com.nbstocks.nbstocks.databinding.LayoutOwnStockItemBinding
 import com.nbstocks.nbstocks.presentation.ui.stock_details.model.UsersStockUiModel
 
@@ -19,7 +20,7 @@ class UserStockAdapter :
         fun onBind() {
             val currentItem = getItem(adapterPosition)
             binding.tvItemSymbol.text = currentItem.symbol
-            binding.tvItemPrice.text = currentItem.price
+            binding.tvItemPrice.text = currentItem.price.toDouble().toCurrencyString()
             binding.tvItemPercentage.text = currentItem.amountInStocks
             binding.root.setOnClickListener { stockItemClicked?.invoke(currentItem) }
         }

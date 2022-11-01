@@ -6,6 +6,7 @@ import com.nbstocks.nbstocks.data.mapper.toCompanyListingDomainModel
 import com.nbstocks.nbstocks.data.mapper.toCompanyListingEntity
 import com.nbstocks.nbstocks.data.remote.services.CompanyListingsService
 import com.nbstocks.nbstocks.domain.model.CompanyListingDomainModel
+import com.nbstocks.nbstocks.domain.repositories.base_repository.BaseRepository
 import com.nbstocks.nbstocks.domain.repositories.company_listings.CompanyListingsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -15,6 +16,7 @@ import javax.inject.Singleton
 @Singleton
 class CompanyListingsRepositoryImpl @Inject constructor(
     private val api: CompanyListingsService,
+    private val baseRepository: BaseRepository,
     db: StockDatabase,
 ) : CompanyListingsRepository {
 
@@ -51,15 +53,10 @@ class CompanyListingsRepositoryImpl @Inject constructor(
     }
 
     private suspend fun loadFromRemote(): Resource<List<CompanyListingDomainModel>> {
-        return try {
-            val response = api.getListings()
-            if (response.isSuccessful && response.body() != null) {
-                Resource.Success(response.body()!!.data!!.map { it!!.toCompanyListingDomainModel() })
-            } else {
-                Resource.Error(Throwable("Couldn't load data."))
-            }
-        } catch (e: Exception) {
-            Resource.Error(e)
-        }
+        return baseRepository.safeApiCall({
+            api.getListings()
+        }, {
+            data!!.map { it!!.toCompanyListingDomainModel() }
+        })
     }
 }

@@ -1,20 +1,18 @@
 package com.nbstocks.nbstocks.presentation.ui.company_listings
 
-import android.graphics.Color
+import android.text.Editable
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.snackbar.Snackbar
+import com.nbstocks.nbstocks.common.extensions.asynchronously
+import com.nbstocks.nbstocks.common.extensions.collectViewState
 import com.nbstocks.nbstocks.common.extensions.disable
 import com.nbstocks.nbstocks.common.extensions.enable
-import com.nbstocks.nbstocks.common.extensions.makeSnackbar
 import com.nbstocks.nbstocks.databinding.FragmentCompanyListingsBinding
 import com.nbstocks.nbstocks.presentation.ui.base.BaseFragment
 import com.nbstocks.nbstocks.presentation.ui.company_listings.adapter.CompanyListingsAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CompanyListingsFragment :
@@ -32,28 +30,18 @@ class CompanyListingsFragment :
     private fun listeners() {
         binding.apply {
             etSearch.addTextChangedListener { query ->
-                lifecycleScope.launch {
-                    if (!progressBar.isVisible) {
-                        viewModel.getCompanyListings(false, query?.let { query.toString() } ?: "") {
-                            scrollToTop()
-                        }
-                    }
-                }.invokeOnCompletion {
-                    scrollToTop()
-                }
+                searchStock(query)
                 if (query.toString().isBlank()) {
                     scrollToTop()
                 }
             }
-
             swipeRefresh.setOnRefreshListener {
                 swipeRefresh.isRefreshing = false
                 tilSearch.apply {
                     disable()
                     editText?.setText("")
-
                 }
-                lifecycleScope.launch {
+                asynchronously {
                     viewModel.getCompanyListings(true, null) {
                         tilSearch.enable()
                     }
@@ -64,7 +52,6 @@ class CompanyListingsFragment :
             fabUp.setOnClickListener {
                 scrollToTop()
             }
-
 
             stocksAdapter.stockItemClicked = {
                 it.symbol?.let { symbol ->
@@ -78,32 +65,34 @@ class CompanyListingsFragment :
         }
     }
 
-    private fun observe() {
-        binding.apply {
-            lifecycleScope.apply {
-                launch {
-                    viewModel.getCompanyListings(true, "") {
-                        tilSearch.enable()
-                    }
-                }
-
-                launch {
-                    viewModel.loaderState.collect {
-                        progressBar.isVisible = it
-                    }
-                }
-
-                launch {
-                    viewModel.viewState.collect {
-                        it.data?.let { stocks ->
-                            stocksAdapter.submitList(stocks)
-                        }
-                        it.error?.let { error ->
-                            error.localizedMessage?.let { message -> root.makeSnackbar(message, true) }
-                        }
-                    }
+    private fun searchStock(query: Editable?) {
+        asynchronously {
+            if (!binding.progressBar.isVisible) {
+                viewModel.getCompanyListings(false, query?.let { query.toString() } ?: "") {
+                    scrollToTop()
                 }
             }
+        }
+    }
+
+    private fun observe() {
+        binding.apply {
+            asynchronously {
+                viewModel.getCompanyListings(true, "") {
+                    tilSearch.enable()
+                }
+            }
+            asynchronously {
+                viewModel.loaderState.collect {
+                    progressBar.isVisible = it
+                }
+            }
+            asynchronously {
+                viewModel.companyListingViewState.collectViewState(binding) {
+                    stocksAdapter.submitList(it)
+                }
+            }
+
         }
     }
 
