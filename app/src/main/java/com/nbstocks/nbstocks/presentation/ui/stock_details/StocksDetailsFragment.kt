@@ -1,6 +1,7 @@
 package com.nbstocks.nbstocks.presentation.ui.stock_details
 
 import android.graphics.drawable.ColorDrawable
+import android.util.Log.d
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -12,7 +13,7 @@ import com.nbstocks.nbstocks.presentation.ui.stock_details.model.CurrentStockUiM
 import com.nbstocks.nbstocks.presentation.ui.stock_details.model.IntervalStockPricesUiModel
 import com.nbstocks.nbstocks.presentation.ui.stock_details.model.UsersStockUiModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class StocksDetailsFragment :
@@ -62,6 +63,10 @@ class StocksDetailsFragment :
             viewModel.currentStockViewState.collectViewState(binding) {
                 handleCurrentStockSuccess(it)
             }
+        }
+
+        asynchronously {
+            viewModel.getStockAmount(args.stockSymbol)
         }
 
     }
@@ -149,15 +154,25 @@ class StocksDetailsFragment :
         amountOfStock: Double?,
         doAfterTask: (isTaskSuccessful: Boolean, message: String) -> Unit
     ) {
+
+        var amount = 0
+
         asynchronously {
-            viewModel.buyStockToOwner(
-                UsersStockUiModel(
-                    symbol = binding.tvSymbol.text.toString(),
-                    price = binding.tvCurrentPrice.text.toString(),
-                    amountInStocks = amountOfStock.toString()
-                )
-            )
+            viewModel.amountOfStock.collect{
+//                d("Tag","${it.data}")
+                amount = it.data?.toInt() ?: 0
+
+            }
         }
+
+        viewModel.buyStockToOwner(
+            UsersStockUiModel(
+                symbol = binding.tvSymbol.text.toString(),
+                price = binding.tvCurrentPrice.text.toString(),
+                amountInStocks = amountOfStock?.plus(amount.toDouble())
+            )
+        )
+
         doAfterTask(true, "$amountOfStock stocks bought successfully!")
     }
 
