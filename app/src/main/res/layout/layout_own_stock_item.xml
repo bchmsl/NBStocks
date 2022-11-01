@@ -70,7 +70,7 @@
         app:layout_constraintStart_toStartOf="@+id/tvItemSymbol"
         app:layout_constraintTop_toTopOf="@+id/tvTotalValue"
         tools:text="1.6741"
-        tools:textColor="?attr/colorOnError" />
+        android:textColor="?attr/colorOnError" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvTotalValue"
@@ -82,6 +82,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/tvItemPrice"
         tools:text="$767.55"
-        tools:textColor="?attr/colorOnError" />
+        android:textColor="?attr/colorOnError" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

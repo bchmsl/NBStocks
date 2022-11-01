@@ -27,6 +27,10 @@ class WatchlistViewModel @Inject constructor(
         MutableStateFlow<ViewState<WatchlistStockInfoUiModel>>(ViewState())
     val watchlistStocksState: StateFlow<ViewState<WatchlistStockInfoUiModel>> get() = _watchlistStocksState
 
+    private val _ownedStocksState =
+        MutableStateFlow<ViewState<WatchlistStockInfoUiModel>>(ViewState())
+    val ownedStocksState: StateFlow<ViewState<WatchlistStockInfoUiModel>> get() = _ownedStocksState
+
     private val _loaderState = MutableStateFlow(false)
     val loaderState: StateFlow<Boolean> get() = _loaderState
 
@@ -45,19 +49,28 @@ class WatchlistViewModel @Inject constructor(
         }
     }
 
-    fun getWatchlistStocksInformation(symbols: List<String>) {
+    fun getWatchlistStocksInformation(symbols: List<String>, isWatchList: Boolean) {
         viewModelScope.launch {
             _watchlistStocksState.resetViewState()
             watchlistStockRepositoryImpl.getWatchlistStocksInformation(symbols.joinToString(","))
                 .collect { resource ->
                     _loaderState.value = resource.isLoading
-                    resource.doOnSuccess {
-                        _watchlistStocksState.emitSuccessViewState(this) {
-                            it.toWatchListStockUiModel()
+                    if (isWatchList){
+                        resource.doOnSuccess {
+                            _watchlistStocksState.emitSuccessViewState(this) {
+                                it.toWatchListStockUiModel()
+                            }
+                        }.doOnFailure {
+                            _watchlistStocksState.emitErrorViewState(this) { it }
                         }
-                        Log.w("TAG: VM", it.data.toString())
-                    }.doOnFailure {
-                        _watchlistStocksState.emitErrorViewState(this) { it }
+                    }else{
+                        resource.doOnSuccess {
+                            _ownedStocksState.emitSuccessViewState(this) {
+                                it.toWatchListStockUiModel()
+                            }
+                        }.doOnFailure {
+                            _ownedStocksState.emitErrorViewState(this) { it }
+                        }
                     }
                 }
         }

@@ -17,6 +17,7 @@ import com.nbstocks.nbstocks.presentation.ui.base.BaseFragment
 import com.nbstocks.nbstocks.presentation.ui.common.viewmodel.WatchlistViewModel
 import com.nbstocks.nbstocks.presentation.ui.home.adapter.UserStockAdapter
 import com.nbstocks.nbstocks.presentation.ui.home.adapter.WatchlistStocksAdapter
+import com.nbstocks.nbstocks.presentation.ui.stock_details.model.UsersStockUiModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -32,6 +33,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     }
     private val watchlistAdapter by lazy { WatchlistStocksAdapter() }
     private val userStockAdapter by lazy { UserStockAdapter() }
+
+    private var ownedStocks = listOf<UsersStockUiModel>()
 
     override fun start() {
         observer()
@@ -49,7 +52,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private fun observer() {
         asynchronously {
             watchlistViewModel.watchlistItemsState.collectViewState(binding) {
-                watchlistViewModel.getWatchlistStocksInformation(it.safeSubList(5))
+                watchlistViewModel.getWatchlistStocksInformation(it.safeSubList(5), true)
             }
         }
         asynchronously {
@@ -65,7 +68,22 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         }
         asynchronously {
             viewModel.usersStockState.collectViewState(binding) {
-                userStockAdapter.submitList(it)
+                    ownedStocks = it
+
+                watchlistViewModel.getWatchlistStocksInformation(ownedStocks.map { it.symbol }, false)
+            }
+        }
+        asynchronously {
+            watchlistViewModel.ownedStocksState.collectViewState(binding){
+                val data = it.data.mapIndexed { index, dataItem ->
+                    dataItem.copy(
+                        owned = true,
+                        ownedAmount = ownedStocks[index].amountInStocks,
+                        ownedPrice = ownedStocks[index].price
+                    )
+                }
+                Log.w("TAG: DATA", data.size.toString())
+                userStockAdapter.submitList(data)
             }
         }
 
