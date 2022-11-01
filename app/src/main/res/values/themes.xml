@@ -14,9 +14,10 @@
         <item name="colorSecondaryVariant">@color/darkBlueVariant</item>
         <item name="colorOnSecondary">@color/darkGrey</item>
         <item name="colorOnSecondaryContainer">@color/darkGreyVariant</item>
-
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimary</item>
         <!-- Customize your theme here. -->
+        <item name="colorError">@color/red_light</item>
+        <item name="colorOnError">@color/green_light</item>
     </style>
 </resources>

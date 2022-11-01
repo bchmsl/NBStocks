@@ -140,7 +140,7 @@
         android:fontFamily="sans-serif"
         android:text="@string/see_all"
         android:textColor="?attr/colorOnSecondary"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/tvTitleWatchlist"
         app:layout_constraintEnd_toEndOf="@+id/viewCardBalance"
@@ -151,12 +151,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="25dp"
-        android:layout_marginTop="5dp"
         android:indeterminate="true"
         app:indicatorColor="?attr/colorPrimary"
-        app:layout_constraintBottom_toTopOf="@id/rvWatchlist"
+        app:layout_constraintBottom_toTopOf="@+id/viewCardBalance"
+        app:layout_constraintTop_toBottomOf="@+id/ivHeader"
         app:trackColor="?attr/background"
-        app:trackCornerRadius="5dp" />
+        app:trackCornerRadius="5dp"
+        tools:layout_editor_absoluteX="25dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvWatchlist"
@@ -189,30 +190,18 @@
         android:fontFamily="sans-serif"
         android:text="@string/see_all"
         android:textColor="?attr/colorOnSecondary"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/appCompatTextView4"
         app:layout_constraintEnd_toEndOf="@+id/tvWatchlistSeeAll"
         app:layout_constraintTop_toTopOf="@+id/appCompatTextView4" />
-
-    <com.google.android.material.progressindicator.LinearProgressIndicator
-        android:id="@+id/pbYourStocks"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="25dp"
-        android:layout_marginTop="5dp"
-        android:visibility="gone"
-        android:indeterminate="true"
-        app:indicatorColor="?attr/colorPrimary"
-        app:layout_constraintBottom_toTopOf="@id/rvYourStocks"
-        app:trackColor="?attr/background"
-        app:trackCornerRadius="5dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvYourStocks"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appCompatTextView4"
