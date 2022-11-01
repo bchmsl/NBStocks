@@ -49,7 +49,7 @@ class WatchlistFragment :
     private fun observer() {
         asynchronously {
             watchlistViewModel.watchlistItemsState.collectViewState(binding) {
-                watchlistViewModel.getWatchlistStocksInformation(it.safeSubList(5))
+                watchlistViewModel.getWatchlistStocksInformation(it.safeSubList(5), true)
             }
         }
         asynchronously {

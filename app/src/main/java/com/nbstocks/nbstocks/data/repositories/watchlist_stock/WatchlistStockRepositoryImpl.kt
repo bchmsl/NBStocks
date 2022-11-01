@@ -45,13 +45,13 @@ class WatchlistStockRepositoryImpl @Inject constructor(
 
     override suspend fun getWatchlistItems() {
         stockList.clear()
-        dbReference.onChildAddedListener { snapshot, _ ->
+        dbReference.onChildAddedListener ({ snapshot, _ ->
             if (snapshot.exists()) {
                 snapshot.getValue(String::class.java)
                     ?.let { stockList.add(it) }
                 _stockState.tryEmit(Resource.Success(stockList.toList()))
             }
-        }
+        })
     }
 
     override suspend fun getWatchlistStocksInformation(symbols: String)

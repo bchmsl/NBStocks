@@ -16,14 +16,14 @@
         android:fontFamily="sans-serif-medium"
         android:textColor="?attr/colorOnSecondary"
         android:textSize="25sp"
-        app:layout_constraintBottom_toTopOf="@+id/appCompatTextView"
+        app:layout_constraintBottom_toTopOf="@+id/tvNameShort"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed"
         tools:text="AAPL" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/appCompatTextView"
+        android:id="@+id/tvNameShort"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-light"
@@ -74,9 +74,7 @@
         android:id="@+id/ivChart"
         android:layout_width="49dp"
         android:layout_height="39dp"
-        android:rotationX="180"
-        android:src="@drawable/ic_increase"
-        tools:tint="?attr/colorError"
+        android:src="@drawable/ic_decrease"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/tvWatchlistPrice"
         app:layout_constraintStart_toStartOf="@+id/tvWatchlistPercentage"

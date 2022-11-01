@@ -1,6 +1,6 @@
 package com.nbstocks.nbstocks.common.extensions
 
-fun Double?.toPercentString(): String {
+fun Double?.toPercentStringTimes100(): String {
     try {
         var plusSign = ""
         if (this!! > 0) {
@@ -16,6 +16,25 @@ fun Double?.toPercentString(): String {
         return "--%"
     }
 }
+
+fun Double?.toPercentString(): String {
+    try {
+        var plusSign = ""
+        if (this!! > 0) {
+            plusSign = "+"
+        }
+        val firstPartString = this.toString().split(".")[0]
+        val secondPartString = this.toString().split(".")[1].safeSubString(2)
+        if (secondPartString.toInt() == 0) {
+            return "$firstPartString%"
+        }
+        return "$plusSign$firstPartString.$secondPartString%"
+    } catch (e: Exception) {
+        return "--%"
+    }
+}
+
+
 
 fun Double?.toCurrencyString(): String {
     try {

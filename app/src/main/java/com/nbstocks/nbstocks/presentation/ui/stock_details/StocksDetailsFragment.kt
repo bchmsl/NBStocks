@@ -1,7 +1,6 @@
 package com.nbstocks.nbstocks.presentation.ui.stock_details
 
 import android.graphics.drawable.ColorDrawable
-import android.util.Log.d
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -13,7 +12,6 @@ import com.nbstocks.nbstocks.presentation.ui.stock_details.model.CurrentStockUiM
 import com.nbstocks.nbstocks.presentation.ui.stock_details.model.IntervalStockPricesUiModel
 import com.nbstocks.nbstocks.presentation.ui.stock_details.model.UsersStockUiModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class StocksDetailsFragment :
@@ -86,7 +84,7 @@ class StocksDetailsFragment :
                 tvSymbol.text = symbol
                 tvLowPrice.text = targetLowPrice?.raw.toCurrencyString()
                 tvHighPrice.text = targetHighPrice?.raw.toCurrencyString()
-                tvPercentage.text = revenueGrowth?.raw.toPercentString()
+                tvPercentage.text = revenueGrowth?.raw.toPercentStringTimes100()
                 tvTitleName.text = symbol
             }
         }
