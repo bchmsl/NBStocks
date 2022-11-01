@@ -4,6 +4,7 @@ import com.nbstocks.nbstocks.common.handlers.Resource
 import com.nbstocks.nbstocks.data.mapper.toIntervalStockPricesDomainModel
 import com.nbstocks.nbstocks.data.remote.services.IntervalStockPricesService
 import com.nbstocks.nbstocks.domain.model.IntervalStockPricesDomainModel
+import com.nbstocks.nbstocks.domain.repositories.base_repository.BaseRepository
 import com.nbstocks.nbstocks.domain.repositories.daily_stock.DailyStockPricesRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -13,6 +14,7 @@ import javax.inject.Singleton
 @Singleton
 class DailyStockPricesPricesRepositoryImpl @Inject constructor(
     private val api: IntervalStockPricesService,
+    private val baseRepository: BaseRepository
 ) : DailyStockPricesRepository {
 
     override suspend fun getStocksDetails(
@@ -22,24 +24,12 @@ class DailyStockPricesPricesRepositoryImpl @Inject constructor(
     ): Flow<Resource<IntervalStockPricesDomainModel?>> =
         flow {
             emit(Resource.Loading(true))
-            try {
-                val response =
-                    api.getIntervalStockPrices(symbol = symbol, range = range, interval = interval)
-                if (response.isSuccessful) {
-                    val body = response.body()
-                    if (body != null) {
-                        emit(Resource.Success(body.toIntervalStockPricesDomainModel()))
-                    } else {
-                        emit(Resource.Error(Throwable("No data found")))
-                    }
-                } else {
-                    emit(Resource.Error(Throwable(response.message())))
-                }
-
-                emit(Resource.Loading(false))
-            } catch (e: Throwable) {
-                emit(Resource.Error(e))
-                emit(Resource.Loading(false))
-            }
+            val resource = baseRepository.safeApiCall({
+                api.getIntervalStockPrices(symbol = symbol, range = range, interval = interval)
+            },{
+                toIntervalStockPricesDomainModel()
+            })
+            emit(resource)
+            emit(Resource.Loading(false))
         }
 }

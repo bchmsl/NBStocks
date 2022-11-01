@@ -1,9 +1,9 @@
 package com.nbstocks.nbstocks.data.repositories.watchlist_stock
 
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.nbstocks.nbstocks.common.extensions.onChildAddedListener
-import com.nbstocks.nbstocks.data.repositories.base_repository.BaseRepositoryImpl
 import com.nbstocks.nbstocks.common.handlers.Resource
 import com.nbstocks.nbstocks.data.mapper.toWatchlistStockInfoDomainModel
 import com.nbstocks.nbstocks.data.remote.services.WatchlistStockInfoService
@@ -58,7 +58,7 @@ class WatchlistStockRepositoryImpl @Inject constructor(
             : Flow<Resource<WatchlistStockInfoDomainModel>> = flow {
         emit(Resource.Loading(true))
         if (symbols.isNotBlank()) {
-            val resource = baseRepository.handleResponse({
+            val resource = baseRepository.safeApiCall({
                 api.getWatchlistStockInfo(symbols = symbols)
             }, { toWatchlistStockInfoDomainModel() })
             emit(resource)

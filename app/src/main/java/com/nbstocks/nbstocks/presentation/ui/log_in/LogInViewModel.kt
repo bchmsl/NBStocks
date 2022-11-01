@@ -7,6 +7,7 @@ import com.nbstocks.nbstocks.common.handlers.Resource
 import com.nbstocks.nbstocks.domain.repositories.login.LoginRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -14,10 +15,12 @@ import javax.inject.Inject
 class LogInViewModel @Inject constructor(private val repository: LoginRepository) : ViewModel() {
 
     private val _loginResponse = MutableSharedFlow<Resource<AuthResult>>()
-    val loginResponse = _loginResponse
+    val loginResponse = _loginResponse.asSharedFlow()
 
-    fun signIn(email: String, password: String) = viewModelScope.launch {
-        _loginResponse.emit(repository.login(email, password))
+    fun signIn(email: String, password: String) {
+        viewModelScope.launch {
+            _loginResponse.emit(repository.login(email, password))
+        }
     }
 
 }

@@ -3,7 +3,7 @@ package com.nbstocks.nbstocks.presentation.ui.sign_up
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.nbstocks.nbstocks.common.extensions.makeSnackbar
+import com.nbstocks.nbstocks.common.extensions.*
 import com.nbstocks.nbstocks.common.handlers.Resource
 import com.nbstocks.nbstocks.databinding.FragmentSignUpBinding
 import com.nbstocks.nbstocks.presentation.ui.base.BaseFragment
@@ -31,27 +31,21 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(FragmentSignUpBinding
     }
 
     private fun registration() {
-        val email = binding.etEmail.text.toString()
-        val password = binding.etPassword.text.toString()
-
-        viewModel.signUp(email, password)
+        binding.tilEmail.isValid(isEmail = true)?.let { email ->
+            binding.tilPassword.isValid(isPassword = true)?.let { password ->
+                viewModel.signUp(email, password)
+            }
+        }
     }
 
     private fun observer() {
+        asynchronously {
+            viewModel.registerResponse.collect { resource ->
+                resource.doOnSuccess {
+                    findNavController().navigate(SignUpFragmentDirections.actionSignUpFragmentToHomeFragment())
 
-        viewLifecycleOwner.lifecycleScope.launch {
-
-            viewModel.registerResponse.collect {
-                when (it) {
-                    is Resource.Success -> {
-                        findNavController().navigate(SignUpFragmentDirections.actionSignUpFragmentToHomeFragment())
-                    }
-                    is Resource.Error -> {
-                        binding.root.makeSnackbar("Register Failed", true)
-                    }
-                    is Resource.Loading -> {
-
-                    }
+                }.doOnFailure {
+                    it.localizedMessage?.let {binding.root.makeSnackbar(it, true) }
                 }
             }
         }

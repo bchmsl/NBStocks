@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class BaseRepositoryImpl @Inject constructor(): BaseRepository {
 
-    override suspend fun <T, M> handleResponse(
+    override suspend fun <T, M> safeApiCall(
         request: suspend () -> Response<T>,
         map: T.() -> M
     ): Resource<M> {

@@ -23,7 +23,7 @@ data class IntervalStockPricesDto(
                     val high: List<Double?>?,
                     val low: List<Double?>?,
                     val `open`: List<Double?>?,
-                    val volume: List<Int?>?
+                    val volume: List<Long?>?
                 )
             }
             data class Meta(

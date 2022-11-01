@@ -7,6 +7,3 @@ data class ViewState<T>(
     val error: Throwable? = null
 )
 
-fun <T> MutableStateFlow<ViewState<T>>.resetViewState() {
-    value = this.value.copy(data = null, error = null)
-}

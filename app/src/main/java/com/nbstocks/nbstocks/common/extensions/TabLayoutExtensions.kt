@@ -16,7 +16,7 @@ fun TabLayout.onTabSelected(function: () -> Unit) {
     })
 }
 
-fun TabLayout.doWhenSelected(function: (range: String, interval: String) -> Unit) {
+fun TabLayout.doSelectedTask(function: (range: String, interval: String) -> Unit) {
     if (this.selectedTabPosition == 0) {
         function(ServiceTimestamps.MONTH1, ServiceTimestamps.DAY1)
     }else if(this.selectedTabPosition == 1){

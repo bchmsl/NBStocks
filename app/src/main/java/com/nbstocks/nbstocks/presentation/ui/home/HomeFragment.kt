@@ -2,14 +2,14 @@ package com.nbstocks.nbstocks.presentation.ui.home
 
 
 import android.os.Bundle
+import android.util.Log
 import androidx.core.view.isVisible
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
-import com.nbstocks.nbstocks.common.extensions.makeSnackbar
+import com.nbstocks.nbstocks.common.extensions.asynchronously
+import com.nbstocks.nbstocks.common.extensions.collectViewState
 import com.nbstocks.nbstocks.common.extensions.obtainViewModel
 import com.nbstocks.nbstocks.common.extensions.safeSubList
 import com.nbstocks.nbstocks.databinding.FragmentHomeBinding
@@ -18,7 +18,6 @@ import com.nbstocks.nbstocks.presentation.ui.common.viewmodel.WatchlistViewModel
 import com.nbstocks.nbstocks.presentation.ui.home.adapter.UserStockAdapter
 import com.nbstocks.nbstocks.presentation.ui.home.adapter.WatchlistStocksAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
@@ -48,33 +47,25 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     }
 
     private fun observer() {
-        lifecycleScope.launch {
-            launch {
-                watchlistViewModel.watchlistItemsState.collect { it ->
-                    it.data?.let {
-                        watchlistViewModel.getWatchlistStocksInformation(it.safeSubList(5))
-                    }
-                    it.error?.let {
-                        it.localizedMessage?.let { it1 -> binding.root.makeSnackbar(it1, true) }
-                    }
-                }
+        asynchronously {
+            watchlistViewModel.watchlistItemsState.collectViewState(binding) {
+                watchlistViewModel.getWatchlistStocksInformation(it.safeSubList(5))
             }
-            launch {
-                watchlistViewModel.watchlistStocksState.collect { it ->
-                    it.data?.let {
-                        watchlistAdapter.submitList(it.data)
-                    }
-                    it.error?.let {
-                        it.localizedMessage?.let { it1 -> binding.root.makeSnackbar(it1, true) }
-                    }
-                }
-            }
-            launch { watchlistViewModel.loaderState.collect { binding.pbWatchlist.isVisible = it } }
         }
-
-        lifecycleScope.launch {
-            viewModel.usersStockState.collect {
-                userStockAdapter.submitList(it.data?.safeSubList(5))
+        asynchronously {
+            watchlistViewModel.watchlistStocksState.collectViewState(binding) {
+                watchlistAdapter.submitList(it.data)
+                Log.w("TAG", it.toString())
+            }
+        }
+        asynchronously {
+            watchlistViewModel.loaderState.collect {
+                binding.pbWatchlist.isVisible = it
+            }
+        }
+        asynchronously {
+            viewModel.usersStockState.collectViewState(binding) {
+                userStockAdapter.submitList(it)
             }
         }
 

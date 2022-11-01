@@ -6,9 +6,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.nbstocks.nbstocks.common.extensions.makeSnackbar
-import com.nbstocks.nbstocks.common.extensions.obtainViewModel
-import com.nbstocks.nbstocks.common.extensions.safeSubList
+import com.nbstocks.nbstocks.common.extensions.*
 import com.nbstocks.nbstocks.databinding.FragmentWatchlistBinding
 import com.nbstocks.nbstocks.presentation.ui.base.BaseFragment
 import com.nbstocks.nbstocks.presentation.ui.common.viewmodel.WatchlistViewModel
@@ -49,33 +47,28 @@ class WatchlistFragment :
     }
 
     private fun observer() {
-        lifecycleScope.launch {
-            watchlistViewModel.watchlistItemsState.collect {
-                it.data?.let {
-                    watchlistViewModel.getWatchlistStocksInformation(it.safeSubList(5))
-                }
-                it.error?.let {
-                    it.localizedMessage?.let { it1 -> binding.root.makeSnackbar(it1, true) }
-                }
+        asynchronously {
+            watchlistViewModel.watchlistItemsState.collectViewState(binding) {
+                watchlistViewModel.getWatchlistStocksInformation(it.safeSubList(5))
             }
         }
-        lifecycleScope.launch {
-            launch {
-                watchlistViewModel.watchlistStocksState.collect { it ->
-                    it.data?.let {
-                        watchlistAdapter.submitList(it.data)
-                    }
-                    it.error?.let {
-                        it.localizedMessage?.let { it1 -> binding.root.makeSnackbar(it1, true) }
-                    }
-                }
+        asynchronously {
+            watchlistViewModel.watchlistStocksState.collectViewState(binding) {
+                watchlistAdapter.submitList(it.data)
             }
+
         }
     }
 
     private fun listeners() {
         watchlistAdapter.stockItemClicked = {
-            it.symbol?.let { findNavController().navigate(WatchlistFragmentDirections.actionWatchlistFragmentToStocksDetailsFragment(it)) }
+            it.symbol?.let {
+                findNavController().navigate(
+                    WatchlistFragmentDirections.actionWatchlistFragmentToStocksDetailsFragment(
+                        it
+                    )
+                )
+            }
         }
     }
 

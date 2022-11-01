@@ -10,7 +10,7 @@ data class IntervalStockPricesUiModel(
         val high: Double?,
         val low: Double?,
         val close: Double?,
-        val volume: Int?
+        val volume: Long?
     )
     data class Meta(
         val currency: String?,

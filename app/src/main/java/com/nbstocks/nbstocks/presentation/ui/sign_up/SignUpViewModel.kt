@@ -23,10 +23,8 @@ class SignUpViewModel @Inject constructor(private val repository: RegisterReposi
 
     fun signUp(email: String, password: String) =
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                _registerResponse.emit(
-                    repository.register(email, password)
-                )
-            }
+            _registerResponse.emit(
+                repository.register(email, password)
+            )
         }
 }

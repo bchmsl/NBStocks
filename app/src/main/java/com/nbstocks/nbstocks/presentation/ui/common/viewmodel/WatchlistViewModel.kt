@@ -1,15 +1,15 @@
 package com.nbstocks.nbstocks.presentation.ui.common.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nbstocks.nbstocks.common.extensions.*
 import com.nbstocks.nbstocks.common.handlers.Resource
 import com.nbstocks.nbstocks.data.repositories.watchlist_stock.WatchlistStockRepositoryImpl
 import com.nbstocks.nbstocks.presentation.mapper.toWatchListStockUiModel
 import com.nbstocks.nbstocks.presentation.model.ViewState
-import com.nbstocks.nbstocks.presentation.model.resetViewState
 import com.nbstocks.nbstocks.presentation.ui.common.model.WatchlistStockInfoUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -34,19 +34,12 @@ class WatchlistViewModel @Inject constructor(
         viewModelScope.launch {
             watchlistStockRepositoryImpl.getWatchlistItems()
             _watchlistItemsState.resetViewState()
-            watchlistStockRepositoryImpl.stockState.collect {
-                _loaderState.value = it.isLoading
-                when (it) {
-                    is Resource.Success -> {
-//                        d("stocks_vm","${it.data}")
-                        _watchlistItemsState.emit(_watchlistItemsState.value.copy(data = it.data))
-                    }
-                    is Resource.Error -> {
-                        _watchlistItemsState.emit(_watchlistItemsState.value.copy(error = it.error))
-                    }
-                    is Resource.Loading -> {
-
-                    }
+            watchlistStockRepositoryImpl.stockState.collect { resource ->
+                _loaderState.value = resource.isLoading
+                resource.doOnSuccess {
+                    _watchlistItemsState.emitSuccessViewState(this) { it }
+                }.doOnFailure {
+                    _watchlistItemsState.emitErrorViewState(this) { it }
                 }
             }
         }
@@ -54,17 +47,17 @@ class WatchlistViewModel @Inject constructor(
 
     fun getWatchlistStocksInformation(symbols: List<String>) {
         viewModelScope.launch {
+            _watchlistStocksState.resetViewState()
             watchlistStockRepositoryImpl.getWatchlistStocksInformation(symbols.joinToString(","))
-                .collect {
-                    _watchlistStocksState.resetViewState()
-                    when (it) {
-                        is Resource.Success -> {
-                            _watchlistStocksState.emit(_watchlistStocksState.value.copy(data = it.data.toWatchListStockUiModel()))
+                .collect { resource ->
+                    _loaderState.value = resource.isLoading
+                    resource.doOnSuccess {
+                        _watchlistStocksState.emitSuccessViewState(this) {
+                            it.toWatchListStockUiModel()
                         }
-                        is Resource.Error -> {
-                            _watchlistStocksState.emit(_watchlistStocksState.value.copy(error = it.error))
-                        }
-                        is Resource.Loading -> {}
+                        Log.w("TAG: VM", it.data.toString())
+                    }.doOnFailure {
+                        _watchlistStocksState.emitErrorViewState(this) { it }
                     }
                 }
         }

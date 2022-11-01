@@ -5,6 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.nbstocks.nbstocks.common.extensions.toCurrencyString
+import com.nbstocks.nbstocks.common.extensions.toPercentString
 import com.nbstocks.nbstocks.databinding.LayoutWatchlistItemBinding
 import com.nbstocks.nbstocks.presentation.ui.common.model.WatchlistStockInfoUiModel
 
@@ -19,8 +21,8 @@ class WatchlistStocksAdapter :
         fun onBind() {
             val currentItem = getItem(adapterPosition)
             binding.tvItemSymbol.text = currentItem.symbol
-            binding.tvWatchlistPrice.text = currentItem.regularMarketPrice.toString()
-            binding.tvWatchlistPercentage.text = currentItem.regularMarketChangePercent.toString()
+            binding.tvWatchlistPrice.text = currentItem.regularMarketPrice.toCurrencyString()
+            binding.tvWatchlistPercentage.text = currentItem.regularMarketChangePercent.toPercentString()
             binding.root.setOnClickListener { stockItemClicked?.invoke(currentItem) }
         }
     }
