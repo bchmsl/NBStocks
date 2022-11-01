@@ -35,9 +35,10 @@ class GetStockAmountRepositoryImpl @Inject constructor(
                     val stockInfo = snapshot.getValue(UsersStockDomainModel::class.java)!!
                     d("Tag_rep","${stockInfo.amountInStocks}")
                     _stockAmount.tryEmit(Resource.Success(stockInfo.amountInStocks.toString()))
-//                    if (stockInfo.amountInStocks!! < 0){
-//                        _stockAmount.tryEmit(Resource.Error(error = Throwable("no stock")))
-//                    }
+
+                    if (stockInfo.amountInStocks!! < 0){
+                        _stockAmount.tryEmit(Resource.Error(error = Throwable("no stock")))
+                    }
                 }
             }
 

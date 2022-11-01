@@ -104,6 +104,8 @@ class StocksDetailsViewModel @Inject constructor(
             getStockAmountRepositoryImpl.stockAmount.collect { resource ->
                 resource.doOnSuccess {
                     _amountOfStock.emitSuccessViewState(this){it}
+                }.doOnFailure {
+                    _amountOfStock.emitErrorViewState(this){it}
                 }
             }
         }
