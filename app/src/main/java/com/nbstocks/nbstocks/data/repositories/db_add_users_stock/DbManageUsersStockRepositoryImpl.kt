@@ -38,9 +38,7 @@ class DbManageUsersStockRepositoryImpl @Inject constructor(
 
 
     override suspend fun buyUsersStock(usersStockDomainModel: UsersStockDomainModel) {
-
         dbReference.child(usersStockDomainModel.symbol).setValue(usersStockDomainModel)
-
     }
 
     override suspend fun sellUsersStock(usersStockDomainModel: UsersStockDomainModel) {

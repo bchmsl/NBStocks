@@ -10,7 +10,7 @@
     <View
         android:id="@+id/viewHeader"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="120dp"
         android:background="?attr/colorPrimary"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -101,40 +101,23 @@
         app:layout_constraintTop_toBottomOf="@id/tvAbout" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvChangeEmail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:drawableBottom="@drawable/shape_line"
-        android:drawablePadding="15dp"
-        android:drawableTint="?attr/colorOnSecondary"
-        android:fontFamily="sans-serif-light"
-        android:gravity="center_vertical"
-        android:paddingHorizontal="20dp"
-        android:paddingVertical="10dp"
-        android:text="@string/change_email_address"
-        android:textColor="?attr/colorOnSecondary"
-        android:textSize="20sp"
-        app:drawableEndCompat="@drawable/ic_arrow_forward"
-        app:drawableStartCompat="@drawable/ic_email"
-        app:layout_constraintTop_toBottomOf="@id/tvTitleProfileSettings" />
-
-    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvChangePassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         android:drawableBottom="@drawable/shape_line"
         android:drawablePadding="15dp"
         android:drawableTint="?attr/colorOnSecondary"
         android:fontFamily="sans-serif-light"
         android:gravity="center_vertical"
         android:paddingHorizontal="20dp"
-        app:drawableEndCompat="@drawable/ic_arrow_forward"
         android:paddingVertical="10dp"
         android:text="@string/change_password"
         android:textColor="?attr/colorOnSecondary"
         android:textSize="20sp"
+        app:drawableEndCompat="@drawable/ic_arrow_forward"
         app:drawableStartCompat="@drawable/ic_lock"
-        app:layout_constraintTop_toBottomOf="@id/tvChangeEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/tvTitleProfileSettings" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvLogOut"

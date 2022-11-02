@@ -1,6 +1,7 @@
 package com.nbstocks.nbstocks.presentation.ui.stock_details
 
 import android.graphics.drawable.ColorDrawable
+import android.util.Log.d
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -12,6 +13,7 @@ import com.nbstocks.nbstocks.presentation.ui.stock_details.model.CurrentStockUiM
 import com.nbstocks.nbstocks.presentation.ui.stock_details.model.IntervalStockPricesUiModel
 import com.nbstocks.nbstocks.presentation.ui.stock_details.model.UsersStockUiModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class StocksDetailsFragment :
@@ -21,6 +23,7 @@ class StocksDetailsFragment :
     private val args: StocksDetailsFragmentArgs by navArgs()
     private val stockPricesChart by lazy { StockPricesChart() }
     private var amount: Double = 0.0
+    private var balance = 0.0
 
     override fun start() {
         setupChart()
@@ -71,6 +74,13 @@ class StocksDetailsFragment :
         asynchronously {
             viewModel.amountOfStock.collect {
                 amount = it.data?.toDouble() ?: 0.0
+            }
+        }
+
+        asynchronously {
+            viewModel.getBalance()
+            viewModel.usersBalanceState.collect {
+                balance = it.data?.toDouble() ?: 0.0
             }
         }
 
@@ -163,21 +173,39 @@ class StocksDetailsFragment :
 
 
         if (amount == 0.0) {
-            viewModel.buyStockToOwner(
+
+            viewModel.tradeStockToOwner(
                 UsersStockUiModel(
                     symbol = binding.tvSymbol.text.toString(),
                     price = binding.tvCurrentPrice.text.toString(),
                     amountInStocks = amountOfStock
                 )
             )
+
+            if (balance < (amountOfStock!! * binding.tvCurrentPrice.text.toString().toCurrencyDouble())){
+                binding.root.makeSnackbar("Not enough Balance",true)
+            }else{
+                viewModel.changeBalance(
+                    (balance - (amountOfStock * binding.tvCurrentPrice.text.toString().toCurrencyDouble())))
+            }
+
         } else {
-            viewModel.buyStockToOwner(
+            viewModel.tradeStockToOwner(
                 UsersStockUiModel(
                     symbol = binding.tvSymbol.text.toString(),
                     price = binding.tvCurrentPrice.text.toString(),
                     amountInStocks = amountOfStock?.plus(amount)
                 )
             )
+
+            if (balance < (amountOfStock!! * binding.tvCurrentPrice.text.toString().toCurrencyDouble())){
+                binding.root.makeSnackbar("Not enough Balance",true)
+            }else{
+                viewModel.changeBalance(
+                    (balance - (amountOfStock * binding.tvCurrentPrice.text.toString().toCurrencyDouble())))
+            }
+
+
         }
 
 
@@ -192,13 +220,15 @@ class StocksDetailsFragment :
         if (amount == 0.0 || amount < amountOfStock!!) {
             binding.root.makeSnackbar("Not enough Balance", true)
         } else {
-            viewModel.buyStockToOwner(
+            viewModel.tradeStockToOwner(
                 UsersStockUiModel(
                     symbol = binding.tvSymbol.text.toString(),
                     price = binding.tvCurrentPrice.text.toString(),
                     amountInStocks = amount.minus(amountOfStock)
                 )
             )
+            viewModel.changeBalance(
+                (balance + (amountOfStock * binding.tvCurrentPrice.text.toString().toCurrencyDouble())))
         }
 
         doAfterTask(true, "$amountOfStock stocks sold successfully")

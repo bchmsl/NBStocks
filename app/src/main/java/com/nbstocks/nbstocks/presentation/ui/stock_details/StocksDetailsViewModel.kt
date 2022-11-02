@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.nbstocks.nbstocks.common.extensions.*
 import com.nbstocks.nbstocks.data.mapper.toUserStockDomainModel
 import com.nbstocks.nbstocks.data.repositories.db_add_users_stock.DbManageUsersStockRepositoryImpl
+import com.nbstocks.nbstocks.data.repositories.get_balance.GetBalanceRepositoryImpl
 import com.nbstocks.nbstocks.data.repositories.get_stock_amount.GetStockAmountRepositoryImpl
 import com.nbstocks.nbstocks.domain.repositories.current_stock.CurrentStockRepository
 import com.nbstocks.nbstocks.domain.repositories.daily_stock.DailyStockPricesRepository
@@ -30,7 +31,8 @@ class StocksDetailsViewModel @Inject constructor(
     private val currentStockRepository: CurrentStockRepository,
     private val watchlistStockRepository: WatchlistStockRepository,
     private val dbManageUsersStockRepositoryImpl: DbManageUsersStockRepositoryImpl,
-    private val getStockAmountRepositoryImpl: GetStockAmountRepositoryImpl
+    private val getStockAmountRepositoryImpl: GetStockAmountRepositoryImpl,
+    private val getBalanceRepositoryImpl: GetBalanceRepositoryImpl
 ) : ViewModel() {
 
     private val _intervalStockPricesViewState =
@@ -40,6 +42,9 @@ class StocksDetailsViewModel @Inject constructor(
     private val _currentStockViewState =
         MutableStateFlow<ViewState<CurrentStockUiModel>>(ViewState())
     val currentStockViewState: StateFlow<ViewState<CurrentStockUiModel>> get() = _currentStockViewState
+
+    private val _usersBalanceState = MutableStateFlow<ViewState<String>>(ViewState())
+    val usersBalanceState: StateFlow<ViewState<String>> get() = _usersBalanceState
 
     private val _amountOfStock = MutableStateFlow<ViewState<String>>(ViewState())
     val amountOfStock = _amountOfStock.asStateFlow()
@@ -103,26 +108,42 @@ class StocksDetailsViewModel @Inject constructor(
             getStockAmountRepositoryImpl.getStockAmount(symbol)
             getStockAmountRepositoryImpl.stockAmount.collect { resource ->
                 resource.doOnSuccess {
-                    _amountOfStock.emitSuccessViewState(this){it}
+                    _amountOfStock.emitSuccessViewState(this) { it }
                 }.doOnFailure {
-                    _amountOfStock.emitErrorViewState(this){it}
+                    _amountOfStock.emitErrorViewState(this) { it }
                 }
             }
         }
     }
 
-    fun buyStockToOwner(usersStockUiModel: UsersStockUiModel) {
+    fun tradeStockToOwner(usersStockUiModel: UsersStockUiModel) {
         viewModelScope.launch {
             dbManageUsersStockRepositoryImpl.buyUsersStock(
                 usersStockDomainModel = usersStockUiModel.toUserStockDomainModel()
             )
+        }
+    }
+
+    fun getBalance() {
+        viewModelScope.launch {
+            getBalanceRepositoryImpl.getBalance()
+            _usersBalanceState.resetViewState()
+            getBalanceRepositoryImpl.balance.collect { resource ->
+
+                resource.doOnSuccess {
+                    _usersBalanceState.emitSuccessViewState(this) { it }
+                }.doOnFailure {
+                    _usersBalanceState.emitErrorViewState(this) { it }
+                }
+            }
 
         }
     }
 
-//    fun sellStockFromOwner(model){
-//        viewModelScope.launch {
-//            dbManageUsersStockRepository.addUsersStock(model)
-//        }
-//    }
+    fun changeBalance(money: Double) {
+        viewModelScope.launch {
+            getBalanceRepositoryImpl.changeBalance(money)
+        }
+    }
+
 }
