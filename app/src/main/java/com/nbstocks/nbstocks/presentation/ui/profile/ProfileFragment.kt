@@ -3,6 +3,7 @@ package com.nbstocks.nbstocks.presentation.ui.profile
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.FirebaseAuth
 import com.nbstocks.nbstocks.common.extensions.makeSnackbar
 import com.nbstocks.nbstocks.common.handlers.Resource
 import com.nbstocks.nbstocks.databinding.FragmentProfileBinding
@@ -30,7 +31,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
 
             }
             tvLogOut.setOnClickListener {
-//                signOut()
+                signOut()
             }
         }
     }
@@ -52,10 +53,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
 //        }
 //    }
 
-//    private fun signOut() {
-//        viewLifecycleOwner.lifecycleScope.launch {
-//            viewModel.signOut()
-//            findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToLogInFragment())
-//        }
-//    }
+    private fun signOut() {
+        findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToLogInFragment())
+        FirebaseAuth.getInstance().signOut()
+    }
 }

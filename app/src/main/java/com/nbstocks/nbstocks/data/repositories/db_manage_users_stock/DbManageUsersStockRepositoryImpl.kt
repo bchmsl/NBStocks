@@ -13,7 +13,6 @@ import javax.inject.Inject
 class DbManageUsersStockRepositoryImpl @Inject constructor(
     db: FirebaseDatabase,
     auth: FirebaseAuth,
-
     ) : DbManageUsersStockRepository {
 
     private val dbReference = db.reference
@@ -33,8 +32,8 @@ class DbManageUsersStockRepositoryImpl @Inject constructor(
         dbReference.child(usersStockDomainModel.symbol).setValue(usersStockDomainModel)
     }
 
-    override suspend fun sellUsersStock(usersStockDomainModel: UsersStockDomainModel) {
-        dbReference.child(usersStockDomainModel.symbol).removeValue()
+    override suspend fun sellUsersStock(symbol:String) {
+        dbReference.child(symbol).removeValue()
     }
 
     override suspend fun getUsersStock() {

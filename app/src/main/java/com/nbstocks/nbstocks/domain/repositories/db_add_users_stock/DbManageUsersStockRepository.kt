@@ -5,5 +5,5 @@ import com.nbstocks.nbstocks.domain.model.UsersStockDomainModel
 interface DbManageUsersStockRepository {
     suspend fun buyUsersStock(usersStockDomainModel: UsersStockDomainModel)
     suspend fun getUsersStock()
-    suspend fun sellUsersStock(usersStockDomainModel: UsersStockDomainModel)
+    suspend fun sellUsersStock(symbol: String)
 }

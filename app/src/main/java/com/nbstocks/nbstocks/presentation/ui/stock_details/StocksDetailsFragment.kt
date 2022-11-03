@@ -22,8 +22,8 @@ class StocksDetailsFragment :
     private val viewModel: StocksDetailsViewModel by viewModels()
     private val args: StocksDetailsFragmentArgs by navArgs()
     private val stockPricesChart by lazy { StockPricesChart() }
-    private var amount: Double = 0.0
-    private var balance = 0.0
+    private var amount = DEFAULT_AMOUNT_STOCK
+    private var balance = DEFAULT_BALANCE
 
     override fun start() {
         setupChart()
@@ -171,10 +171,12 @@ class StocksDetailsFragment :
         doAfterTask: (isTaskSuccessful: Boolean, message: String) -> Unit
     ) {
 
-        if (balance < (amountOfStock!! * binding.tvCurrentPrice.text.toString().toCurrencyDouble())){
+        if (balance < (amountOfStock!! * binding.tvCurrentPrice.text.toString()
+                .toCurrencyDouble())
+        ) {
             doAfterTask(false, "Not enough Balance")
-        }else{
-            if (amount == 0.0){
+        } else {
+            if (amount == 0.0) {
                 viewModel.tradeStockToOwner(
                     UsersStockUiModel(
                         symbol = binding.tvSymbol.text.toString(),
@@ -182,9 +184,12 @@ class StocksDetailsFragment :
                         amountInStocks = amountOfStock
                     )
                 )
-                viewModel.changeBalance((balance - (amountOfStock * binding.tvCurrentPrice.text.toString().toCurrencyDouble())))
+                viewModel.changeBalance(
+                    (balance - (amountOfStock * binding.tvCurrentPrice.text.toString()
+                        .toCurrencyDouble()))
+                )
                 doAfterTask(true, "$amountOfStock stocks bought successfully!")
-            }else{
+            } else {
                 viewModel.tradeStockToOwner(
                     UsersStockUiModel(
                         symbol = binding.tvSymbol.text.toString(),
@@ -192,43 +197,14 @@ class StocksDetailsFragment :
                         amountInStocks = amountOfStock?.plus(amount)
                     )
                 )
-                viewModel.changeBalance((balance - (amountOfStock * binding.tvCurrentPrice.text.toString().toCurrencyDouble())))
+                viewModel.changeBalance(
+                    (balance - (amountOfStock * binding.tvCurrentPrice.text.toString()
+                        .toCurrencyDouble()))
+                )
                 doAfterTask(true, "$amountOfStock stocks bought successfully!")
             }
         }
 
-//        if (amount == 0.0) {
-//            viewModel.tradeStockToOwner(
-//                UsersStockUiModel(
-//                    symbol = binding.tvSymbol.text.toString(),
-//                    price = binding.tvCurrentPrice.text.toString(),
-//                    amountInStocks = amountOfStock
-//                )
-//            )
-//            if (balance < (amountOfStock!! * binding.tvCurrentPrice.text.toString().toCurrencyDouble())) {
-//                binding.root.makeSnackbar("Not enough Balance", true)
-//            } else {
-//                viewModel.changeBalance((balance - (amountOfStock * binding.tvCurrentPrice.text.toString().toCurrencyDouble())))
-//            }
-//        } else {
-//            viewModel.tradeStockToOwner(
-//                UsersStockUiModel(
-//                    symbol = binding.tvSymbol.text.toString(),
-//                    price = binding.tvCurrentPrice.text.toString(),
-//                    amountInStocks = amountOfStock?.plus(amount)
-//                )
-//            )
-//            if (balance < (amountOfStock!! * binding.tvCurrentPrice.text.toString()
-//                    .toCurrencyDouble())
-//            ) {
-//                binding.root.makeSnackbar("Not enough Balance", true)
-//            } else {
-//                viewModel.changeBalance(
-//                    (balance - (amountOfStock * binding.tvCurrentPrice.text.toString()
-//                        .toCurrencyDouble()))
-//                )
-//            }
-//        }
 
     }
 
@@ -248,11 +224,29 @@ class StocksDetailsFragment :
                 )
             )
             viewModel.changeBalance(
-                (balance + (amountOfStock * binding.tvCurrentPrice.text.toString().toCurrencyDouble()))
+                (balance + (amountOfStock * binding.tvCurrentPrice.text.toString()
+                    .toCurrencyDouble()))
             )
             doAfterTask(true, "$amountOfStock stocks sold successfully")
+
         }
 
+        removeStockFromDB()
+    }
 
+    private fun removeStockFromDB() {
+        asynchronously {
+            viewModel.getStockAmount(binding.tvSymbol.text.toString())
+            viewModel.amountOfStock.collect {
+                if (it.data?.toDouble() == 0.0) {
+                    viewModel.removeUsersStock(symbol = binding.tvSymbol.text.toString())
+                }
+            }
+        }
+    }
+
+    companion object{
+        private const val DEFAULT_BALANCE = 0.0
+        private const val DEFAULT_AMOUNT_STOCK = 0.0
     }
 }
