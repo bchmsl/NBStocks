@@ -138,6 +138,12 @@ class StocksDetailsViewModel @Inject constructor(
         }
     }
 
+    fun removeUsersStock(symbol: String){
+        viewModelScope.launch {
+            dbManageUsersStockRepositoryImpl.sellUsersStock(symbol)
+        }
+    }
+
     fun changeBalance(money: Double) {
         viewModelScope.launch {
             balanceRepositoryImpl.changeBalance(money)

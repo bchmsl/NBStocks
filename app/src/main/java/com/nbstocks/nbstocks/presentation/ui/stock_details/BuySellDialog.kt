@@ -37,6 +37,7 @@ class BuySellDialog(
         binding.apply {
 
             btnDialogConfirm.setOnClickListener {
+
                 tilStock.isValid()?.let { input ->
                     confirmCallback?.invoke(
                         input.toDoubleOrNull()
