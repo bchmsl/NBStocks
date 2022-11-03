@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
 import com.nbstocks.nbstocks.common.extensions.*
 import com.nbstocks.nbstocks.databinding.FragmentHomeBinding
 import com.nbstocks.nbstocks.presentation.ui.base.BaseFragment
+import com.nbstocks.nbstocks.presentation.ui.common.model.WatchlistStockInfoUiModel
 import com.nbstocks.nbstocks.presentation.ui.common.viewmodel.WatchlistViewModel
 import com.nbstocks.nbstocks.presentation.ui.home.adapter.UserStockAdapter
 import com.nbstocks.nbstocks.presentation.ui.home.adapter.WatchlistStocksAdapter
@@ -46,6 +47,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         watchlistViewModel.getItemsFromWatchlist()
         viewModel.getUsersStocks()
         viewModel.getBalance()
+        viewModel.showBalance(requireContext())
     }
 
     private fun observer() {
@@ -75,16 +77,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             }
         }
         asynchronously {
-            watchlistViewModel.ownedStocksState.collectViewState(binding) {
-                val data = it.data.mapIndexed { index, dataItem ->
-                    dataItem.copy(
-                        owned = true,
-                        ownedAmount = ownedStocks[index].amountInStocks,
-                        ownedPrice = ownedStocks[index].price
-                    )
-                }
-                Log.w("TAG: DATA", data.size.toString())
-                userStockAdapter.submitList(data.toList())
+            viewModel.usersStockState.collectViewState(binding) {
+                ownedStocks = it
+                watchlistViewModel.getUserStocksInformation(
+                    ownedStocks.map { it.symbol },
+                    false
+                )
+                collectOwnedStocks()
             }
         }
 
@@ -105,6 +104,22 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             }
         }
 
+    }
+
+    private fun collectOwnedStocks() {
+        asynchronously {
+            watchlistViewModel.ownedStocksState.collectViewState(binding) {watchListStockInfo ->
+                val data = mutableListOf<WatchlistStockInfoUiModel.DataItem>()
+                watchListStockInfo.data.forEachIndexed {index, dataItem->
+                    data.add(dataItem.copy(
+                        owned = true,
+                        ownedAmount = ownedStocks.getOrNull(index)?.amountInStocks,
+                        ownedPrice = ownedStocks.getOrNull(index)?.price
+                    ))
+                }
+                userStockAdapter.submitList(data.toList())
+            }
+        }
     }
 
     private fun setUpAdapter() {

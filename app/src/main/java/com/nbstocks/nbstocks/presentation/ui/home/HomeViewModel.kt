@@ -33,6 +33,7 @@ class HomeViewModel @Inject constructor(
 
     private val _balanceShownState = MutableStateFlow<Boolean>(false)
     val balanceShownState: StateFlow<Boolean> get() = _balanceShownState
+
     fun getUsersStocks() {
         viewModelScope.launch {
             usersStockRepositoryImpl.getOwnedStocks()
@@ -65,10 +66,10 @@ class HomeViewModel @Inject constructor(
     }
 
     fun showBalance(
-        @ApplicationContext context: Context? = null
+        context: Context
     ) {
         viewModelScope.launch {
-            context?.readPreference(true)?.let { _balanceShownState.emit(it) }
+            context.readPreference(true).let { _balanceShownState.emit(it) }
         }
     }
 }

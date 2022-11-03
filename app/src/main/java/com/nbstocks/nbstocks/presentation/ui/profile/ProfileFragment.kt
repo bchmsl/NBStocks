@@ -1,17 +1,13 @@
 package com.nbstocks.nbstocks.presentation.ui.profile
 
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
+import android.util.Log
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
-import com.nbstocks.nbstocks.common.extensions.makeSnackbar
+import com.nbstocks.nbstocks.common.extensions.asynchronously
 import com.nbstocks.nbstocks.common.extensions.obtainViewModel
-import com.nbstocks.nbstocks.common.handlers.Resource
 import com.nbstocks.nbstocks.databinding.FragmentProfileBinding
 import com.nbstocks.nbstocks.presentation.ui.base.BaseFragment
-import com.nbstocks.nbstocks.presentation.ui.common.viewmodel.WatchlistViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBinding::inflate) {
@@ -24,13 +20,23 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
         )
     }
     override fun start() {
+        observe()
         listeners()
+    }
+
+    private fun observe() {
+        asynchronously {
+            viewModel.getShownBalanceState(requireContext()).collect{
+                binding.swBalanceVisible.isChecked = it
+                Log.wtf("TAGGGG", it.toString())
+            }
+        }
     }
 
     private fun listeners() {
         binding.apply {
             swBalanceVisible.setOnCheckedChangeListener { buttonView, isChecked ->
-                viewModel.showBalance(isChecked)
+                viewModel.setShownBalance(requireContext(),isChecked)
             }
             tvAbout.setOnClickListener {
 

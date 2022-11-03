@@ -55,7 +55,6 @@
         android:id="@+id/swBalanceVisible"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:checked="true"
         android:drawableBottom="@drawable/shape_line"
         android:drawablePadding="15dp"
         android:drawableTint="?attr/colorOnSecondary"
