@@ -1,4 +1,4 @@
-package com.nbstocks.nbstocks.data.repositories.get_stock_amount
+package com.nbstocks.nbstocks.data.repositories.db_get_stock_amount
 
 import android.util.Log.d
 import com.google.firebase.auth.FirebaseAuth

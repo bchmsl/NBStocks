@@ -1,13 +1,12 @@
 package com.nbstocks.nbstocks.presentation.ui.stock_details
 
-import android.util.Log.d
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nbstocks.nbstocks.common.extensions.*
 import com.nbstocks.nbstocks.data.mapper.toUserStockDomainModel
-import com.nbstocks.nbstocks.data.repositories.db_add_users_stock.DbManageUsersStockRepositoryImpl
-import com.nbstocks.nbstocks.data.repositories.get_balance.GetBalanceRepositoryImpl
-import com.nbstocks.nbstocks.data.repositories.get_stock_amount.GetStockAmountRepositoryImpl
+import com.nbstocks.nbstocks.data.repositories.db_manage_users_stock.DbManageUsersStockRepositoryImpl
+import com.nbstocks.nbstocks.data.repositories.db_get_balance.GetBalanceRepositoryImpl
+import com.nbstocks.nbstocks.data.repositories.db_get_stock_amount.GetStockAmountRepositoryImpl
 import com.nbstocks.nbstocks.domain.repositories.current_stock.CurrentStockRepository
 import com.nbstocks.nbstocks.domain.repositories.daily_stock.DailyStockPricesRepository
 import com.nbstocks.nbstocks.domain.repositories.watchlist_stock.WatchlistStockRepository
@@ -21,7 +20,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

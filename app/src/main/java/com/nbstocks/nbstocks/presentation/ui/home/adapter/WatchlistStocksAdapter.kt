@@ -32,10 +32,10 @@ class WatchlistStocksAdapter :
                 tvExchangeName.text = currentItem.fullExchangeName
                 currentItem.regularMarketChangePercent?.let {
                     if (currentItem.regularMarketChangePercent < 0) {
-                        tvWatchlistPercentage.setTextColor(Color.RED)
+                        tvWatchlistPercentage.setBackgroundResource(R.drawable.shape_rectangle_decrease)
                         ivChart.setImageResource(R.drawable.ic_decrease)
                     } else {
-                        tvWatchlistPercentage.setTextColor(Color.GREEN)
+                        tvWatchlistPercentage.setBackgroundResource(R.drawable.shape_rectangle_increase)
                         ivChart.setImageResource(R.drawable.ic_increase)
                     }
                 }

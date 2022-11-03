@@ -4,9 +4,9 @@ import com.nbstocks.nbstocks.data.repositories.base_repository.BaseRepositoryImp
 import com.nbstocks.nbstocks.data.repositories.company_listings.CompanyListingsRepositoryImpl
 import com.nbstocks.nbstocks.data.repositories.current_stock.CurrentStockRepositoryImpl
 import com.nbstocks.nbstocks.data.repositories.daily_stock.DailyStockPricesPricesRepositoryImpl
-import com.nbstocks.nbstocks.data.repositories.db_add_users_stock.DbManageUsersStockRepositoryImpl
-import com.nbstocks.nbstocks.data.repositories.get_balance.GetBalanceRepositoryImpl
-import com.nbstocks.nbstocks.data.repositories.get_stock_amount.GetStockAmountRepositoryImpl
+import com.nbstocks.nbstocks.data.repositories.db_manage_users_stock.DbManageUsersStockRepositoryImpl
+import com.nbstocks.nbstocks.data.repositories.db_get_balance.GetBalanceRepositoryImpl
+import com.nbstocks.nbstocks.data.repositories.db_get_stock_amount.GetStockAmountRepositoryImpl
 import com.nbstocks.nbstocks.data.repositories.watchlist_stock.WatchlistStockRepositoryImpl
 import com.nbstocks.nbstocks.domain.repositories.base_repository.BaseRepository
 import com.nbstocks.nbstocks.domain.repositories.company_listings.CompanyListingsRepository
