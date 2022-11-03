@@ -4,15 +4,24 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.nbstocks.nbstocks.common.extensions.makeSnackbar
+import com.nbstocks.nbstocks.common.extensions.obtainViewModel
 import com.nbstocks.nbstocks.common.handlers.Resource
 import com.nbstocks.nbstocks.databinding.FragmentProfileBinding
 import com.nbstocks.nbstocks.presentation.ui.base.BaseFragment
+import com.nbstocks.nbstocks.presentation.ui.common.viewmodel.WatchlistViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBinding::inflate) {
 
-    private val viewModel: ProfileViewModel by viewModels()
-
+    private val viewModel: ProfileViewModel by lazy {
+        obtainViewModel(
+            requireActivity(),
+            ProfileViewModel::class.java,
+            defaultViewModelProviderFactory
+        )
+    }
     override fun start() {
         listeners()
     }
@@ -20,7 +29,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
     private fun listeners() {
         binding.apply {
             swBalanceVisible.setOnCheckedChangeListener { buttonView, isChecked ->
-
+                viewModel.showBalance(isChecked)
             }
             tvAbout.setOnClickListener {
 

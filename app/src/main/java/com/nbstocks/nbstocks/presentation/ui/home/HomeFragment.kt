@@ -46,6 +46,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         watchlistViewModel.getItemsFromWatchlist()
         viewModel.getUsersStocks()
         viewModel.getBalance()
+        viewModel.showBalance()
     }
 
     private fun observer() {
@@ -89,11 +90,21 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         }
 
         asynchronously {
-            viewModel.usersBalanceState.collectViewState(binding) {
-                binding.tvCurrentBalance.text = it.toDouble().toCurrencyString()
+            viewModel.usersBalanceState.collectViewState(binding) { balance ->
+                asynchronously {
+                    viewModel.balanceShownState.collect { isShown ->
+                        when (isShown) {
+                            true -> {
+                                binding.tvCurrentBalance.text = balance
+                            }
+                            else -> {
+                                binding.tvCurrentBalance.text = "*****"
+                            }
+                        }
+                    }
+                }
             }
         }
-
     }
 
     private fun setUpAdapter() {

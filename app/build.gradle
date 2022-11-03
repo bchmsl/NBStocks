@@ -105,6 +105,10 @@ dependencies {
 
     // Splash Screen
     implementation 'androidx.core:core-splashscreen:1.0.0'
+
+    // Preferences Datastore
+    def datastoreVersion = '1.0.0'
+    implementation "androidx.datastore:datastore-preferences:$datastoreVersion"
 }
 
 kapt {
