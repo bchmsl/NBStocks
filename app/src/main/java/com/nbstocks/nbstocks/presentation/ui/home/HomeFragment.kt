@@ -35,8 +35,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private var ownedStocks = listOf<UsersStockUiModel>()
 
     override fun start() {
-        observer()
         setUpAdapter()
+        observer()
         listeners()
 
     }
@@ -67,13 +67,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         }
         asynchronously {
             viewModel.usersStockState.collectViewState(binding) {
-                    ownedStocks = it
-
-                watchlistViewModel.getWatchlistStocksInformation(ownedStocks.map { it.symbol }, false)
+                ownedStocks = it
+                watchlistViewModel.getWatchlistStocksInformation(
+                    ownedStocks.map { it.symbol },
+                    false
+                )
             }
         }
         asynchronously {
-            watchlistViewModel.ownedStocksState.collectViewState(binding){
+            watchlistViewModel.ownedStocksState.collectViewState(binding) {
                 val data = it.data.mapIndexed { index, dataItem ->
                     dataItem.copy(
                         owned = true,
@@ -82,12 +84,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     )
                 }
                 Log.w("TAG: DATA", data.size.toString())
-                userStockAdapter.submitList(data)
+                userStockAdapter.submitList(data.toList())
             }
         }
 
         asynchronously {
-            viewModel.usersBalanceState.collectViewState(binding){
+            viewModel.usersBalanceState.collectViewState(binding) {
                 binding.tvCurrentBalance.text = it.toDouble().toCurrencyString()
             }
         }

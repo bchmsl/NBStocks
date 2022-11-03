@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nbstocks.nbstocks.common.extensions.*
-import com.nbstocks.nbstocks.common.handlers.Resource
 import com.nbstocks.nbstocks.data.repositories.watchlist_stock.WatchlistStockRepositoryImpl
 import com.nbstocks.nbstocks.presentation.mapper.toWatchListStockUiModel
 import com.nbstocks.nbstocks.presentation.model.ViewState
@@ -36,7 +35,7 @@ class WatchlistViewModel @Inject constructor(
 
     fun getItemsFromWatchlist() {
         viewModelScope.launch {
-            watchlistStockRepositoryImpl.getWatchlistItems()
+            watchlistStockRepositoryImpl.getHomeScreenItems()
             _watchlistItemsState.resetViewState()
             watchlistStockRepositoryImpl.stockState.collect { resource ->
                 _loaderState.value = resource.isLoading

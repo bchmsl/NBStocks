@@ -3,17 +3,14 @@ package com.nbstocks.nbstocks.presentation.ui.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nbstocks.nbstocks.common.extensions.*
-import com.nbstocks.nbstocks.common.handlers.Resource
 import com.nbstocks.nbstocks.data.mapper.toUserStockUiModel
-import com.nbstocks.nbstocks.data.repositories.db_add_users_stock.DbManageUsersStockRepositoryImpl
-import com.nbstocks.nbstocks.data.repositories.get_balance.GetBalanceRepositoryImpl
+import com.nbstocks.nbstocks.data.repositories.db_manage_users_stock.DbManageUsersStockRepositoryImpl
+import com.nbstocks.nbstocks.data.repositories.db_get_balance.GetBalanceRepositoryImpl
 import com.nbstocks.nbstocks.presentation.model.ViewState
-import com.nbstocks.nbstocks.presentation.ui.sign_up.model.User
 import com.nbstocks.nbstocks.presentation.ui.stock_details.model.UsersStockUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -34,7 +31,6 @@ class HomeViewModel @Inject constructor(
             usersStockRepositoryImpl.getUsersStock()
             _usersStockState.resetViewState()
             usersStockRepositoryImpl.stockState.collect { resource ->
-
                 resource.doOnSuccess {
                     _usersStockState.emitSuccessViewState(this) {
                         it.map { it.toUserStockUiModel() }
@@ -51,7 +47,6 @@ class HomeViewModel @Inject constructor(
             getBalanceRepositoryImpl.getBalance()
             _usersBalanceState.resetViewState()
             getBalanceRepositoryImpl.balance.collect { resource ->
-
                 resource.doOnSuccess {
                     _usersBalanceState.emitSuccessViewState(this) { it }
                 }.doOnFailure {

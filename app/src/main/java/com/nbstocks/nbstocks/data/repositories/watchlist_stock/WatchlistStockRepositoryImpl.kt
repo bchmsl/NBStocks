@@ -2,8 +2,11 @@ package com.nbstocks.nbstocks.data.repositories.watchlist_stock
 
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
-import com.nbstocks.nbstocks.common.extensions.onChildAddedListener
+import com.google.firebase.database.ValueEventListener
+import com.nbstocks.nbstocks.common.extensions.addOnDataChangedListener
 import com.nbstocks.nbstocks.common.handlers.Resource
 import com.nbstocks.nbstocks.data.mapper.toWatchlistStockInfoDomainModel
 import com.nbstocks.nbstocks.data.remote.services.WatchlistStockInfoService
@@ -43,15 +46,13 @@ class WatchlistStockRepositoryImpl @Inject constructor(
         dbReference.child(symbol).removeValue()
     }
 
-    override suspend fun getWatchlistItems() {
+    override suspend fun getHomeScreenItems() {
         stockList.clear()
-        dbReference.onChildAddedListener ({ snapshot, _ ->
-            if (snapshot.exists()) {
-                snapshot.getValue(String::class.java)
-                    ?.let { stockList.add(it) }
-                _stockState.tryEmit(Resource.Success(stockList.toList()))
-            }
-        })
+        dbReference.addOnDataChangedListener { snapshot ->
+            _stockState.tryEmit(Resource.Loading(true))
+            _stockState.tryEmit(Resource.Success(snapshot.children.map { it.key.toString() }))
+            _stockState.tryEmit(Resource.Loading(false))
+        }
     }
 
     override suspend fun getWatchlistStocksInformation(symbols: String)

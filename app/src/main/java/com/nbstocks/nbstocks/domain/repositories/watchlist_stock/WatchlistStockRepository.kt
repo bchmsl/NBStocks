@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface WatchlistStockRepository {
     suspend fun addWatchlistStock(symbol: String)
-    suspend fun getWatchlistItems()
+    suspend fun getHomeScreenItems()
     suspend fun getWatchlistStocksInformation(symbols: String) : Flow<Resource<WatchlistStockInfoDomainModel>>
     suspend fun removeWatchlistStock(symbol: String)
 }

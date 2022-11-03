@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.nbstocks.nbstocks.R
+import com.nbstocks.nbstocks.common.extensions.safeSubString
 import com.nbstocks.nbstocks.common.extensions.toCurrencyString
 import com.nbstocks.nbstocks.common.extensions.toPercentString
 import com.nbstocks.nbstocks.databinding.LayoutOwnStockItemBinding
@@ -24,18 +25,17 @@ class UserStockAdapter :
             binding.tvItemSymbol.text = currentItem.symbol
             binding.tvItemPrice.text = currentItem.regularMarketPrice.toCurrencyString()
             binding.tvPercentage.text = currentItem.regularMarketChangePercent.toPercentString()
-            binding.tvOwnedAmount.text = currentItem.ownedAmount.toString()
+            binding.tvOwnedAmount.text = currentItem.ownedAmount.toString().safeSubString(7)
             binding.tvTotalValue.text = (currentItem.ownedAmount?.let {
                 currentItem.regularMarketPrice?.times(
                     it
                 )
             }).toCurrencyString()
-            binding.tvItemShortName.text = currentItem.shortName
             currentItem.regularMarketChangePercent?.let {
                 if (currentItem.regularMarketChangePercent < 0) {
-                    binding.tvPercentage.setTextColor(Color.RED)
+                    binding.tvPercentage.setBackgroundResource(R.drawable.shape_rectangle_decrease)
                 } else {
-                    binding.tvPercentage.setTextColor(Color.GREEN)
+                    binding.tvPercentage.setBackgroundResource(R.drawable.shape_rectangle_increase)
                 }
             }
             binding.root.setOnClickListener { stockItemClicked?.invoke(currentItem) }
