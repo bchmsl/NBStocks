@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nbstocks.nbstocks.common.extensions.*
 import com.nbstocks.nbstocks.data.mapper.toUserStockUiModel
-import com.nbstocks.nbstocks.data.repositories.db_manage_users_stock.DbManageUsersStockRepositoryImpl
-import com.nbstocks.nbstocks.data.repositories.db_get_balance.GetBalanceRepositoryImpl
+import com.nbstocks.nbstocks.data.repositories.db_owned_stocks.OwnedStocksRepositoryImpl
+import com.nbstocks.nbstocks.data.repositories.db_balance.BalanceRepositoryImpl
 import com.nbstocks.nbstocks.presentation.model.ViewState
 import com.nbstocks.nbstocks.presentation.ui.stock_details.model.UsersStockUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,8 +16,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val usersStockRepositoryImpl: DbManageUsersStockRepositoryImpl,
-    private val getBalanceRepositoryImpl: GetBalanceRepositoryImpl
+    private val usersStockRepositoryImpl: OwnedStocksRepositoryImpl,
+    private val balanceRepositoryImpl: BalanceRepositoryImpl
 ) : ViewModel() {
 
     private val _usersStockState = MutableStateFlow<ViewState<List<UsersStockUiModel>>>(ViewState())
@@ -28,9 +28,9 @@ class HomeViewModel @Inject constructor(
 
     fun getUsersStocks() {
         viewModelScope.launch {
-            usersStockRepositoryImpl.getUsersStock()
+            usersStockRepositoryImpl.getOwnedStocks()
             _usersStockState.resetViewState()
-            usersStockRepositoryImpl.stockState.collect { resource ->
+            usersStockRepositoryImpl.ownedStockState.collect { resource ->
                 resource.doOnSuccess {
                     _usersStockState.emitSuccessViewState(this) {
                         it.map { it.toUserStockUiModel() }
@@ -44,9 +44,9 @@ class HomeViewModel @Inject constructor(
 
     fun getBalance() {
         viewModelScope.launch {
-            getBalanceRepositoryImpl.getBalance()
+            balanceRepositoryImpl.getBalance()
             _usersBalanceState.resetViewState()
-            getBalanceRepositoryImpl.balance.collect { resource ->
+            balanceRepositoryImpl.balance.collect { resource ->
                 resource.doOnSuccess {
                     _usersBalanceState.emitSuccessViewState(this) { it }
                 }.doOnFailure {

@@ -4,12 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nbstocks.nbstocks.common.extensions.*
 import com.nbstocks.nbstocks.data.mapper.toUserStockDomainModel
-import com.nbstocks.nbstocks.data.repositories.db_manage_users_stock.DbManageUsersStockRepositoryImpl
-import com.nbstocks.nbstocks.data.repositories.db_get_balance.GetBalanceRepositoryImpl
+import com.nbstocks.nbstocks.data.repositories.db_owned_stocks.OwnedStocksRepositoryImpl
+import com.nbstocks.nbstocks.data.repositories.db_balance.BalanceRepositoryImpl
 import com.nbstocks.nbstocks.data.repositories.db_get_stock_amount.GetStockAmountRepositoryImpl
 import com.nbstocks.nbstocks.domain.repositories.current_stock.CurrentStockRepository
 import com.nbstocks.nbstocks.domain.repositories.daily_stock.DailyStockPricesRepository
-import com.nbstocks.nbstocks.domain.repositories.watchlist_stock.WatchlistStockRepository
+import com.nbstocks.nbstocks.domain.repositories.watchlist_stock.WatchlistRepository
 import com.nbstocks.nbstocks.presentation.mapper.toCurrentStockUiModel
 import com.nbstocks.nbstocks.presentation.mapper.toIntervalStockPricesUiModel
 import com.nbstocks.nbstocks.presentation.model.ViewState
@@ -27,10 +27,10 @@ import javax.inject.Inject
 class StocksDetailsViewModel @Inject constructor(
     private val stockDetailsRepository: DailyStockPricesRepository,
     private val currentStockRepository: CurrentStockRepository,
-    private val watchlistStockRepository: WatchlistStockRepository,
-    private val dbManageUsersStockRepositoryImpl: DbManageUsersStockRepositoryImpl,
+    private val watchlistStockRepository: WatchlistRepository,
+    private val ownedStocksRepositoryImpl: OwnedStocksRepositoryImpl,
     private val getStockAmountRepositoryImpl: GetStockAmountRepositoryImpl,
-    private val getBalanceRepositoryImpl: GetBalanceRepositoryImpl
+    private val balanceRepositoryImpl: BalanceRepositoryImpl
 ) : ViewModel() {
 
     private val _intervalStockPricesViewState =
@@ -116,7 +116,7 @@ class StocksDetailsViewModel @Inject constructor(
 
     fun tradeStockToOwner(usersStockUiModel: UsersStockUiModel) {
         viewModelScope.launch {
-            dbManageUsersStockRepositoryImpl.buyUsersStock(
+            ownedStocksRepositoryImpl.buyStocks(
                 usersStockDomainModel = usersStockUiModel.toUserStockDomainModel()
             )
         }
@@ -124,9 +124,9 @@ class StocksDetailsViewModel @Inject constructor(
 
     fun getBalance() {
         viewModelScope.launch {
-            getBalanceRepositoryImpl.getBalance()
+            balanceRepositoryImpl.getBalance()
             _usersBalanceState.resetViewState()
-            getBalanceRepositoryImpl.balance.collect { resource ->
+            balanceRepositoryImpl.balance.collect { resource ->
 
                 resource.doOnSuccess {
                     _usersBalanceState.emitSuccessViewState(this) { it }
@@ -140,7 +140,7 @@ class StocksDetailsViewModel @Inject constructor(
 
     fun changeBalance(money: Double) {
         viewModelScope.launch {
-            getBalanceRepositoryImpl.changeBalance(money)
+            balanceRepositoryImpl.changeBalance(money)
         }
     }
 
