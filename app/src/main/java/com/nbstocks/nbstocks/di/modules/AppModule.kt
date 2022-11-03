@@ -6,18 +6,20 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.nbstocks.nbstocks.common.constants.ApiServiceHelpers
 import com.nbstocks.nbstocks.common.constants.ModuleParams
-import com.nbstocks.nbstocks.common.handlers.ResponseHandler
 import com.nbstocks.nbstocks.data.local.database.StockDatabase
 import com.nbstocks.nbstocks.data.remote.services.CompanyListingsService
 import com.nbstocks.nbstocks.data.remote.services.CurrentStockPriceService
 import com.nbstocks.nbstocks.data.remote.services.IntervalStockPricesService
 import com.nbstocks.nbstocks.data.remote.services.WatchlistStockInfoService
+import com.nbstocks.nbstocks.data.repositories.change_password.ChangePasswordRepositoryImpl
 import com.nbstocks.nbstocks.data.repositories.db_add_user.DbAddUserRepositoryImpl
 import com.nbstocks.nbstocks.data.repositories.login.LoginRepositoryImpl
+import com.nbstocks.nbstocks.data.repositories.password_recovery.ResetPasswordRepositoryImpl
 import com.nbstocks.nbstocks.data.repositories.registration.RegisterRepositoryImpl
-
+import com.nbstocks.nbstocks.domain.repositories.change_password.ChangePasswordRepository
 import com.nbstocks.nbstocks.domain.repositories.db_add_user.DbAddUserRepository
 import com.nbstocks.nbstocks.domain.repositories.login.LoginRepository
+import com.nbstocks.nbstocks.domain.repositories.password_recovery.ResetPasswordRepository
 import com.nbstocks.nbstocks.domain.repositories.registration.RegisterRepository
 import dagger.Module
 import dagger.Provides
@@ -48,7 +50,6 @@ object AppModule {
         @Named(ModuleParams.TWELVE_DATA) retrofit: Retrofit
     ): CompanyListingsService =
         retrofit.create(CompanyListingsService::class.java)
-
 
 
     @Provides
@@ -82,14 +83,12 @@ object AppModule {
         retrofit.create(WatchlistStockInfoService::class.java)
 
 
-
-
-
     @Provides
     @Singleton
     fun providesStockDatabase(
         @ApplicationContext
-        context: Context) =
+        context: Context
+    ) =
         Room.databaseBuilder(
             context,
             StockDatabase::class.java,
@@ -105,16 +104,26 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideChangePasswordRepository(
+        auth: FirebaseAuth
+    ): ChangePasswordRepository = ChangePasswordRepositoryImpl(auth)
+
+    @Provides
+    @Singleton
     fun provideRegisterRepository(
         auth: FirebaseAuth,
-        handler: ResponseHandler,
         repository: DbAddUserRepositoryImpl
     ): RegisterRepository = RegisterRepositoryImpl(auth, repository)
 
     @Provides
     @Singleton
+    fun provideResetPasswordRepository(
+        auth: FirebaseAuth
+    ): ResetPasswordRepository = ResetPasswordRepositoryImpl(auth)
+
+    @Provides
+    @Singleton
     fun provideAddUserDbRepository(
-        handler: ResponseHandler,
         db: FirebaseDatabase
     ): DbAddUserRepository = DbAddUserRepositoryImpl(db)
 }

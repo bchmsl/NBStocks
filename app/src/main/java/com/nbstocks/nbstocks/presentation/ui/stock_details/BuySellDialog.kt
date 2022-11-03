@@ -1,5 +1,6 @@
 package com.nbstocks.nbstocks.presentation.ui.stock_details
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.view.LayoutInflater
@@ -28,11 +29,13 @@ class BuySellDialog(
         start()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun start() {
         binding.tvDialogTitle.text = (if (isBuying) "Buy" else "Sell") + " Stock"
         binding.btnDialogConfirm.text = if (isBuying) "Buy" else "Sell"
 
         binding.apply {
+
             btnDialogConfirm.setOnClickListener {
                 tilStock.isValid()?.let { input ->
                     confirmCallback?.invoke(
@@ -40,6 +43,7 @@ class BuySellDialog(
                     )
                     close()
                 }
+
                 tilMoney.isValid()?.let { input ->
                     confirmCallback?.invoke(
                         input.toDoubleOrNull()?.div(price)
@@ -47,7 +51,6 @@ class BuySellDialog(
                     close()
                 }
             }
-
         }
     }
 }

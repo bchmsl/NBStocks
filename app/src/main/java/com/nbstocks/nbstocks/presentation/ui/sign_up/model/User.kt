@@ -4,5 +4,5 @@ data class User(
     val uid: String? = "",
     val email: String? = "",
     val password: String? = "",
-    val balance: Int? = 10000
+    val balance: Double? = 10000.0
 )

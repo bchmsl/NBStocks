@@ -8,10 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
-import com.nbstocks.nbstocks.common.extensions.asynchronously
-import com.nbstocks.nbstocks.common.extensions.collectViewState
-import com.nbstocks.nbstocks.common.extensions.obtainViewModel
-import com.nbstocks.nbstocks.common.extensions.safeSubList
+import com.nbstocks.nbstocks.common.extensions.*
 import com.nbstocks.nbstocks.databinding.FragmentHomeBinding
 import com.nbstocks.nbstocks.presentation.ui.base.BaseFragment
 import com.nbstocks.nbstocks.presentation.ui.common.viewmodel.WatchlistViewModel
@@ -24,6 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
 
     private val viewModel: HomeViewModel by viewModels()
+
     private val watchlistViewModel: WatchlistViewModel by lazy {
         obtainViewModel(
             requireActivity(),
@@ -47,6 +45,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         super.onCreate(savedInstanceState)
         watchlistViewModel.getItemsFromWatchlist()
         viewModel.getUsersStocks()
+        viewModel.getBalance()
     }
 
     private fun observer() {
@@ -84,6 +83,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 }
                 Log.w("TAG: DATA", data.size.toString())
                 userStockAdapter.submitList(data)
+            }
+        }
+
+        asynchronously {
+            viewModel.usersBalanceState.collectViewState(binding){
+                binding.tvCurrentBalance.text = it.toDouble().toCurrencyString()
             }
         }
 

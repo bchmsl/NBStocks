@@ -23,7 +23,7 @@ interface ResponseHandler {
         }
     }
 
-    fun <T> handleSuccess(data: T) : Resource<T> {
-        return Resource.Success(data)
+    fun <T> handleSuccess(data: T? = null) : Resource<T> {
+        return Resource.Success(data!!)
     }
 }
