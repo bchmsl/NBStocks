@@ -155,7 +155,7 @@ class StocksDetailsFragment :
         doAfterTask: (isTaskSuccessful: Boolean, message: String) -> Unit
     ) {
         if (isBuying) {
-            buyStock(amountOfStock) { isTaskSuccessful, message ->
+            tradeStock(amountOfStock) { isTaskSuccessful, message ->
                 doAfterTask(isTaskSuccessful, message)
             }
         } else {
@@ -166,50 +166,70 @@ class StocksDetailsFragment :
     }
 
 
-    private fun buyStock(
+    private fun tradeStock(
         amountOfStock: Double?,
         doAfterTask: (isTaskSuccessful: Boolean, message: String) -> Unit
     ) {
 
-
-        if (amount == 0.0) {
-
-            viewModel.tradeStockToOwner(
-                UsersStockUiModel(
-                    symbol = binding.tvSymbol.text.toString(),
-                    price = binding.tvCurrentPrice.text.toString(),
-                    amountInStocks = amountOfStock
+        if (balance < (amountOfStock!! * binding.tvCurrentPrice.text.toString().toCurrencyDouble())){
+            doAfterTask(false, "Not enough Balance")
+        }else{
+            if (amount == 0.0){
+                viewModel.tradeStockToOwner(
+                    UsersStockUiModel(
+                        symbol = binding.tvSymbol.text.toString(),
+                        price = binding.tvCurrentPrice.text.toString(),
+                        amountInStocks = amountOfStock
+                    )
                 )
-            )
-
-            if (balance < (amountOfStock!! * binding.tvCurrentPrice.text.toString().toCurrencyDouble())){
-                binding.root.makeSnackbar("Not enough Balance",true)
+                viewModel.changeBalance((balance - (amountOfStock * binding.tvCurrentPrice.text.toString().toCurrencyDouble())))
+                doAfterTask(true, "$amountOfStock stocks bought successfully!")
             }else{
-                viewModel.changeBalance(
-                    (balance - (amountOfStock * binding.tvCurrentPrice.text.toString().toCurrencyDouble())))
-            }
-
-        } else {
-            viewModel.tradeStockToOwner(
-                UsersStockUiModel(
-                    symbol = binding.tvSymbol.text.toString(),
-                    price = binding.tvCurrentPrice.text.toString(),
-                    amountInStocks = amountOfStock?.plus(amount)
+                viewModel.tradeStockToOwner(
+                    UsersStockUiModel(
+                        symbol = binding.tvSymbol.text.toString(),
+                        price = binding.tvCurrentPrice.text.toString(),
+                        amountInStocks = amountOfStock?.plus(amount)
+                    )
                 )
-            )
-
-            if (balance < (amountOfStock!! * binding.tvCurrentPrice.text.toString().toCurrencyDouble())){
-                binding.root.makeSnackbar("Not enough Balance",true)
-            }else{
-                viewModel.changeBalance(
-                    (balance - (amountOfStock * binding.tvCurrentPrice.text.toString().toCurrencyDouble())))
+                viewModel.changeBalance((balance - (amountOfStock * binding.tvCurrentPrice.text.toString().toCurrencyDouble())))
+                doAfterTask(true, "$amountOfStock stocks bought successfully!")
             }
-
-
         }
 
+//        if (amount == 0.0) {
+//            viewModel.tradeStockToOwner(
+//                UsersStockUiModel(
+//                    symbol = binding.tvSymbol.text.toString(),
+//                    price = binding.tvCurrentPrice.text.toString(),
+//                    amountInStocks = amountOfStock
+//                )
+//            )
+//            if (balance < (amountOfStock!! * binding.tvCurrentPrice.text.toString().toCurrencyDouble())) {
+//                binding.root.makeSnackbar("Not enough Balance", true)
+//            } else {
+//                viewModel.changeBalance((balance - (amountOfStock * binding.tvCurrentPrice.text.toString().toCurrencyDouble())))
+//            }
+//        } else {
+//            viewModel.tradeStockToOwner(
+//                UsersStockUiModel(
+//                    symbol = binding.tvSymbol.text.toString(),
+//                    price = binding.tvCurrentPrice.text.toString(),
+//                    amountInStocks = amountOfStock?.plus(amount)
+//                )
+//            )
+//            if (balance < (amountOfStock!! * binding.tvCurrentPrice.text.toString()
+//                    .toCurrencyDouble())
+//            ) {
+//                binding.root.makeSnackbar("Not enough Balance", true)
+//            } else {
+//                viewModel.changeBalance(
+//                    (balance - (amountOfStock * binding.tvCurrentPrice.text.toString()
+//                        .toCurrencyDouble()))
+//                )
+//            }
+//        }
 
-        doAfterTask(true, "$amountOfStock stocks bought successfully!")
     }
 
     private fun sellStock(
@@ -218,7 +238,7 @@ class StocksDetailsFragment :
     ) {
 
         if (amount == 0.0 || amount < amountOfStock!!) {
-            binding.root.makeSnackbar("Not enough Balance", true)
+            doAfterTask(false, "Not enough Amount of Stocks")
         } else {
             viewModel.tradeStockToOwner(
                 UsersStockUiModel(
@@ -228,10 +248,11 @@ class StocksDetailsFragment :
                 )
             )
             viewModel.changeBalance(
-                (balance + (amountOfStock * binding.tvCurrentPrice.text.toString().toCurrencyDouble())))
+                (balance + (amountOfStock * binding.tvCurrentPrice.text.toString().toCurrencyDouble()))
+            )
+            doAfterTask(true, "$amountOfStock stocks sold successfully")
         }
 
-        doAfterTask(true, "$amountOfStock stocks sold successfully")
 
     }
 }
