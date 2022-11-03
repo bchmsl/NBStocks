@@ -14,6 +14,7 @@ data class WatchlistStockInfoUiModel(
         val regularMarketPrice: Double?,
         val shortName: String?,
         val symbol: String?,
+
         var owned: Boolean? = false,
         var ownedAmount: Double? = null,
         var ownedPrice: String? = null

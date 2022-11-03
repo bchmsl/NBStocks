@@ -51,7 +51,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private fun observer() {
         asynchronously {
             watchlistViewModel.watchlistItemsState.collectViewState(binding) {
-                watchlistViewModel.getWatchlistStocksInformation(it.safeSubList(5), true)
+                watchlistViewModel.getUserStocksInformation(it.safeSubList(5), true)
             }
         }
         asynchronously {
@@ -68,7 +68,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         asynchronously {
             viewModel.usersStockState.collectViewState(binding) {
                 ownedStocks = it
-                watchlistViewModel.getWatchlistStocksInformation(
+                watchlistViewModel.getUserStocksInformation(
                     ownedStocks.map { it.symbol },
                     false
                 )

@@ -1,19 +1,19 @@
-package com.nbstocks.nbstocks.data.repositories.db_get_balance
+package com.nbstocks.nbstocks.data.repositories.db_balance
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.nbstocks.nbstocks.common.extensions.addOnDataChangedListener
 import com.nbstocks.nbstocks.common.handlers.Resource
-import com.nbstocks.nbstocks.domain.repositories.get_balance.GetBalanceRepository
+import com.nbstocks.nbstocks.domain.repositories.get_balance.BalanceRepository
 import com.nbstocks.nbstocks.presentation.ui.sign_up.model.User
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
-class GetBalanceRepositoryImpl @Inject constructor(
+class BalanceRepositoryImpl @Inject constructor(
     db: FirebaseDatabase,
     auth: FirebaseAuth
-) : GetBalanceRepository {
+) : BalanceRepository {
 
     private val dbReference = db.reference
         .child("Users")

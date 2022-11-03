@@ -6,6 +6,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.nbstocks.nbstocks.common.extensions.addOnDataChangedListener
 import com.nbstocks.nbstocks.common.handlers.Resource
 import com.nbstocks.nbstocks.domain.model.UsersStockDomainModel
 import com.nbstocks.nbstocks.domain.repositories.get_stock_amount.GetStockAmountRepository
@@ -28,21 +29,18 @@ class GetStockAmountRepositoryImpl @Inject constructor(
 
 
     override suspend fun getStockAmount(symbol: String) {
-        dbReference.child(symbol).addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.exists()) {
+        dbReference.child(symbol).addOnDataChangedListener { snapshot ->
+            if (snapshot.exists()) {
 
-                    val stockInfo = snapshot.getValue(UsersStockDomainModel::class.java)!!
-                    d("Tag_rep","${stockInfo.amountInStocks}")
-                    _stockAmount.tryEmit(Resource.Success(stockInfo.amountInStocks.toString()))
+                val stockInfo = snapshot.getValue(UsersStockDomainModel::class.java)!!
+                d("Tag_rep", "${stockInfo.amountInStocks}")
+                _stockAmount.tryEmit(Resource.Success(stockInfo.amountInStocks.toString()))
 
-                    if (stockInfo.amountInStocks!! < 0){
-                        _stockAmount.tryEmit(Resource.Error(error = Throwable("no stock")))
-                    }
+                if (stockInfo.amountInStocks!! < 0) {
+                    _stockAmount.tryEmit(Resource.Error(error = Throwable("no stock")))
                 }
             }
-            override fun onCancelled(error: DatabaseError) {}
-        })
+        }
     }
 
 
