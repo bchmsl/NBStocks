@@ -1,7 +1,10 @@
 package com.nbstocks.nbstocks.presentation.ui.home
 
 
+import android.os.Build
 import android.os.Bundle
+import android.util.Log.d
+import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -16,6 +19,10 @@ import com.nbstocks.nbstocks.presentation.ui.home.adapter.UserStockAdapter
 import com.nbstocks.nbstocks.presentation.ui.home.adapter.WatchlistStocksAdapter
 import com.nbstocks.nbstocks.presentation.ui.stock_details.model.UsersStockUiModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.util.*
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
@@ -39,6 +46,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         setUpAdapter()
         observer()
         listeners()
+
+
+//        val date = Calendar.getInstance().time
+//        val formatter = SimpleDateFormat.getDateTimeInstance() //or use getDateInstance()
+//        val formatedDate = formatter.format(date)
+//
+//        d("date","$formatedDate")
 
     }
 
