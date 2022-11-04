@@ -1,5 +1,6 @@
 package com.nbstocks.nbstocks.presentation.ui.log_in
 
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
@@ -29,6 +30,11 @@ class LogInFragment : BaseFragment<FragmentLogInBinding>(FragmentLogInBinding::i
                 }.doOnFailure {
                     it.localizedMessage?.let { it1 -> binding.root.makeSnackbar(it1, true) }
                 }
+            }
+        }
+        asynchronously {
+            viewModel.loaderState.collect{
+                binding.progressBar.isVisible = it
             }
         }
     }

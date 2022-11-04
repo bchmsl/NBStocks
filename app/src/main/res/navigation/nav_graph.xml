@@ -15,13 +15,16 @@
             app:destination="@id/stocksDetailsFragment" />
         <action
             android:id="@+id/action_homeFragment_to_stocksFragment"
-            app:destination="@id/companyListingsFragment" />
+            app:destination="@id/companyListingsFragment"
+            app:popUpTo="@id/nav_graph.xml" />
         <action
             android:id="@+id/action_homeFragment_to_watchlistFragment"
             app:destination="@id/watchlistFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_ownStockItemsFragment"
-            app:destination="@id/ownStockItemsFragment" />
+            android:id="@+id/action_homeFragment_to_profileFragment"
+            app:destination="@id/profileFragment"
+            app:popUpTo="@id/nav_graph.xml" />
+
     </fragment>
     <fragment
         android:id="@+id/logInFragment"
@@ -84,6 +87,14 @@
         <action
             android:id="@+id/action_companyListingsFragment_to_stocksDetailsFragment"
             app:destination="@id/stocksDetailsFragment" />
+        <action
+            android:id="@+id/action_companyListingsFragment_to_profileFragment"
+            app:destination="@id/profileFragment"
+            app:popUpTo="@id/nav_graph.xml" />
+        <action
+            android:id="@+id/action_companyListingsFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/nav_graph.xml" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -93,6 +104,14 @@
         <action
             android:id="@+id/action_profileFragment_to_logInFragment"
             app:destination="@id/logInFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_companyListingsFragment"
+            app:destination="@id/companyListingsFragment"
+            app:popUpTo="@id/nav_graph.xml" />
+        <action
+            android:id="@+id/action_profileFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/nav_graph.xml" />
     </fragment>
     <fragment
         android:id="@+id/watchlistFragment"
@@ -103,9 +122,4 @@
             android:id="@+id/action_watchlistFragment_to_stocksDetailsFragment"
             app:destination="@id/stocksDetailsFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/ownStockItemsFragment"
-        android:name="com.nbstocks.nbstocks.presentation.ui.own_stock_items.OwnStockItemsFragment"
-        android:label="fragment_own_stock_items"
-        tools:layout="@layout/fragment_own_stock_items" />
 </navigation>

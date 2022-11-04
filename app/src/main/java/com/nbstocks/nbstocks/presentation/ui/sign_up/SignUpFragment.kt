@@ -1,5 +1,6 @@
 package com.nbstocks.nbstocks.presentation.ui.sign_up
 
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -47,6 +48,11 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(FragmentSignUpBinding
                 }.doOnFailure {
                     it.localizedMessage?.let {binding.root.makeSnackbar(it, true) }
                 }
+            }
+        }
+        asynchronously {
+            viewModel.loaderState.collect{
+                binding.progressBar.isVisible = it
             }
         }
     }

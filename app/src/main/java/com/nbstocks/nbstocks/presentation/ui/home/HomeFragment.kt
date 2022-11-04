@@ -164,6 +164,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 )
             }
         }
+        binding.tbtnProfile.setOnClickListener {
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToProfileFragment())
+        }
     }
 
     private fun showConfirmation(currentBalance: Double, isDeposit: Boolean) {

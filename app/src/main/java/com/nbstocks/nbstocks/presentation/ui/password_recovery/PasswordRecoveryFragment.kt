@@ -1,9 +1,11 @@
 package com.nbstocks.nbstocks.presentation.ui.password_recovery
 
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.nbstocks.nbstocks.common.extensions.asynchronously
 import com.nbstocks.nbstocks.common.extensions.makeSnackbar
 import com.nbstocks.nbstocks.common.handlers.Resource
 import com.nbstocks.nbstocks.databinding.FragmentPasswordRecoveryBinding
@@ -20,6 +22,15 @@ class PasswordRecoveryFragment : BaseFragment<FragmentPasswordRecoveryBinding>(F
     override fun start() {
         binding.etEmail.setText(args.email)
         listeners()
+        observe()
+    }
+
+    private fun observe() {
+        asynchronously {
+            viewModel.loaderState.collect{
+                binding.progressBar.isVisible = it
+            }
+        }
     }
 
     private fun listeners() {
