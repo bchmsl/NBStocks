@@ -15,8 +15,7 @@ class MultipleStocksRepositoryImpl @Inject constructor(
     private val baseRepository: BaseRepository
 ): MultipleStocksRepository {
 
-    override suspend fun getWatchlistStocksInformation(symbols: String)
-            : Flow<Resource<WatchlistStockInfoDomainModel>> = flow {
+    override suspend fun getWatchlistStocksInformation(symbols: String): Flow<Resource<WatchlistStockInfoDomainModel>> = flow {
         emit(Resource.Loading(true))
         if (symbols.isNotBlank()) {
             val resource = baseRepository.safeApiCall({

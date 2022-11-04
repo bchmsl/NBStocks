@@ -48,10 +48,9 @@ class UserStockListingViewModel @Inject constructor(
 
     fun getUserStocksInformation(symbols: List<String>) {
         viewModelScope.launch {
-            _usersStockState.resetViewState()
+            _ownedStocksState.resetViewState()
             multipleStocksRepository.getWatchlistStocksInformation(symbols.joinToString(","))
                 .collect { resource ->
-
                     resource.doOnSuccess {
                         _ownedStocksState.emitSuccessViewState(this) {
                             it.toWatchListStockUiModel()
