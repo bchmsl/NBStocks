@@ -35,7 +35,7 @@
         android:fontFamily="sans-serif-light"
         android:text="@string/watchlist"
         android:textColor="@color/white"
-        android:textSize="25sp"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/ibtnBack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/ibtnBack" />

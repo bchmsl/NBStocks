@@ -14,7 +14,7 @@
         android:fontFamily="sans-serif"
         android:textAlignment="center"
         android:textColor="?attr/colorOnSecondary"
-        android:textSize="30sp"
+        android:textSize="18sp"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Deposit" />
 
@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
             android:inputType="number"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.appcompat.widget.AppCompatButton
@@ -50,8 +50,8 @@
         android:background="@drawable/button_background"
         android:fontFamily="sans-serif"
         android:textAllCaps="false"
-        android:textColor="?attr/colorOnSecondary"
-        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:textSize="18sp"
         app:layout_constraintTop_toBottomOf="@id/tilMoney"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

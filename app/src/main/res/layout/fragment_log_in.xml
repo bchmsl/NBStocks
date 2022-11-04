@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
             android:inputType="textEmailAddress"
-            android:textSize="18sp"
+            android:textSize="16sp"
             tools:text="test@nbstocks.com" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -63,7 +63,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
-        android:layout_marginTop="10dp"
         android:layout_marginEnd="25dp"
         android:hint="@string/password"
         app:endIconMode="password_toggle"
@@ -81,7 +80,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
             android:inputType="textPassword"
-            android:textSize="18sp"
+            android:textSize="16sp"
             tools:text="password" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -89,11 +88,10 @@
         android:id="@+id/tvForgotPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
         android:fontFamily="sans-serif-light"
         android:text="@string/forgot_password"
         android:textColor="?attr/colorOnSecondary"
-        android:textSize="18sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@+id/tilPassword"
         app:layout_constraintTop_toBottomOf="@+id/tilPassword" />
 
@@ -102,17 +100,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="75dp"
-        android:layout_marginTop="55dp"
+        android:layout_marginTop="25dp"
         android:layout_marginEnd="75dp"
         android:background="@drawable/button_background"
         android:fontFamily="sans-serif-light"
         android:text="@string/sign_in"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:textSize="22sp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tilPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/tvForgotPassword" />
 
     <View
         android:id="@+id/viewSeparator"
@@ -120,10 +119,11 @@
         android:layout_height="2dp"
         android:layout_marginHorizontal="45dp"
         android:background="?attr/colorOnSecondary"
-        app:layout_constraintBottom_toTopOf="@+id/tvDontHaveAccount"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnSignIn" />
+        app:layout_constraintTop_toBottomOf="@+id/btnSignIn"
+        app:layout_constraintVertical_bias="0.25" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvDontHaveAccount"
@@ -133,11 +133,12 @@
         android:fontFamily="sans-serif-light"
         android:text="@string/don_t_have_an_account"
         android:textColor="?attr/colorOnSecondary"
-        android:textSize="18sp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/tvSignUpHere"
         app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewSeparator" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvSignUpHere"
@@ -146,7 +147,7 @@
         android:fontFamily="sans-serif-medium"
         android:text="@string/sign_up_here"
         android:textColor="?attr/colorOnSecondary"
-        android:textSize="18sp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/tvDontHaveAccount"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tvDontHaveAccount"

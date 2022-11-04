@@ -15,7 +15,7 @@
         android:layout_marginTop="15dp"
         android:fontFamily="sans-serif-medium"
         android:textColor="?attr/colorOnSecondary"
-        android:textSize="25sp"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="AAPL" />
@@ -82,7 +82,7 @@
         android:layout_marginBottom="10dp"
         android:fontFamily="sans-serif-medium"
         android:textColor="?attr/colorOnError"
-        android:textSize="22sp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/tvItemPrice"
         tools:text="$767.55" />

@@ -14,7 +14,7 @@
         android:fontFamily="sans-serif"
         android:textAlignment="center"
         android:textColor="?attr/colorOnSecondary"
-        android:textSize="30sp"
+        android:textSize="18sp"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Buy Stock" />
 
@@ -70,7 +70,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
             android:inputType="numberSigned"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -92,9 +92,8 @@
         android:id="@+id/tvStockAmount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
         android:layout_marginTop="30dp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tilMoney"
         app:layout_constraintTop_toBottomOf="@id/ibtnSwap"
         tools:text="You have 3.1644164 stocks." />
 
@@ -102,15 +101,15 @@
         android:id="@+id/tvAddAll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
         android:fontFamily="sans-serif-medium"
         android:padding="10dp"
         android:text="@string/add_all"
         android:textColor="?attr/colorOnBackground"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@id/tvStockAmount"
-        app:layout_constraintStart_toEndOf="@id/tvStockAmount"
-        app:layout_constraintTop_toTopOf="@id/tvStockAmount" />
+        app:layout_constraintEnd_toEndOf="@+id/ibtnSwap"
+        app:layout_constraintTop_toTopOf="@id/tvStockAmount"
+        app:layout_constraintVertical_bias="0.478" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnDialogConfirm"
@@ -120,8 +119,8 @@
         android:background="@drawable/button_background"
         android:fontFamily="sans-serif"
         android:textAllCaps="false"
-        android:textColor="?attr/colorOnSecondary"
-        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

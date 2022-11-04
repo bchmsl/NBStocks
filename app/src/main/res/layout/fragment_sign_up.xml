@@ -9,7 +9,7 @@
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivHeader"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="260dp"
         android:scaleType="fitXY"
         android:src="@drawable/header"
         android:tint="?attr/colorPrimary"
@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
             android:inputType="textEmailAddress"
-            android:textSize="18sp"
+            android:textSize="16sp"
             tools:text="test@nbstocks.com" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -63,7 +63,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
-        android:layout_marginTop="10dp"
         android:layout_marginEnd="25dp"
         android:hint="@string/password"
         app:endIconMode="password_toggle"
@@ -79,10 +78,10 @@
             android:id="@+id/etPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="password"
             android:fontFamily="sans-serif-light"
             android:inputType="textPassword"
-            android:textSize="18sp" />
+            android:textSize="16sp"
+            tools:text="password" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -92,7 +91,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
-        android:layout_marginTop="10dp"
         android:layout_marginEnd="25dp"
         android:hint="@string/repeat_password"
         app:endIconMode="password_toggle"
@@ -110,7 +108,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
             android:inputType="textPassword"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -126,7 +124,7 @@
         android:text="@string/sign_up"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:textSize="22sp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@id/viewSeparator"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -151,7 +149,7 @@
         android:fontFamily="sans-serif-light"
         android:text="@string/already_have_an_account"
         android:textColor="?attr/colorOnSecondary"
-        android:textSize="18sp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/tvLogIn"
         app:layout_constraintHorizontal_chainStyle="packed"
@@ -164,7 +162,7 @@
         android:fontFamily="sans-serif-medium"
         android:text="@string/sign_in"
         android:textColor="?attr/colorOnSecondary"
-        android:textSize="18sp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/tvAlreadyHaveAccount"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tvAlreadyHaveAccount"

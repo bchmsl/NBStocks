@@ -15,7 +15,7 @@
         android:layout_marginTop="20dp"
         android:fontFamily="sans-serif-medium"
         android:textColor="?attr/colorOnSecondary"
-        android:textSize="25sp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/tvNameShort"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -28,7 +28,6 @@
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-light"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/tvTitleDayHigh"
         app:layout_constraintStart_toStartOf="@+id/tvItemSymbol"
         app:layout_constraintTop_toBottomOf="@+id/tvItemSymbol"
         tools:text="Apple, Inc." />
@@ -75,23 +74,23 @@
         android:id="@+id/tvTitleDayHigh"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="27dp"
         android:text="@string/day_high"
         android:textSize="15sp"
-        app:layout_constraintEnd_toStartOf="@id/tvTitleDayLow"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvNameShort" />
+        app:layout_constraintStart_toStartOf="@+id/tvItemSymbol"
+        app:layout_constraintTop_toBottomOf="@+id/tvNameShort" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvHighPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
         android:fontFamily="sans-serif-condensed-medium"
         android:textColor="?attr/colorOnError"
-        android:layout_marginBottom="20dp"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/tvTitleDayHigh"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@id/tvTitleDayHigh"
         app:layout_constraintTop_toBottomOf="@id/tvTitleDayHigh"
         tools:text="$458.49" />
