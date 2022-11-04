@@ -21,15 +21,18 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilMoney"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="15dp"
+        android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
         android:hint="@string/amount_of_money_in_usd"
         app:endIconMode="clear_text"
         app:errorEnabled="true"
         app:hintTextColor="?attr/colorPrimary"
-        app:layout_constraintTop_toBottomOf="@id/tvDialogTitle"
+        app:layout_constraintBottom_toBottomOf="@id/ibtnSwap"
+        app:layout_constraintEnd_toStartOf="@id/ibtnSwap"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/ibtnSwap"
         app:startIconDrawable="@drawable/ic_money"
         app:startIconTint="?attr/colorPrimary">
 
@@ -38,34 +41,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
-            android:inputType="number"
+            android:inputType="numberSigned"
             android:textSize="18sp" />
     </com.google.android.material.textfield.TextInputLayout>
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvLabelOr"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-light"
-        android:text="@string/or"
-        android:textColor="?attr/colorOnSecondary"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="@id/tilMoney"
-        app:layout_constraintStart_toStartOf="@id/tilMoney"
-        app:layout_constraintTop_toBottomOf="@id/tilMoney" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilStock"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="15dp"
+        android:layout_marginStart="15dp"
         android:layout_marginTop="10dp"
         android:hint="@string/amount_of_stocks"
+        android:visibility="invisible"
         app:endIconMode="clear_text"
         app:errorEnabled="true"
         app:hintTextColor="?attr/colorPrimary"
-        app:layout_constraintTop_toBottomOf="@id/tvLabelOr"
+        app:layout_constraintBottom_toBottomOf="@id/ibtnSwap"
+        app:layout_constraintEnd_toStartOf="@id/ibtnSwap"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/ibtnSwap"
         app:startIconDrawable="@drawable/ic_chart"
         app:startIconTint="?attr/colorPrimary">
 
@@ -74,10 +69,48 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
-            android:inputType="number"
+            android:inputType="numberSigned"
             android:textSize="18sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/ibtnSwap"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="10dp"
+        android:background="@android:color/transparent"
+        android:padding="15dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_swap"
+        app:layout_constraintDimensionRatio="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvDialogTitle" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvStockAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ibtnSwap"
+        tools:text="You have 3.1644164 stocks." />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvAddAll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:fontFamily="sans-serif-medium"
+        android:padding="10dp"
+        android:text="@string/add_all"
+        android:textColor="?attr/colorOnBackground"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@id/tvStockAmount"
+        app:layout_constraintStart_toEndOf="@id/tvStockAmount"
+        app:layout_constraintTop_toTopOf="@id/tvStockAmount" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnDialogConfirm"
@@ -92,7 +125,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tilStock"
+        app:layout_constraintTop_toBottomOf="@+id/tvAddAll"
         tools:text="Buy" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

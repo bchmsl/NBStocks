@@ -1,7 +1,6 @@
 package com.nbstocks.nbstocks.presentation.ui.stock_details
 
 import android.graphics.drawable.ColorDrawable
-import android.util.Log.d
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -13,7 +12,6 @@ import com.nbstocks.nbstocks.presentation.ui.stock_details.model.CurrentStockUiM
 import com.nbstocks.nbstocks.presentation.ui.stock_details.model.IntervalStockPricesUiModel
 import com.nbstocks.nbstocks.presentation.ui.stock_details.model.UsersStockUiModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class StocksDetailsFragment :
@@ -27,8 +25,8 @@ class StocksDetailsFragment :
 
     override fun start() {
         setupChart()
-        listeners()
         observe()
+        listeners()
     }
 
     private fun setupChart() {
@@ -72,18 +70,23 @@ class StocksDetailsFragment :
         }
 
         asynchronously {
-            viewModel.amountOfStock.collect {
-                amount = it.data?.toDouble() ?: 0.0
+            viewModel.amountOfStock.collectViewState(binding) {
+                amount = it.toDouble() ?: 0.0
             }
         }
 
         asynchronously {
             viewModel.getBalance()
-            viewModel.usersBalanceState.collect {
-                balance = it.data?.toDouble() ?: 0.0
+            viewModel.usersBalanceState.collectViewState(binding) {
+                balance = it.toDouble() ?: 0.0
             }
         }
-
+        asynchronously {
+            viewModel.getWatchlistItems()
+            viewModel.watchlistItems.collectViewState(binding) {
+                binding.tbFavorite.isChecked = it.contains(args.stockSymbol)
+            }
+        }
     }
 
     private fun handleCurrentStockSuccess(currentStockUiModel: CurrentStockUiModel) {
@@ -113,8 +116,8 @@ class StocksDetailsFragment :
     }
 
     private fun listeners() {
-        binding.tbFavorite.setOnCheckedChangeListener { _, isFavoriteChecked ->
-            if (isFavoriteChecked) {
+        binding.tbFavorite.setOnClickListener {
+            if (binding.tbFavorite.isChecked) {
                 addWatchlistStock(binding.tvSymbol.text.toString())
             } else {
                 removeWatchlistStock(binding.tvSymbol.text.toString())
@@ -127,10 +130,10 @@ class StocksDetailsFragment :
         }
 
         binding.btnBuy.setOnClickListener {
-            showConfirmation(binding.tvPrice.text.toString().toCurrencyDouble(), true)
+            showConfirmation(binding.tvPrice.text.toString().toCurrencyDouble(), true, amount)
         }
         binding.btnSell.setOnClickListener {
-            showConfirmation(binding.tvPrice.text.toString().toCurrencyDouble(), false)
+            showConfirmation(binding.tvPrice.text.toString().toCurrencyDouble(), false, amount )
         }
 
         binding.ibtnBack.setOnClickListener {
@@ -139,11 +142,11 @@ class StocksDetailsFragment :
     }
 
 
-    private fun showConfirmation(price: Double, isBuying: Boolean) {
-        val dialog = BuySellDialog(requireContext(), price, isBuying)
+    private fun showConfirmation(price: Double, isBuying: Boolean, stocksOwned: Double) {
+        val dialog = BuySellDialog(requireContext(), price, isBuying, stocksOwned)
         dialog.show()
         dialog.confirmCallback = { stockAmount ->
-            confirm(stockAmount, isBuying) { isTaskSuccessful, message ->
+            confirm(stockAmount, isBuying, stocksOwned) { isTaskSuccessful, message ->
                 binding.root.makeSnackbar(message, !isTaskSuccessful)
             }
         }
@@ -152,6 +155,7 @@ class StocksDetailsFragment :
     private fun confirm(
         amountOfStock: Double?,
         isBuying: Boolean,
+        stocksOwned: Double,
         doAfterTask: (isTaskSuccessful: Boolean, message: String) -> Unit
     ) {
         if (isBuying) {
@@ -245,7 +249,7 @@ class StocksDetailsFragment :
         }
     }
 
-    companion object{
+    companion object {
         private const val DEFAULT_BALANCE = 0.0
         private const val DEFAULT_AMOUNT_STOCK = 0.0
     }

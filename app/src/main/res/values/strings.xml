@@ -37,8 +37,8 @@
     <string name="companies">Companies</string>
     <string name="profile">Profile</string>
     <string name="or">or</string>
-    <string name="amount_of_stocks">Amount of stocks</string>
-    <string name="amount_of_money_in_usd">Amount of money in USD</string>
+    <string name="amount_of_stocks">Stocks</string>
+    <string name="amount_of_money_in_usd">Money in USD</string>
     <string name="change_email_address">Change Email Address</string>
     <string name="change_password">Change Password</string>
     <string name="about_nb_stocks">About NB Stocks</string>
@@ -47,4 +47,5 @@
     <string name="application_settings">Application Settings</string>
     <string name="log_out">Log Out</string>
     <string name="check_your_internet_connection">Check your internet connection</string>
+    <string name="add_all">Add all.</string>
 </resources>

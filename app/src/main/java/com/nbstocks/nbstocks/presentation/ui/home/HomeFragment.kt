@@ -93,7 +93,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     viewModel.balanceShownState.collect { isShown ->
                         when (isShown) {
                             true -> {
-                                binding.tvCurrentBalance.text = balance
+                                binding.tvCurrentBalance.text = balance.toDoubleOrNull().toCurrencyString()
                             }
                             else -> {
                                 binding.tvCurrentBalance.text = "*****"
