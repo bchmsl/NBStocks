@@ -6,7 +6,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.nbstocks.nbstocks.R
+import com.nbstocks.nbstocks.common.extensions.toCurrencyString
+import com.nbstocks.nbstocks.common.extensions.toPercentString
 import com.nbstocks.nbstocks.databinding.LayoutWatchlistItemBinding
+import com.nbstocks.nbstocks.databinding.LayoutWatchlistItemFragmentBinding
 import com.nbstocks.nbstocks.presentation.ui.common.model.WatchlistStockInfoUiModel
 
 
@@ -14,13 +18,27 @@ class WatchlistAdapter : ListAdapter<WatchlistStockInfoUiModel.DataItem, Watchli
 
     var stockItemClicked: ((WatchlistStockInfoUiModel.DataItem) -> Unit)? = null
 
-    inner class WatchlistViewHolder(private val binding: LayoutWatchlistItemBinding) :
+    inner class WatchlistViewHolder(private val binding: LayoutWatchlistItemFragmentBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind() {
             val currentItem = getItem(adapterPosition)
             binding.tvItemSymbol.text = currentItem.symbol
-            binding.tvWatchlistPrice.text = currentItem.regularMarketPrice.toString()
-            binding.tvWatchlistPercentage.text = currentItem.regularMarketChangePercent.toString()
+            binding.tvCurrentPrice.text = currentItem.regularMarketPrice.toCurrencyString()
+            binding.tvLowPrice.text = currentItem.regularMarketDayLow.toCurrencyString()
+            binding.tvHighPrice.text = currentItem.regularMarketDayHigh.toCurrencyString()
+            binding.tvWatchlistPercentage.text = currentItem.regularMarketChangePercent.toPercentString()
+            binding.tvExchangeName.text = currentItem.fullExchangeName
+            binding.tvNameShort.text = currentItem.shortName
+            currentItem.regularMarketChangePercent?.let {
+                if (currentItem.regularMarketChangePercent < 0) {
+                    binding.tvWatchlistPercentage.setBackgroundResource(R.drawable.shape_rectangle_decrease)
+                    binding.ivChart.setImageResource(R.drawable.ic_decrease)
+                } else {
+                    binding.tvWatchlistPercentage.setBackgroundResource(R.drawable.shape_rectangle_increase)
+                    binding.ivChart.setImageResource(R.drawable.ic_increase)
+                }
+            }
+
             binding.root.setOnClickListener {
                 stockItemClicked!!.invoke(currentItem)
             }
@@ -30,7 +48,7 @@ class WatchlistAdapter : ListAdapter<WatchlistStockInfoUiModel.DataItem, Watchli
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WatchlistViewHolder {
         return WatchlistViewHolder(
-            LayoutWatchlistItemBinding.inflate(
+            LayoutWatchlistItemFragmentBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false

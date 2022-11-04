@@ -2,7 +2,6 @@ package com.nbstocks.nbstocks.presentation.ui.home
 
 
 import android.os.Bundle
-import android.util.Log
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -34,6 +33,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private val userStockAdapter by lazy { UserStockAdapter() }
 
     private var ownedStocks = listOf<UsersStockUiModel>()
+    private var userBalance: Double? = 0.0
 
     override fun start() {
         setUpAdapter()
@@ -59,7 +59,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         asynchronously {
             watchlistViewModel.watchlistStocksState.collectViewState(binding) {
                 watchlistAdapter.submitList(it.data)
-                Log.w("TAG", it.toString())
             }
         }
         asynchronously {
@@ -86,7 +85,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 collectOwnedStocks()
             }
         }
-
         asynchronously {
             viewModel.usersBalanceState.collectViewState(binding) { balance ->
                 asynchronously {
@@ -94,9 +92,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                         when (isShown) {
                             true -> {
                                 binding.tvCurrentBalance.text = balance.toDoubleOrNull().toCurrencyString()
+                                userBalance = balance.toDoubleOrNull()
                             }
                             else -> {
                                 binding.tvCurrentBalance.text = "*****"
+                                userBalance = balance.toDoubleOrNull()
                             }
                         }
                     }
@@ -111,13 +111,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             watchlistViewModel.ownedStocksState.collectViewState(binding) { watchListStockInfo ->
                 val data = mutableListOf<WatchlistStockInfoUiModel.DataItem>()
                 watchListStockInfo.data.forEachIndexed { index, dataItem ->
-                    data.add(
-                        dataItem.copy(
-                            owned = true,
-                            ownedAmount = ownedStocks.getOrNull(index)?.amountInStocks,
-                            ownedPrice = ownedStocks.getOrNull(index)?.price
+                    ownedStocks.getOrNull(index)?.let {
+                        data.add(
+                            dataItem.copy(
+                                owned = true,
+                                ownedAmount = it.amountInStocks,
+                                ownedPrice = it.price
+                            )
                         )
-                    )
+                    }
                 }
                 userStockAdapter.submitList(data.toList())
             }
@@ -138,10 +140,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     private fun listeners() {
         binding.btnDeposit.setOnClickListener {
-            showConfirmation(binding.tvCurrentBalance.text.toString().toCurrencyDouble(), true)
+            userBalance?.let { it1 -> showConfirmation(it1, true) }
         }
         binding.btnWithdraw.setOnClickListener {
-            showConfirmation(binding.tvCurrentBalance.text.toString().toCurrencyDouble(), false)
+            userBalance?.let { it1 -> showConfirmation(it1, false) }
         }
         binding.tvWatchlistSeeAll.setOnClickListener {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToWatchlistFragment())

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:background="@drawable/shape_rectangle_clickable">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvItemSymbol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="?attr/colorOnSecondary"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/tvNameShort"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="AAPL" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvNameShort"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/tvWatchlistPrice"
+        app:layout_constraintStart_toStartOf="@+id/tvItemSymbol"
+        app:layout_constraintTop_toBottomOf="@+id/tvItemSymbol"
+        tools:text="Apple, Inc." />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvExchangeName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:fontFamily="sans-serif-condensed-light"
+        app:layout_constraintBottom_toBottomOf="@id/tvItemSymbol"
+        app:layout_constraintStart_toEndOf="@id/tvItemSymbol"
+        tools:text="NasdaqGS" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvWatchlistPercentage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/shape_rectangle_increase"
+        android:fontFamily="sans-serif-medium"
+        android:paddingHorizontal="3dp"
+        android:textColor="?attr/colorOnSecondary"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toTopOf="@+id/ivChart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="+5.50%" />
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivChart"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/ic_increase"
+        app:layout_constraintBottom_toBottomOf="@+id/tvCurrentPrice"
+        app:layout_constraintEnd_toEndOf="@+id/tvWatchlistPercentage"
+        app:layout_constraintStart_toStartOf="@+id/tvWatchlistPercentage"
+        app:layout_constraintTop_toBottomOf="@+id/tvWatchlistPercentage" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvTitleDayHigh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/day_high"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toStartOf="@id/tvTitleDayLow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvNameShort" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvHighPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:textColor="?attr/colorOnError"
+        android:layout_marginBottom="20dp"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/tvTitleDayHigh"
+        app:layout_constraintStart_toStartOf="@id/tvTitleDayHigh"
+        app:layout_constraintTop_toBottomOf="@id/tvTitleDayHigh"
+        tools:text="$458.49" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvTitleDayLow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/day_low"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toStartOf="@+id/tvTitleCurrent"
+        app:layout_constraintStart_toEndOf="@id/tvTitleDayHigh"
+        app:layout_constraintTop_toTopOf="@+id/tvTitleDayHigh" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvLowPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:textColor="?attr/colorError"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@id/tvTitleDayLow"
+        app:layout_constraintStart_toStartOf="@id/tvTitleDayLow"
+        app:layout_constraintTop_toBottomOf="@id/tvTitleDayLow"
+        tools:text="$458.49" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvTitleCurrent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/current"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toStartOf="@+id/ivChart"
+        app:layout_constraintStart_toEndOf="@id/tvTitleDayLow"
+        app:layout_constraintTop_toTopOf="@+id/tvTitleDayLow" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvCurrentPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:textColor="?attr/colorOnSecondary"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@id/tvTitleCurrent"
+        app:layout_constraintStart_toStartOf="@id/tvTitleCurrent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitleCurrent"
+        tools:text="$458.49" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

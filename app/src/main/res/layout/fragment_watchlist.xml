@@ -6,6 +6,40 @@
     android:layout_height="match_parent"
     tools:context=".presentation.ui.watchlist_listing.WatchlistFragment">
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivHeader"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:scaleType="fitXY"
+        android:tint="?attr/colorPrimary"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/mini_header" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/ibtnBack"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="20dp"
+        android:background="?attr/colorPrimary"
+        android:padding="3dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_arrow_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/watchlist"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="@+id/ibtnBack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ibtnBack" />
+
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progressBar"
         android:layout_width="match_parent"
@@ -14,19 +48,27 @@
         android:layout_marginTop="5dp"
         android:indeterminate="true"
         app:indicatorColor="?attr/colorPrimary"
-        app:layout_constraintBottom_toTopOf="@id/rvWatchlistStocks"
+        app:layout_constraintBottom_toTopOf="@id/swipeRefresh"
+        app:layout_constraintTop_toBottomOf="@id/ivHeader"
         app:trackColor="?attr/background"
         app:trackCornerRadius="5dp" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvWatchlistStocks"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="10dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/layout_watchlist_item" />
+        app:layout_constraintTop_toBottomOf="@id/ivHeader">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvWatchlistStocks"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivHeader"
+            tools:listitem="@layout/layout_watchlist_item_fragment" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

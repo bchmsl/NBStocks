@@ -1,6 +1,7 @@
 package com.nbstocks.nbstocks.presentation.ui.watchlist_listing
 
 import android.os.Bundle
+import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nbstocks.nbstocks.common.extensions.*
@@ -52,7 +53,11 @@ class WatchlistFragment :
             watchlistViewModel.watchlistStocksState.collectViewState(binding) {
                 watchlistAdapter.submitList(it.data)
             }
-
+        }
+        asynchronously {
+            watchlistViewModel.loaderState.collect{
+                binding.progressBar.isVisible = it
+            }
         }
     }
 
@@ -65,6 +70,13 @@ class WatchlistFragment :
                     )
                 )
             }
+        }
+        binding.swipeRefresh.setOnRefreshListener {
+            binding.swipeRefresh.isRefreshing = false
+            watchlistViewModel.getItemsFromWatchlist()
+        }
+        binding.ibtnBack.setOnClickListener {
+            findNavController().popBackStack()
         }
     }
 
