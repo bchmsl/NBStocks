@@ -1,5 +1,6 @@
 package com.nbstocks.nbstocks.presentation.ui.user_stock_listing
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nbstocks.nbstocks.common.extensions.*
@@ -25,8 +26,8 @@ class UserStockListingViewModel @Inject constructor(
     private val _usersStockState = MutableStateFlow<ViewState<List<UsersStockUiModel>>>(ViewState())
     val usersStockState: StateFlow<ViewState<List<UsersStockUiModel>>> get() = _usersStockState
 
-    private val _ownedStocksState = MutableStateFlow<ViewState<WatchlistStockInfoUiModel>>(ViewState())
-    val ownedStocksState: StateFlow<ViewState<WatchlistStockInfoUiModel>> get() = _ownedStocksState
+    private val _ownedStocksInfoState = MutableStateFlow<ViewState<WatchlistStockInfoUiModel>>(ViewState())
+    val ownedStocksInfoState: StateFlow<ViewState<WatchlistStockInfoUiModel>> get() = _ownedStocksInfoState
 
 
     fun getUsersStocks() {
@@ -48,15 +49,16 @@ class UserStockListingViewModel @Inject constructor(
 
     fun getUserStocksInformation(symbols: List<String>) {
         viewModelScope.launch {
-            _ownedStocksState.resetViewState()
+            _ownedStocksInfoState.resetViewState()
             multipleStocksRepository.getWatchlistStocksInformation(symbols.joinToString(","))
                 .collect { resource ->
+                    Log.w("TAG____VM", resource.toString())
                     resource.doOnSuccess {
-                        _ownedStocksState.emitSuccessViewState(this) {
+                        _ownedStocksInfoState.emitSuccessViewState(this) {
                             it.toWatchListStockUiModel()
                         }
                     }.doOnFailure {
-                        _ownedStocksState.emitErrorViewState(this) { it }
+                        _ownedStocksInfoState.emitErrorViewState(this) { it }
                     }
                 }
         }

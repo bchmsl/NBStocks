@@ -135,7 +135,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                         )
                     }
                 }
-                userStockAdapter.submitList(data.toList())
+                userStockAdapter.submitList(data.safeSubList(5).toList())
             }
         }
     }

@@ -1,15 +1,10 @@
 package com.nbstocks.nbstocks.presentation.ui.user_stock_listing
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
 import android.util.Log.d
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.nbstocks.nbstocks.R
 import com.nbstocks.nbstocks.common.extensions.asynchronously
 import com.nbstocks.nbstocks.common.extensions.collectViewState
 import com.nbstocks.nbstocks.databinding.FragmentOwnStockItemsBinding
@@ -27,7 +22,7 @@ class UserStockListingFragment :
     private val userStockAdapter by lazy { UserStockListingAdapter() }
 
     private var ownedStocks = listOf<UsersStockUiModel>()
-    private val symbols = mutableListOf<String>()
+    private var symbols = listOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,15 +37,34 @@ class UserStockListingFragment :
     private fun observer() {
         asynchronously {
             viewModel.usersStockState.collectViewState(binding) { stockList ->
-                stockList.forEach { symbols.add(it.symbol) }
-                d("tag_symbols","$symbols")
+                symbols = stockList.map { it.symbol }
+                Log.w("TAG___STOCKS", stockList.toString())
+                collectOwnedStocks()
             }
         }
 
+
+    }
+
+    private fun collectOwnedStocks() {
         asynchronously {
             viewModel.getUserStocksInformation(symbols)
-            viewModel.ownedStocksState.collectViewState(binding){stockInfo->
-                d("stockinfo","${stockInfo.data}")
+            viewModel.ownedStocksInfoState.collectViewState(binding) { watchListStockInfo ->
+                val data = mutableListOf<WatchlistStockInfoUiModel.DataItem>()
+                watchListStockInfo.data.forEachIndexed { index, dataItem ->
+                    ownedStocks.getOrNull(index)?.let {
+                        Log.w("T A G", it.toString())
+                        data.add(
+                            dataItem.copy(
+                                owned = true,
+                                ownedAmount = it.amountInStocks,
+                                ownedPrice = it.price
+                            )
+                        )
+                    }
+                }
+                Log.w("TAG______", data.toString())
+                userStockAdapter.submitList(data.toList())
             }
         }
     }
