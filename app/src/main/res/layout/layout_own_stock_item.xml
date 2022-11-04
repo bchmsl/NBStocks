@@ -63,7 +63,7 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Owned Stocks:"
+        android:text="@string/owned_stocks"
         app:layout_constraintBottom_toTopOf="@+id/tvOwnedAmount"
         app:layout_constraintStart_toStartOf="@+id/tvOwnedAmount" />
 
@@ -71,7 +71,7 @@
         android:id="@+id/appCompatTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Total Value:"
+        android:text="@string/total_value"
         app:layout_constraintBottom_toTopOf="@+id/tvTotalValue"
         app:layout_constraintEnd_toEndOf="@+id/tvTotalValue" />
 

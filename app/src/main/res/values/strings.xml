@@ -50,4 +50,6 @@
     <string name="add_all">Add all.</string>
     <string name="deposit">Deposit</string>
     <string name="withdraw">Withdraw</string>
+    <string name="owned_stocks">Owned Stocks:</string>
+    <string name="total_value">Total Value:</string>
 </resources>

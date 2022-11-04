@@ -88,9 +88,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-condensed-medium"
         android:textColor="?attr/colorOnError"
-        android:layout_marginBottom="20dp"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/tvTitleDayHigh"
         app:layout_constraintStart_toStartOf="@id/tvTitleDayHigh"
         app:layout_constraintTop_toBottomOf="@id/tvTitleDayHigh"
@@ -139,5 +137,46 @@
         app:layout_constraintStart_toStartOf="@id/tvTitleCurrent"
         app:layout_constraintTop_toBottomOf="@id/tvTitleCurrent"
         tools:text="$458.49" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvOwnedAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:textColor="?attr/colorOnError"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvTotalValue"
+        app:layout_constraintStart_toStartOf="@+id/tvItemSymbol"
+        app:layout_constraintTop_toTopOf="@+id/tvTotalValue"
+        tools:text="1.6741" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/owned_stocks"
+        app:layout_constraintBottom_toTopOf="@+id/tvOwnedAmount"
+        app:layout_constraintStart_toStartOf="@+id/tvOwnedAmount"
+        app:layout_constraintTop_toBottomOf="@+id/tvHighPrice" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvTitleTotalValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/total_value"
+        app:layout_constraintBottom_toTopOf="@+id/tvTotalValue"
+        app:layout_constraintEnd_toEndOf="@+id/tvTotalValue" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvTotalValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="?attr/colorOnError"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="$767.55" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

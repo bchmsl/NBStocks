@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_homeFragment_to_watchlistFragment"
             app:destination="@id/watchlistFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_ownStockItemsFragment"
+            app:destination="@id/ownStockItemsFragment" />
     </fragment>
     <fragment
         android:id="@+id/logInFragment"
@@ -100,4 +103,9 @@
             android:id="@+id/action_watchlistFragment_to_stocksDetailsFragment"
             app:destination="@id/stocksDetailsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/ownStockItemsFragment"
+        android:name="com.nbstocks.nbstocks.presentation.ui.own_stock_items.OwnStockItemsFragment"
+        android:label="fragment_own_stock_items"
+        tools:layout="@layout/fragment_own_stock_items" />
 </navigation>
