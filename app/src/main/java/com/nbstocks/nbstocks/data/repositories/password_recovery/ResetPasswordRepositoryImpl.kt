@@ -11,16 +11,18 @@ import javax.inject.Inject
 
 class ResetPasswordRepositoryImpl @Inject constructor(
     private val auth: FirebaseAuth,
-) : ResetPasswordRepository,ResponseHandler {
+) : ResetPasswordRepository, ResponseHandler {
+
 
     override suspend fun resetPassword(email: String): Resource<String> =
         withContext(Dispatchers.IO) {
             return@withContext try {
                 auth.sendPasswordResetEmail(email).await()
                 handleSuccess()
-            } catch (e: Throwable) {
+            } catch (e: Exception) {
                 handleException(e)
             }
         }
+
 
 }

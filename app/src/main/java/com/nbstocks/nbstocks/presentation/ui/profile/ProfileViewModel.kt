@@ -23,34 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val auth: FirebaseAuth,
-    private val changePasswordRepositoryImpl: ChangePasswordRepositoryImpl,
 ) : ViewModel() {
-
-//    private val _changePasswordResponse = MutableSharedFlow<Resource<String>>()
-//    val changePasswordResponse = _changePasswordResponse
-//
-//    fun changePassword(password: String) {
-//        viewModelScope.launch {
-//            _changePasswordResponse.emit(Resource.Loading(true))
-//            withContext(Dispatchers.IO) {
-//                try {
-//                    _changePasswordResponse.emit(
-//                        changePasswordRepositoryImpl.changePassword(
-//                            password
-//                        )
-//                    )
-//                } catch (e: java.lang.Exception) {
-//                    _changePasswordResponse.emit(Resource.Error(e))
-//                }
-//            }
-//        }
-//    }
-
-//    fun signOut() {
-//        viewModelScope.launch {
-//            auth.signOut()
-//        }
-//    }
 
     fun setShownBalance(
         context: Context,

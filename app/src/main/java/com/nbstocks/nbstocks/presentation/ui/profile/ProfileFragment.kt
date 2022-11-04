@@ -43,7 +43,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
             }
 
             tvChangePassword.setOnClickListener {
-
+                findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToPasswordChangeFragment())
             }
             tvLogOut.setOnClickListener {
                 signOut()
@@ -51,22 +51,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
         }
     }
 
-//    private fun savePassword(password: String) {
-//        viewLifecycleOwner.lifecycleScope.launch {
-//            viewModel.changePassword(password)
-//            viewModel.changePasswordResponse.collect {
-//                when (it) {
-//                    is Resource.Success -> {
-//                        binding.root.makeSnackbar("Password changed successfully", false)
-//                    }
-//                    is Resource.Error -> {
-//                        binding.root.makeSnackbar("Password change failed", true)
-//                    }
-//                    else -> {}
-//                }
-//            }
-//        }
-//    }
 
     private fun signOut() {
         findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToLogInFragment())
