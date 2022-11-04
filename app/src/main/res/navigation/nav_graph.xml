@@ -24,6 +24,9 @@
             android:id="@+id/action_homeFragment_to_profileFragment"
             app:destination="@id/profileFragment"
             app:popUpTo="@id/nav_graph.xml" />
+        <action
+            android:id="@+id/action_homeFragment_to_userStockListingFragment"
+            app:destination="@id/userStockListingFragment" />
 
     </fragment>
     <fragment
@@ -133,5 +136,14 @@
         <action
             android:id="@+id/action_passwordChangeFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_own_stock_items"
+        android:id="@+id/userStockListingFragment"
+        android:name="com.nbstocks.nbstocks.presentation.ui.user_stock_listing.UserStockListingFragment"
+        android:label="UserStockListingFragment" >
+        <action
+            android:id="@+id/action_userStockListingFragment_to_stocksDetailsFragment"
+            app:destination="@id/stocksDetailsFragment" />
     </fragment>
 </navigation>

@@ -3,7 +3,6 @@ package com.nbstocks.nbstocks.presentation.ui.company_listings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nbstocks.nbstocks.common.extensions.*
-import com.nbstocks.nbstocks.common.handlers.Resource
 import com.nbstocks.nbstocks.domain.repositories.company_listings.CompanyListingsRepository
 import com.nbstocks.nbstocks.presentation.mapper.toCompanyListingUiModel
 import com.nbstocks.nbstocks.presentation.model.ViewState
