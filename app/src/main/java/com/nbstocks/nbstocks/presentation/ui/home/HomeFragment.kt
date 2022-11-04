@@ -108,14 +108,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     private fun collectOwnedStocks() {
         asynchronously {
-            watchlistViewModel.ownedStocksState.collectViewState(binding) {watchListStockInfo ->
+            watchlistViewModel.ownedStocksState.collectViewState(binding) { watchListStockInfo ->
                 val data = mutableListOf<WatchlistStockInfoUiModel.DataItem>()
-                watchListStockInfo.data.forEachIndexed {index, dataItem->
-                    data.add(dataItem.copy(
-                        owned = true,
-                        ownedAmount = ownedStocks.getOrNull(index)?.amountInStocks,
-                        ownedPrice = ownedStocks.getOrNull(index)?.price
-                    ))
+                watchListStockInfo.data.forEachIndexed { index, dataItem ->
+                    data.add(
+                        dataItem.copy(
+                            owned = true,
+                            ownedAmount = ownedStocks.getOrNull(index)?.amountInStocks,
+                            ownedPrice = ownedStocks.getOrNull(index)?.price
+                        )
+                    )
                 }
                 userStockAdapter.submitList(data.toList())
             }
@@ -135,11 +137,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     }
 
     private fun listeners() {
-        binding.btnBuy.setOnClickListener {
-
+        binding.btnDeposit.setOnClickListener {
+            showConfirmation(binding.tvCurrentBalance.text.toString().toCurrencyDouble(), true)
         }
-        binding.btnSell.setOnClickListener {
-
+        binding.btnWithdraw.setOnClickListener {
+            showConfirmation(binding.tvCurrentBalance.text.toString().toCurrencyDouble(), false)
         }
         binding.tvWatchlistSeeAll.setOnClickListener {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToWatchlistFragment())
@@ -162,4 +164,32 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         }
     }
 
+    private fun showConfirmation(currentBalance: Double, isDeposit: Boolean) {
+        val dialog = BalanceDialog(requireContext(), isDeposit)
+        dialog.show()
+        dialog.confirmCallback = { amount ->
+            changeBalance(currentBalance, amount, isDeposit){isTaskSuccessful, message ->
+                binding.root.makeSnackbar(message, !isTaskSuccessful)
+            }
+        }
+    }
+
+    private fun changeBalance(
+        currentBalance: Double,
+        amount: Double,
+        isDeposit: Boolean,
+        doAfterTask: (isTaskSuccessful: Boolean, message: String) -> Unit
+    ){
+        if (isDeposit){
+            viewModel.setBalance(currentBalance.plus(amount))
+            doAfterTask(true, "$amount added to balance.")
+        }else{
+            if (amount>currentBalance){
+                doAfterTask(false, "Not enough money on balance.")
+            }else{
+                viewModel.setBalance(currentBalance.minus(amount))
+                doAfterTask(true, "$amount withdrew from balance.")
+            }
+        }
+    }
 }

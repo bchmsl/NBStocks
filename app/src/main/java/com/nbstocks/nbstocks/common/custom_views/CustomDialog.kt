@@ -21,7 +21,7 @@ abstract class CustomDialog(val context: Context) {
     abstract fun onCreateDialog(inflater: LayoutInflater): View
     abstract fun onDialogCreated(alertDialog: AlertDialog)
 
-    fun close(){
+    open fun close(){
         alertDialog.cancel()
         _alertDialog = null
         _dialogBuilder = null
