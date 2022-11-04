@@ -13,7 +13,6 @@ import javax.inject.Inject
 class OwnedStocksRepositoryImpl @Inject constructor(
     db: FirebaseDatabase,
     auth: FirebaseAuth,
-
     ) : OwnedStocksRepository {
 
     private val dbReference = db.reference

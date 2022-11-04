@@ -148,6 +148,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         binding.tvWatchlistSeeAll.setOnClickListener {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToWatchlistFragment())
         }
+        binding.tvYourStocksSeeAll.setOnClickListener {
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToUserStockListingFragment())
+        }
         watchlistAdapter.stockItemClicked = {
             it.symbol?.let {
                 findNavController().navigate(
