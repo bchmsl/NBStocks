@@ -17,8 +17,8 @@ import kotlinx.coroutines.launch
 class PasswordRecoveryFragment : BaseFragment<FragmentPasswordRecoveryBinding>(FragmentPasswordRecoveryBinding::inflate) {
 
     private val viewModel: PasswordRecoveryViewModel by viewModels()
-
     private val args: PasswordRecoveryFragmentArgs by navArgs()
+
     override fun start() {
         binding.etEmail.setText(args.email)
         listeners()
@@ -49,7 +49,7 @@ class PasswordRecoveryFragment : BaseFragment<FragmentPasswordRecoveryBinding>(F
         with(binding) {
             val email = etEmail.text.toString()
 
-            viewLifecycleOwner.lifecycleScope.launch {
+            asynchronously {
                 viewModel.resetPassword(email)
                 viewModel.resetPasswordResponse.collect {
                     when (it) {

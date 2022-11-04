@@ -4,5 +4,5 @@ import com.nbstocks.nbstocks.common.handlers.Resource
 
 
 interface ChangePasswordRepository {
-    suspend fun changePassword(password: String) :Resource<String>
+    suspend fun changePassword(password: String): Resource<String>
 }

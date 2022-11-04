@@ -112,6 +112,9 @@
             android:id="@+id/action_profileFragment_to_homeFragment"
             app:destination="@id/homeFragment"
             app:popUpTo="@id/nav_graph.xml" />
+        <action
+            android:id="@+id/action_profileFragment_to_passwordChangeFragment"
+            app:destination="@id/passwordChangeFragment" />
     </fragment>
     <fragment
         android:id="@+id/watchlistFragment"
@@ -121,5 +124,14 @@
         <action
             android:id="@+id/action_watchlistFragment_to_stocksDetailsFragment"
             app:destination="@id/stocksDetailsFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_password_change"
+        android:id="@+id/passwordChangeFragment"
+        android:name="com.nbstocks.nbstocks.presentation.ui.change_password.PasswordChangeFragment"
+        android:label="PasswordChangeFragment" >
+        <action
+            android:id="@+id/action_passwordChangeFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
 </navigation>

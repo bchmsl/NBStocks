@@ -12,7 +12,7 @@ class ChangePasswordRepositoryImpl @Inject constructor(
     private val auth: FirebaseAuth,
 ) : ChangePasswordRepository, ResponseHandler {
 
-    override suspend fun changePassword(password: String): Resource<String> =
+    override suspend fun changePassword(password: String) : Resource<String> =
         withContext(Dispatchers.IO) {
             return@withContext try {
                 auth.currentUser?.updatePassword(password)
