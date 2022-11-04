@@ -47,4 +47,6 @@
     <string name="application_settings">Application Settings</string>
     <string name="log_out">Log Out</string>
     <string name="check_your_internet_connection">Check your internet connection</string>
+    <string name="deposit">Deposit</string>
+    <string name="withdraw">Withdraw</string>
 </resources>

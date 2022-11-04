@@ -65,6 +65,12 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    fun setBalance(newBalance: Double){
+        viewModelScope.launch {
+            balanceRepositoryImpl.changeBalance(newBalance)
+        }
+    }
+
     fun showBalance(
         context: Context
     ) {

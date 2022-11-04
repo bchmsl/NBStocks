@@ -100,13 +100,14 @@
             tools:ignore="UnusedAttribute" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnBuy"
+            android:id="@+id/btnDeposit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:background="@drawable/button_background_variant"
             android:fontFamily="sans-serif"
-            android:text="@string/buy"
+            android:text="@string/deposit"
+            android:paddingHorizontal="15dp"
             android:textAllCaps="false"
             android:textColor="?attr/colorOnSecondary"
             android:textSize="20sp"
@@ -114,18 +115,19 @@
             app:layout_constraintStart_toStartOf="@id/viewCardBalance" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnSell"
+            android:id="@+id/btnWithdraw"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:background="@drawable/button_stroke_variant"
             android:fontFamily="sans-serif"
-            android:text="@string/sell"
+            android:text="@string/withdraw"
+            android:paddingHorizontal="15dp"
             android:textAllCaps="false"
             android:textColor="@color/lightGrey"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@id/viewCardBalance"
-            app:layout_constraintStart_toEndOf="@id/btnBuy" />
+            app:layout_constraintStart_toEndOf="@id/btnDeposit" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTitleWatchlist"
