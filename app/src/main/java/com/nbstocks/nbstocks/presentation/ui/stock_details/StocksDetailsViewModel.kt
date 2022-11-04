@@ -1,5 +1,6 @@
 package com.nbstocks.nbstocks.presentation.ui.stock_details
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nbstocks.nbstocks.common.extensions.*
@@ -7,9 +8,9 @@ import com.nbstocks.nbstocks.data.mapper.toUserStockDomainModel
 import com.nbstocks.nbstocks.data.repositories.db_owned_stocks.OwnedStocksRepositoryImpl
 import com.nbstocks.nbstocks.data.repositories.db_balance.BalanceRepositoryImpl
 import com.nbstocks.nbstocks.data.repositories.db_get_stock_amount.GetStockAmountRepositoryImpl
+import com.nbstocks.nbstocks.data.repositories.watchlist_stock.WatchlistRepositoryImpl
 import com.nbstocks.nbstocks.domain.repositories.current_stock.CurrentStockRepository
 import com.nbstocks.nbstocks.domain.repositories.daily_stock.DailyStockPricesRepository
-import com.nbstocks.nbstocks.domain.repositories.watchlist_stock.WatchlistRepository
 import com.nbstocks.nbstocks.presentation.mapper.toCurrentStockUiModel
 import com.nbstocks.nbstocks.presentation.mapper.toIntervalStockPricesUiModel
 import com.nbstocks.nbstocks.presentation.model.ViewState
@@ -27,7 +28,7 @@ import javax.inject.Inject
 class StocksDetailsViewModel @Inject constructor(
     private val stockDetailsRepository: DailyStockPricesRepository,
     private val currentStockRepository: CurrentStockRepository,
-    private val watchlistStockRepository: WatchlistRepository,
+    private val watchlistStockRepositoryImpl: WatchlistRepositoryImpl,
     private val ownedStocksRepositoryImpl: OwnedStocksRepositoryImpl,
     private val getStockAmountRepositoryImpl: GetStockAmountRepositoryImpl,
     private val balanceRepositoryImpl: BalanceRepositoryImpl
@@ -46,6 +47,9 @@ class StocksDetailsViewModel @Inject constructor(
 
     private val _amountOfStock = MutableStateFlow<ViewState<String>>(ViewState())
     val amountOfStock = _amountOfStock.asStateFlow()
+
+    private val _watchlistItems = MutableStateFlow<ViewState<List<String>>>(ViewState())
+    val watchlistItems: StateFlow<ViewState<List<String>>> get() = _watchlistItems
 
     private val _loaderState = MutableStateFlow(false)
     val loaderState: StateFlow<Boolean> get() = _loaderState
@@ -91,20 +95,43 @@ class StocksDetailsViewModel @Inject constructor(
 
     fun addStockInWatchlist(symbol: String) {
         viewModelScope.launch {
-            watchlistStockRepository.addWatchlistStock(symbol)
+            watchlistStockRepositoryImpl.addWatchlistStock(symbol)
         }
     }
 
     fun removeStockInWatchlist(symbol: String) {
         viewModelScope.launch {
-            watchlistStockRepository.removeWatchlistStock(symbol)
+            watchlistStockRepositoryImpl.removeWatchlistStock(symbol)
+        }
+    }
+
+    fun getWatchlistItems() {
+        viewModelScope.launch {
+            watchlistStockRepositoryImpl.getWatchlistItems()
+            _watchlistItems.resetViewState()
+            watchlistStockRepositoryImpl.watchlistItems.collect { resource ->
+                _loaderState.value = resource.isLoading
+                resource.doOnSuccess {
+                    _watchlistItems.emitSuccessViewState(this) {
+                        Log.wtf(
+                            "TTAAGG", it.toString()
+                        )
+                        it.toList()
+                    }
+                }.doOnFailure {
+                    _watchlistItems.emitErrorViewState(this) { it }
+                }
+
+            }
         }
     }
 
     fun getStockAmount(symbol: String) {
         viewModelScope.launch {
+            _amountOfStock.resetViewState()
             getStockAmountRepositoryImpl.getStockAmount(symbol)
             getStockAmountRepositoryImpl.stockAmount.collect { resource ->
+                _loaderState.value = resource.isLoading
                 resource.doOnSuccess {
                     _amountOfStock.emitSuccessViewState(this) { it }
                 }.doOnFailure {
@@ -138,7 +165,7 @@ class StocksDetailsViewModel @Inject constructor(
         }
     }
 
-    fun removeUsersStock(symbol: String){
+    fun removeUsersStock(symbol: String) {
         viewModelScope.launch {
             ownedStocksRepositoryImpl.sellOwnedStocks(symbol)
         }
