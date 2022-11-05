@@ -138,7 +138,6 @@
             app:destination="@id/profileFragment" />
     </fragment>
     <fragment
-        tools:layout="@layout/fragment_own_stock_items"
         android:id="@+id/userStockListingFragment"
         android:name="com.nbstocks.nbstocks.presentation.ui.user_stock_listing.UserStockListingFragment"
         android:label="UserStockListingFragment" >
@@ -146,4 +145,5 @@
             android:id="@+id/action_userStockListingFragment_to_stocksDetailsFragment"
             app:destination="@id/stocksDetailsFragment" />
     </fragment>
+
 </navigation>

@@ -5,6 +5,7 @@ import android.util.Log
 import android.util.Log.d
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nbstocks.nbstocks.common.extensions.asynchronously
 import com.nbstocks.nbstocks.common.extensions.collectViewState
@@ -34,6 +35,19 @@ class UserStockListingFragment :
     override fun start() {
         setUpRecycler()
         observer()
+        listeners()
+    }
+
+    private fun listeners() {
+        userStockAdapter.stockItemClicked = {
+            it.symbol?.let {
+                findNavController().navigate(
+                    UserStockListingFragmentDirections.actionUserStockListingFragmentToStocksDetailsFragment(
+                        it
+                    )
+                )
+            }
+        }
     }
 
     private fun observer() {
@@ -71,7 +85,7 @@ class UserStockListingFragment :
             }
         }
         asynchronously {
-            viewModel.loaderState.collect{
+            viewModel.loaderState.collect {
                 binding.progressBar.isVisible = it
             }
         }
