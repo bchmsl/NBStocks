@@ -26,15 +26,19 @@ class UserStockListingViewModel @Inject constructor(
     private val _usersStockState = MutableStateFlow<ViewState<List<UsersStockUiModel>>>(ViewState())
     val usersStockState: StateFlow<ViewState<List<UsersStockUiModel>>> get() = _usersStockState
 
-    private val _ownedStocksInfoState = MutableStateFlow<ViewState<WatchlistStockInfoUiModel>>(ViewState())
+    private val _ownedStocksInfoState =
+        MutableStateFlow<ViewState<WatchlistStockInfoUiModel>>(ViewState())
     val ownedStocksInfoState: StateFlow<ViewState<WatchlistStockInfoUiModel>> get() = _ownedStocksInfoState
 
+    private val _loaderState = MutableStateFlow(false)
+    val loaderState: StateFlow<Boolean> get() = _loaderState
 
     fun getUsersStocks() {
         viewModelScope.launch {
             usersStockRepositoryImpl.getOwnedStocks()
             _usersStockState.resetViewState()
             usersStockRepositoryImpl.ownedStockState.collect { resource ->
+                _loaderState.emit(resource.isLoading)
                 resource.doOnSuccess {
                     _usersStockState.emitSuccessViewState(this) {
                         it.map { it.toUserStockUiModel() }
@@ -49,10 +53,10 @@ class UserStockListingViewModel @Inject constructor(
 
     fun getUserStocksInformation(symbols: List<String>) {
         viewModelScope.launch {
-            _ownedStocksInfoState.resetViewState()
             multipleStocksRepository.getWatchlistStocksInformation(symbols.joinToString(","))
                 .collect { resource ->
-                    Log.w("TAG____VM", resource.toString())
+                    _loaderState.emit(resource.isLoading)
+                    _ownedStocksInfoState.resetViewState()
                     resource.doOnSuccess {
                         _ownedStocksInfoState.emitSuccessViewState(this) {
                             it.toWatchListStockUiModel()

@@ -18,12 +18,13 @@ class MultipleStocksRepositoryImpl @Inject constructor(
 
     override suspend fun getWatchlistStocksInformation(symbols: String): Flow<Resource<WatchlistStockInfoDomainModel>> = flow {
         emit(Resource.Loading(true))
+        if (symbols.isNotBlank()) {
             val resource = baseRepository.safeApiCall({
                 api.getWatchlistStockInfo(symbols = symbols)
             }, { toWatchlistStockInfoDomainModel() })
             emit(resource)
             Log.w("TAG____Repo", symbols)
-
+        }
         emit(Resource.Loading(false))
     }
 

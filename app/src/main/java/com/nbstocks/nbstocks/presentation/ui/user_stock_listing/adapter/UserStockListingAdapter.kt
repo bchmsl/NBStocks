@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.nbstocks.nbstocks.R
+import com.nbstocks.nbstocks.common.extensions.safeSubString
 import com.nbstocks.nbstocks.common.extensions.toCurrencyString
 import com.nbstocks.nbstocks.common.extensions.toPercentString
 import com.nbstocks.nbstocks.databinding.FragmentOwnStockItemsBinding
@@ -44,6 +45,9 @@ class UserStockListingAdapter : ListAdapter<WatchlistStockInfoUiModel.DataItem, 
                     binding.ivChart.setImageResource(R.drawable.ic_increase)
                 }
             }
+            binding.tvOwnedAmount.text = currentItem.ownedAmount.toString().safeSubString(7)
+            binding.tvTotalValue.text =
+                currentItem.regularMarketPrice?.let { currentItem.ownedAmount?.times(it).toCurrencyString() }
 
             binding.root.setOnClickListener {
                 stockItemClicked!!.invoke(currentItem)
