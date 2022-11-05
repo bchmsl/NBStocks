@@ -33,19 +33,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/tbtnProfile"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginEnd="25dp"
-            android:background="?attr/colorPrimary"
-            android:padding="3dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_person"
-            app:layout_constraintBottom_toBottomOf="@id/ivLogo"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/ivLogo" />
-
         <View
             android:id="@+id/viewCardBalance"
             android:layout_width="match_parent"
@@ -156,9 +143,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:orientation="horizontal"
+            tools:listitem="@layout/layout_watchlist_item"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintTop_toBottomOf="@+id/tvTitleWatchlist"
-            tools:itemCount="3"
+            tools:itemCount="1"
             tools:layout_editor_absoluteX="25dp"/>
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -193,10 +181,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:orientation="vertical"
+            tools:listitem="@layout/layout_own_stock_item"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appCompatTextView4"
-            tools:itemCount="5" />
+            tools:itemCount="1" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTradeHistory"
@@ -216,6 +205,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            tools:listitem="@layout/layout_trade_history_item"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvTradeHistory"

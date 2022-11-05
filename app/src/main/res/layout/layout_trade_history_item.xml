@@ -1,6 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:layout_marginTop="7dp"
+    android:layout_marginHorizontal="10dp"
+    android:background="@drawable/shape_stock_detail_card">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivTradeType"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        android:padding="7dp"
+        android:src="@drawable/buy_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvStockSymbol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="?attr/colorOnSecondary"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/ivTradeType"
+        app:layout_constraintTop_toTopOf="@+id/ivTradeType"
+        tools:text="AAPL" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvStockTradeDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        tools:text="20/20/20"
+        android:textColor="?attr/colorOnPrimaryContainer"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="@+id/ivTradeType"
+        app:layout_constraintStart_toStartOf="@+id/tvStockSymbol" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvMoney"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/red_light"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvStockSymbol"
+        tools:text="-$200.50" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,6 +10,7 @@ import com.nbstocks.nbstocks.data.repositories.db_owned_stocks.OwnedStocksReposi
 import com.nbstocks.nbstocks.data.repositories.db_balance.BalanceRepositoryImpl
 import com.nbstocks.nbstocks.data.repositories.db_get_stock_amount.GetStockAmountRepositoryImpl
 import com.nbstocks.nbstocks.data.repositories.multiple_stocks.MultipleStocksRepositoryImpl
+import com.nbstocks.nbstocks.data.repositories.trade_history.TradeHistoryRepositoryImpl
 import com.nbstocks.nbstocks.data.repositories.watchlist_stock.WatchlistRepositoryImpl
 import com.nbstocks.nbstocks.domain.repositories.base_repository.BaseRepository
 import com.nbstocks.nbstocks.domain.repositories.change_password.ChangePasswordRepository
@@ -20,6 +21,7 @@ import com.nbstocks.nbstocks.domain.repositories.db_add_users_stock.OwnedStocksR
 import com.nbstocks.nbstocks.domain.repositories.get_balance.BalanceRepository
 import com.nbstocks.nbstocks.domain.repositories.get_stock_amount.GetStockAmountRepository
 import com.nbstocks.nbstocks.domain.repositories.multiple_stocks.MultipleStocksRepository
+import com.nbstocks.nbstocks.domain.repositories.trade_history.TradeHistoryRepository
 import com.nbstocks.nbstocks.domain.repositories.watchlist_stock.WatchlistRepository
 import dagger.Binds
 import dagger.Module
@@ -42,6 +44,12 @@ abstract class BindsModule {
     abstract fun bindDailyStockRepository(
         dailyStockPricesRepositoryImpl: DailyStockPricesPricesRepositoryImpl
     ): DailyStockPricesRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindTradeHistoryRepository(
+        tradeHistoryRepositoryImpl: TradeHistoryRepositoryImpl
+    ): TradeHistoryRepository
 
     @Binds
     @Singleton

@@ -1,10 +1,7 @@
 package com.nbstocks.nbstocks.presentation.ui.home
 
 
-import android.os.Build
 import android.os.Bundle
-import android.util.Log.d
-import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -12,17 +9,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
 import com.nbstocks.nbstocks.common.extensions.*
 import com.nbstocks.nbstocks.databinding.FragmentHomeBinding
+import com.nbstocks.nbstocks.presentation.mapper.toTradeHistoryUiModel
 import com.nbstocks.nbstocks.presentation.ui.base.BaseFragment
 import com.nbstocks.nbstocks.presentation.ui.common.model.WatchlistStockInfoUiModel
 import com.nbstocks.nbstocks.presentation.ui.common.viewmodel.WatchlistViewModel
+import com.nbstocks.nbstocks.presentation.ui.home.adapter.TradeHistoryAdapter
 import com.nbstocks.nbstocks.presentation.ui.home.adapter.UserStockAdapter
 import com.nbstocks.nbstocks.presentation.ui.home.adapter.WatchlistStocksAdapter
 import com.nbstocks.nbstocks.presentation.ui.stock_details.model.UsersStockUiModel
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.util.*
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
@@ -38,6 +33,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     }
     private val watchlistAdapter by lazy { WatchlistStocksAdapter() }
     private val userStockAdapter by lazy { UserStockAdapter() }
+    private val tradeHistoryAdapter by lazy { TradeHistoryAdapter() }
 
     private var ownedStocks = listOf<UsersStockUiModel>()
     private var userBalance: Double? = 0.0
@@ -48,12 +44,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         listeners()
 
 
-//        val date = Calendar.getInstance().time
-//        val formatter = SimpleDateFormat.getDateTimeInstance() //or use getDateInstance()
-//        val formatedDate = formatter.format(date)
-//
-//        d("date","$formatedDate")
-
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,6 +52,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         viewModel.getUsersStocks()
         viewModel.getBalance()
         viewModel.showBalance(requireContext())
+        viewModel.getTradeHistory()
     }
 
     private fun observer() {
@@ -72,7 +63,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         }
         asynchronously {
             watchlistViewModel.watchlistStocksState.collectViewState(binding) {
-                watchlistAdapter.submitList(it.data)
+                watchlistAdapter.submitList(it.data.safeSubList(5).toList())
             }
         }
         asynchronously {
@@ -100,12 +91,18 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             }
         }
         asynchronously {
+            viewModel.tradeHistoryState.collectViewState(binding) {
+                tradeHistoryAdapter.submitList(it.map { it.toTradeHistoryUiModel() })
+            }
+        }
+        asynchronously {
             viewModel.usersBalanceState.collectViewState(binding) { balance ->
                 asynchronously {
                     viewModel.balanceShownState.collect { isShown ->
                         when (isShown) {
                             true -> {
-                                binding.tvCurrentBalance.text = balance.toDoubleOrNull().toCurrencyString()
+                                binding.tvCurrentBalance.text =
+                                    balance.toDoubleOrNull().toCurrencyString()
                                 userBalance = balance.toDoubleOrNull()
                             }
                             else -> {
@@ -135,7 +132,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                         )
                     }
                 }
-                userStockAdapter.submitList(data.safeSubList(5).toList())
+                userStockAdapter.submitList(data.safeSubList(3).toList())
             }
         }
     }
@@ -149,6 +146,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         binding.rvYourStocks.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = userStockAdapter
+        }
+
+        binding.rvTradeHistory.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = tradeHistoryAdapter
         }
     }
 
@@ -181,16 +183,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 )
             }
         }
-        binding.tbtnProfile.setOnClickListener {
-            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToProfileFragment())
-        }
     }
 
     private fun showConfirmation(currentBalance: Double, isDeposit: Boolean) {
         val dialog = BalanceDialog(requireContext(), isDeposit)
         dialog.show()
         dialog.confirmCallback = { amount ->
-            changeBalance(currentBalance, amount, isDeposit){isTaskSuccessful, message ->
+            changeBalance(currentBalance, amount, isDeposit) { isTaskSuccessful, message ->
                 binding.root.makeSnackbar(message, !isTaskSuccessful)
             }
         }
@@ -201,17 +200,18 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         amount: Double,
         isDeposit: Boolean,
         doAfterTask: (isTaskSuccessful: Boolean, message: String) -> Unit
-    ){
-        if (isDeposit){
+    ) {
+        if (isDeposit) {
             viewModel.setBalance(currentBalance.plus(amount))
             doAfterTask(true, "$amount added to balance.")
-        }else{
-            if (amount>currentBalance){
+        } else {
+            if (amount > currentBalance) {
                 doAfterTask(false, "Not enough money on balance.")
-            }else{
+            } else {
                 viewModel.setBalance(currentBalance.minus(amount))
                 doAfterTask(true, "$amount withdrew from balance.")
             }
         }
     }
+
 }
