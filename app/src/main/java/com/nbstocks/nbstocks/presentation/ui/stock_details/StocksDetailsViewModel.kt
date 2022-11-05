@@ -11,9 +11,12 @@ import com.nbstocks.nbstocks.data.repositories.db_get_stock_amount.GetStockAmoun
 import com.nbstocks.nbstocks.data.repositories.watchlist_stock.WatchlistRepositoryImpl
 import com.nbstocks.nbstocks.domain.repositories.current_stock.CurrentStockRepository
 import com.nbstocks.nbstocks.domain.repositories.daily_stock.DailyStockPricesRepository
+import com.nbstocks.nbstocks.domain.repositories.trade_history.TradeHistoryRepository
 import com.nbstocks.nbstocks.presentation.mapper.toCurrentStockUiModel
 import com.nbstocks.nbstocks.presentation.mapper.toIntervalStockPricesUiModel
+import com.nbstocks.nbstocks.presentation.mapper.toTradeHistoryDomainModel
 import com.nbstocks.nbstocks.presentation.model.ViewState
+import com.nbstocks.nbstocks.presentation.ui.home.model.TradeHistoryUiModel
 import com.nbstocks.nbstocks.presentation.ui.stock_details.model.CurrentStockUiModel
 import com.nbstocks.nbstocks.presentation.ui.stock_details.model.IntervalStockPricesUiModel
 import com.nbstocks.nbstocks.presentation.ui.stock_details.model.UsersStockUiModel
@@ -31,7 +34,8 @@ class StocksDetailsViewModel @Inject constructor(
     private val watchlistStockRepositoryImpl: WatchlistRepositoryImpl,
     private val ownedStocksRepositoryImpl: OwnedStocksRepositoryImpl,
     private val getStockAmountRepositoryImpl: GetStockAmountRepositoryImpl,
-    private val balanceRepositoryImpl: BalanceRepositoryImpl
+    private val balanceRepositoryImpl: BalanceRepositoryImpl,
+    private val tradeHistoryRepository: TradeHistoryRepository
 ) : ViewModel() {
 
     private val _intervalStockPricesViewState =
@@ -174,6 +178,12 @@ class StocksDetailsViewModel @Inject constructor(
     fun changeBalance(money: Double) {
         viewModelScope.launch {
             balanceRepositoryImpl.changeBalance(money)
+        }
+    }
+
+    fun addTradeHistory(tradeHistoryUiModel: TradeHistoryUiModel){
+        viewModelScope.launch {
+            tradeHistoryRepository.addTradeHistoryItem(tradeHistoryUiModel.toTradeHistoryDomainModel())
         }
     }
 
