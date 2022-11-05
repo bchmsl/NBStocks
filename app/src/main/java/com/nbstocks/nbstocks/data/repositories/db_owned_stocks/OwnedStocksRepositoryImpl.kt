@@ -20,8 +20,7 @@ class OwnedStocksRepositoryImpl @Inject constructor(
         .child(auth.currentUser!!.uid)
         .child("OwnedStocks")
 
-    private val _ownedStockState =
-        MutableStateFlow<Resource<List<UsersStockDomainModel>>>(Resource.Success(emptyList()))
+    private val _ownedStockState = MutableStateFlow<Resource<List<UsersStockDomainModel>>>(Resource.Success(emptyList()))
     var ownedStockState = _ownedStockState.asStateFlow()
 
 

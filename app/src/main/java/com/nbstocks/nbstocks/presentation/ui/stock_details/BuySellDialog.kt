@@ -34,6 +34,7 @@ class BuySellDialog(
         start()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun start() {
         binding.tvDialogTitle.text = (if (isBuying) "Buy" else "Sell").plus(" Stock")
         binding.btnDialogConfirm.text = if (isBuying) "Buy" else "Sell"
@@ -42,11 +43,9 @@ class BuySellDialog(
                 tvStockAmount.visibility = View.VISIBLE
                 tvAddAll.visibility = View.VISIBLE
                 val tvStockAmountText = if (isMoneyEnabled) {
-                    "You have ${
-                        stocksOwned.times(price).toString().safeSubString(7)
-                    } of this stock owned."
+                    "You have ${stocksOwned.times(price).toString().safeSubString(7)}"
                 } else {
-                    "You have ${stocksOwned.toString().safeSubString(7)} stocks owned."
+                    "You have ${stocksOwned.toString().safeSubString(7)}"
                 }
                 tvStockAmount.text = tvStockAmountText
                 tvAddAll.setOnClickListener {
@@ -66,15 +65,13 @@ class BuySellDialog(
                 if (isMoneyEnabled) {
                     tilMoney.visibility = View.VISIBLE
                     tilStock.visibility = View.INVISIBLE
-                    tvStockAmount.text = "You have ${
-                        stocksOwned.times(price).toString().safeSubString(7)
-                    } of this stock owned."
+                    tvStockAmount.text = "You have ${stocksOwned.times(price).toString().safeSubString(7)}"
                     etStock.setText("")
                 } else if (!isMoneyEnabled) {
                     tilStock.visibility = View.VISIBLE
                     tilMoney.visibility = View.INVISIBLE
                     tvStockAmount.text =
-                        "You have ${stocksOwned.toString().safeSubString(7)} stocks owned."
+                        "You have ${stocksOwned.toString().safeSubString(7)}"
                     etMoney.setText("")
                 }
             }

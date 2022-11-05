@@ -4,15 +4,21 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nbstocks.nbstocks.common.extensions.*
+import com.nbstocks.nbstocks.common.handlers.Resource
 import com.nbstocks.nbstocks.data.local.datastore.DatastoreProvider.readPreference
 import com.nbstocks.nbstocks.data.mapper.toUserStockUiModel
 import com.nbstocks.nbstocks.data.repositories.db_owned_stocks.OwnedStocksRepositoryImpl
 import com.nbstocks.nbstocks.data.repositories.db_balance.BalanceRepositoryImpl
+import com.nbstocks.nbstocks.data.repositories.trade_history.TradeHistoryRepositoryImpl
+import com.nbstocks.nbstocks.domain.model.TradeHistoryDomainModel
 import com.nbstocks.nbstocks.presentation.model.ViewState
+import com.nbstocks.nbstocks.presentation.ui.home.model.TradeHistoryUiModel
 import com.nbstocks.nbstocks.presentation.ui.stock_details.model.UsersStockUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,6 +26,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val usersStockRepositoryImpl: OwnedStocksRepositoryImpl,
     private val balanceRepositoryImpl: BalanceRepositoryImpl,
+    private val tradeHistoryRepositoryImpl: TradeHistoryRepositoryImpl
 ) : ViewModel() {
 
     private val _usersStockState = MutableStateFlow<ViewState<List<UsersStockUiModel>>>(ViewState())
@@ -30,6 +37,10 @@ class HomeViewModel @Inject constructor(
 
     private val _balanceShownState = MutableStateFlow<Boolean>(false)
     val balanceShownState: StateFlow<Boolean> get() = _balanceShownState
+
+
+    private val _tradeHistoryState = MutableStateFlow<ViewState<List<TradeHistoryDomainModel>>>(ViewState())
+    val tradeHistoryState: StateFlow<ViewState<List<TradeHistoryDomainModel>>> get() = _tradeHistoryState
 
     fun getUsersStocks() {
         viewModelScope.launch {
@@ -62,7 +73,22 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun setBalance(newBalance: Double){
+    fun getTradeHistory() {
+        viewModelScope.launch {
+            tradeHistoryRepositoryImpl.getTradeHistory()
+            _tradeHistoryState.resetViewState()
+            tradeHistoryRepositoryImpl.tradeHistoryState.collect { resource ->
+
+                resource.doOnSuccess {
+                    _tradeHistoryState.emitSuccessViewState(this){it}
+                }.doOnFailure {
+                    _tradeHistoryState.emitErrorViewState(this){it}
+                }
+            }
+        }
+    }
+
+    fun setBalance(newBalance: Double) {
         viewModelScope.launch {
             balanceRepositoryImpl.changeBalance(newBalance)
         }
