@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:elevation="3dp"
+    android:layout_marginHorizontal="10dp"
+    android:layout_marginVertical="5dp"
+    android:background="@drawable/owned_stocks_background">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvItemSymbol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="15dp"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="?attr/colorOnSecondary"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="AAPL" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvItemPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:textColor="?attr/colorOnSecondary"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvItemSymbol"
+        tools:text="$458.49" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvPercentage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/white"
+        android:paddingHorizontal="3dp"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvItemSymbol"
+        app:layout_constraintStart_toEndOf="@+id/tvItemSymbol"
+        app:layout_constraintTop_toTopOf="@+id/tvItemSymbol"
+        tools:text="-5.50%"
+        android:background="@drawable/shape_rectangle_decrease" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvOwnedAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:textColor="?attr/colorOnError"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvTotalValue"
+        app:layout_constraintStart_toStartOf="@+id/tvItemSymbol"
+        app:layout_constraintTop_toTopOf="@+id/tvTotalValue"
+        tools:text="1.6741" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/owned_stocks"
+        app:layout_constraintBottom_toTopOf="@+id/tvOwnedAmount"
+        app:layout_constraintStart_toStartOf="@+id/tvOwnedAmount" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/appCompatTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/total_value"
+        app:layout_constraintBottom_toTopOf="@+id/tvTotalValue"
+        app:layout_constraintEnd_toEndOf="@+id/tvTotalValue" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvTotalValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="?attr/colorOnError"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/tvItemPrice"
+        tools:text="$767.55" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

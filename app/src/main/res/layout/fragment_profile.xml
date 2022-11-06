@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/main_background"
+    tools:context=".presentation.ui.profile.ProfileFragment"
+    tools:targetApi="m">
+
+    <View
+        android:id="@+id/viewHeader"
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:background="@drawable/profile_header"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnUploadPhoto"
+        android:layout_width="35dp"
+        android:layout_height="18dp"
+        android:background="@drawable/shape_rectangle_increase"
+        android:text="@string/add"
+        android:backgroundTint="?attr/colorPrimary"
+        android:layout_marginStart="-25dp"
+        android:layout_marginTop="-15dp"
+        android:textColor="@color/white"
+        android:textSize="8sp"
+        app:layout_constraintStart_toEndOf="@+id/civProfileImage"
+        app:layout_constraintTop_toBottomOf="@+id/civProfileImage"
+        tools:ignore="SmallSp" />
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/civProfileImage"
+        android:layout_width="120dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="18dp"
+        android:elevation="3dp"
+        android:src="@drawable/img_avatar"
+        app:layout_constraintBottom_toBottomOf="@id/viewHeader"
+        app:layout_constraintDimensionRatio="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvTitleAppSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/application_settings"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/civProfileImage" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/swBalanceVisible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
+        android:drawablePadding="10dp"
+        android:drawableTint="@color/lightBlue"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center_vertical"
+        android:paddingVertical="0dp"
+        android:text="@string/balance_visible"
+        android:textColor="?attr/colorOnSecondary"
+        android:textSize="16sp"
+        app:drawableStartCompat="@drawable/ic_eye"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitleAppSettings" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/shape_line"
+        android:backgroundTint="@color/lightBlue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/swBalanceVisible" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvAbout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
+        android:background="@android:color/transparent"
+        android:drawablePadding="10dp"
+        android:drawableTint="?attr/colorOnSecondary"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center_vertical"
+        android:paddingVertical="10dp"
+        android:text="@string/about_nb_stocks"
+        android:textColor="?attr/colorOnSecondary"
+        android:textSize="16sp"
+        app:drawableStartCompat="@drawable/ic_info"
+        app:drawableTint="@color/lightBlue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view" />
+
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/shape_line"
+        android:backgroundTint="@color/lightBlue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvAbout" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvTitleProfileSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/profile_settings"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvAbout" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvChangePassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
+        android:drawablePadding="15dp"
+        android:drawableTint="?attr/colorOnSecondary"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center_vertical"
+        android:paddingVertical="10dp"
+        android:text="@string/change_password"
+        android:textColor="?attr/colorOnSecondary"
+        android:textSize="16sp"
+        app:drawableEndCompat="@drawable/ic_arrow_forward"
+        app:drawableStartCompat="@drawable/ic_lock"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitleProfileSettings" />
+
+    <View
+        android:id="@+id/view3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/shape_line"
+        android:backgroundTint="@color/lightBlue"
+        app:layout_constraintTop_toBottomOf="@id/tvChangePassword" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvLogOut"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
+        android:drawablePadding="15dp"
+        android:drawableTint="@android:color/holo_red_dark"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center_vertical"
+        android:paddingVertical="10dp"
+        android:text="@string/log_out"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="16sp"
+        app:drawableEndCompat="@drawable/ic_arrow_forward"
+        app:drawableStartCompat="@drawable/ic_logout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view3" />
+
+    <View
+        android:id="@+id/view4"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/shape_line"
+        android:backgroundTint="@color/red_dark"
+        app:layout_constraintTop_toBottomOf="@id/tvLogOut" />
+</androidx.constraintlayout.widget.ConstraintLayout>
