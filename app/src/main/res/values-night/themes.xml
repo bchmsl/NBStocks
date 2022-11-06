@@ -4,7 +4,6 @@
         <!-- Primary brand color. -->
         <item name="background">@color/darkGrey</item>
         <item name="actionModeBackground">@color/darkGreyVariant</item>
-
         <item name="colorPrimary">@color/darkBlue</item>
         <item name="colorPrimaryVariant">@color/darkBlueVariant</item>
         <item name="colorOnPrimary">@color/darkGrey</item>
