@@ -59,6 +59,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         asynchronously {
             watchlistViewModel.watchlistItemsState.collectViewState(binding) {
                 watchlistViewModel.getUserStocksInformation(it.safeSubList(5), true)
+                binding.rvWatchlist.startLayoutAnimation()
             }
         }
         asynchronously {
@@ -93,6 +94,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         asynchronously {
             viewModel.tradeHistoryState.collectViewState(binding) {
                 tradeHistoryAdapter.submitList(it.map { it.toTradeHistoryUiModel() }.reversed().safeSubList(20))
+                binding.rvTradeHistory.startLayoutAnimation()
             }
         }
         asynchronously {
@@ -133,6 +135,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     }
                 }
                 userStockAdapter.submitList(data.safeSubList(3).toList())
+                binding.rvYourStocks.startLayoutAnimation()
             }
         }
     }
@@ -144,13 +147,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         }
 
         binding.rvYourStocks.apply {
-            layoutManager = LinearLayoutManager(requireContext())
             adapter = userStockAdapter
+            layoutManager = LinearLayoutManager(requireContext())
         }
 
         binding.rvTradeHistory.apply {
-            layoutManager = LinearLayoutManager(requireContext())
             adapter = tradeHistoryAdapter
+            layoutManager = LinearLayoutManager(requireContext())
         }
     }
 

@@ -52,6 +52,7 @@ class WatchlistFragment :
         asynchronously {
             watchlistViewModel.watchlistStocksState.collectViewState(binding) {
                 watchlistAdapter.submitList(it.data)
+                binding.rvWatchlistStocks.startLayoutAnimation()
             }
         }
         asynchronously {

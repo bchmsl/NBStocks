@@ -75,6 +75,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingBottom="60dp"
+            android:layoutAnimation="@anim/item_layout_anim"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:itemCount="10"
             tools:listitem="@layout/layout_search_stock_item" />
