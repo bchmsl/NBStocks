@@ -92,7 +92,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         }
         asynchronously {
             viewModel.tradeHistoryState.collectViewState(binding) {
-                tradeHistoryAdapter.submitList(it.map { it.toTradeHistoryUiModel() })
+                tradeHistoryAdapter.submitList(it.map { it.toTradeHistoryUiModel() }.reversed().safeSubList(20))
             }
         }
         asynchronously {
