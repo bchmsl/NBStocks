@@ -5,6 +5,7 @@ import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.nbstocks.nbstocks.common.extensions.asynchronously
 import com.nbstocks.nbstocks.common.extensions.collectViewState
 import com.nbstocks.nbstocks.common.extensions.disable
@@ -22,10 +23,12 @@ class CompanyListingsFragment :
     private val stocksAdapter by lazy { CompanyListingsAdapter() }
 
     override fun start() {
-        binding.rvStocks.adapter = stocksAdapter
+        setUpRecycler()
         observe()
         listeners()
     }
+
+
 
     private fun listeners() {
         binding.apply {
@@ -90,10 +93,19 @@ class CompanyListingsFragment :
             asynchronously {
                 viewModel.companyListingViewState.collectViewState(binding) {
                     stocksAdapter.submitList(it)
+                    binding.rvStocks.startLayoutAnimation()
                 }
             }
 
         }
+    }
+
+    private fun setUpRecycler(){
+        binding.rvStocks.apply {
+            adapter = stocksAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+        }
+
     }
 
     private fun scrollToTop() {

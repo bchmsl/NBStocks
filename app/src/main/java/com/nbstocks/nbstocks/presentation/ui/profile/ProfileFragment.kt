@@ -19,6 +19,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
             defaultViewModelProviderFactory
         )
     }
+
     override fun start() {
         observe()
         listeners()
@@ -26,7 +27,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
 
     private fun observe() {
         asynchronously {
-            viewModel.getShownBalanceState(requireContext()).collect{
+            viewModel.getShownBalanceState(requireContext()).collect {
                 binding.swBalanceVisible.isChecked = it
                 Log.wtf("TAGGGG", it.toString())
             }
@@ -36,7 +37,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
     private fun listeners() {
         binding.apply {
             swBalanceVisible.setOnCheckedChangeListener { buttonView, isChecked ->
-                viewModel.setShownBalance(requireContext(),isChecked)
+                viewModel.setShownBalance(requireContext(), isChecked)
             }
             tvAbout.setOnClickListener {
 
@@ -53,7 +54,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
 
 
     private fun signOut() {
-        findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToLogInFragment())
         FirebaseAuth.getInstance().signOut()
+        findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToLogInFragment())
     }
 }

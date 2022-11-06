@@ -106,7 +106,9 @@
         tools:layout="@layout/fragment_profile" >
         <action
             android:id="@+id/action_profileFragment_to_logInFragment"
-            app:destination="@id/logInFragment" />
+            app:destination="@id/logInFragment"
+            app:popUpTo="@id/nav_graph.xml"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_profileFragment_to_companyListingsFragment"
             app:destination="@id/companyListingsFragment"

@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="300dp"
     android:layout_height="120dp"
-    android:layout_margin="10dp"
+    android:layout_marginHorizontal="10dp"
+    android:layout_marginVertical="17dp"
     android:elevation="10dp"
-    android:background="@drawable/shape_rectangle_clickable">
+    android:background="@drawable/new_watchlist">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvItemSymbol"

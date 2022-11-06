@@ -82,6 +82,7 @@ class UserStockListingFragment :
                 }
                 Log.w("TAG______", data.toString())
                 userStockAdapter.submitList(data.toList())
+                binding.rvWatchlistStocks.startLayoutAnimation()
             }
         }
         asynchronously {
