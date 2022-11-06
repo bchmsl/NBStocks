@@ -1,6 +1,5 @@
 package com.nbstocks.nbstocks.presentation.ui.common.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nbstocks.nbstocks.common.extensions.*
@@ -53,7 +52,6 @@ class WatchlistViewModel @Inject constructor(
     fun getUserStocksInformation(symbols: List<String>, isWatchList: Boolean) {
         viewModelScope.launch {
             _usersStocksState.resetViewState()
-            Log.w("TAGGG", symbols.joinToString(","))
             multipleStocksRepository.getWatchlistStocksInformation(symbols.joinToString(","))
                 .collect { resource ->
                     _loaderState.value = resource.isLoading

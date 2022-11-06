@@ -4,21 +4,17 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nbstocks.nbstocks.common.extensions.*
-import com.nbstocks.nbstocks.common.handlers.Resource
 import com.nbstocks.nbstocks.data.local.datastore.DatastoreProvider.readPreference
 import com.nbstocks.nbstocks.data.mapper.toUserStockUiModel
-import com.nbstocks.nbstocks.data.repositories.db_owned_stocks.OwnedStocksRepositoryImpl
 import com.nbstocks.nbstocks.data.repositories.db_balance.BalanceRepositoryImpl
+import com.nbstocks.nbstocks.data.repositories.db_owned_stocks.OwnedStocksRepositoryImpl
 import com.nbstocks.nbstocks.data.repositories.trade_history.TradeHistoryRepositoryImpl
 import com.nbstocks.nbstocks.domain.model.TradeHistoryDomainModel
 import com.nbstocks.nbstocks.presentation.model.ViewState
-import com.nbstocks.nbstocks.presentation.ui.home.model.TradeHistoryUiModel
 import com.nbstocks.nbstocks.presentation.ui.stock_details.model.UsersStockUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -35,7 +31,7 @@ class HomeViewModel @Inject constructor(
     private val _usersBalanceState = MutableStateFlow<ViewState<String>>(ViewState())
     val usersBalanceState: StateFlow<ViewState<String>> get() = _usersBalanceState
 
-    private val _balanceShownState = MutableStateFlow<Boolean>(false)
+    private val _balanceShownState = MutableStateFlow(false)
     val balanceShownState: StateFlow<Boolean> get() = _balanceShownState
 
 

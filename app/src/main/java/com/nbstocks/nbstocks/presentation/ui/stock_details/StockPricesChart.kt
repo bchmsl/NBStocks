@@ -2,10 +2,8 @@ package com.nbstocks.nbstocks.presentation.ui.stock_details
 
 import com.anychart.chart.common.dataentry.DataEntry
 import com.anychart.chart.common.dataentry.ValueDataEntry
-import com.nbstocks.nbstocks.common.custom_views.CustomWaterfallChart
-import com.nbstocks.nbstocks.common.extensions.toMonthDay
-import com.nbstocks.nbstocks.presentation.ui.stock_details.model.StockPricesUiModel
 import com.anychart.core.waterfall.series.Waterfall
+import com.nbstocks.nbstocks.common.custom_views.CustomWaterfallChart
 import com.nbstocks.nbstocks.common.extensions.toDate
 import com.nbstocks.nbstocks.presentation.ui.stock_details.model.IntervalStockPricesUiModel
 

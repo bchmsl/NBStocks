@@ -21,17 +21,6 @@ object AESCrypt {
         return Base64.encodeToString(encryptedByteValue, Base64.DEFAULT)
     }
 
-    @SuppressLint("GetInstance")
-    @Throws(Exception::class)
-    fun decrypt(value: String?): String {
-        val key: Key = generateKey()
-        val cipher: Cipher = Cipher.getInstance(ALGORITHM)
-        cipher.init(Cipher.DECRYPT_MODE, key)
-        val decryptedValue64: ByteArray = Base64.decode(value, Base64.DEFAULT)
-        val decryptedByteValue: ByteArray = cipher.doFinal(decryptedValue64)
-        return String(decryptedByteValue)
-    }
-
     @Throws(Exception::class)
     private fun generateKey(): Key {
         return SecretKeySpec(KEY.toByteArray(), ALGORITHM)

@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.nbstocks.nbstocks.R
 import com.nbstocks.nbstocks.common.extensions.toCurrencyString
 import com.nbstocks.nbstocks.common.extensions.toPercentString
-import com.nbstocks.nbstocks.databinding.LayoutWatchlistItemBinding
 import com.nbstocks.nbstocks.databinding.LayoutWatchlistItemFragmentBinding
 import com.nbstocks.nbstocks.presentation.ui.common.model.WatchlistStockInfoUiModel
 

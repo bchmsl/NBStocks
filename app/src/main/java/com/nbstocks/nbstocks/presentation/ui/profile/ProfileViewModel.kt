@@ -1,27 +1,20 @@
 package com.nbstocks.nbstocks.presentation.ui.profile
 
-import android.app.Application
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
-import android.util.Log
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.storage.FileDownloadTask
 import com.google.firebase.storage.FirebaseStorage
-import com.nbstocks.nbstocks.App
 import com.nbstocks.nbstocks.common.handlers.Resource
 import com.nbstocks.nbstocks.data.local.datastore.DatastoreProvider.readPreference
 import com.nbstocks.nbstocks.data.local.datastore.DatastoreProvider.savePreference
-import com.nbstocks.nbstocks.data.repositories.change_password.ChangePasswordRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import java.io.File
 import javax.inject.Inject
@@ -34,7 +27,7 @@ class ProfileViewModel @Inject constructor(
     private val _uploadProfilePicResponse = MutableStateFlow<Resource<Unit>>(Resource.Loading(true))
     val uploadProfilePicResponse get() = _uploadProfilePicResponse.asStateFlow()
 
-    private val _profilePic = MutableStateFlow<Resource<Bitmap>>(Resource.Loading(true))
+    private val _profilePic = MutableStateFlow<Resource<Bitmap?>>(Resource.Loading(true))
     val profilePic get() = _profilePic.asStateFlow()
 
 
@@ -44,10 +37,6 @@ class ProfileViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             context.savePreference(isShown)
-            context.readPreference(true).let {
-                Log.wtf("TAG_BALANCE", it.toString())
-            }
-
         }
     }
 

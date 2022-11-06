@@ -1,14 +1,12 @@
 package com.nbstocks.nbstocks.presentation.ui.home
 
 
-import android.os.Bundle
-import android.util.Log.d
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
-import com.nbstocks.nbstocks.R
+import com.google.firebase.auth.FirebaseAuth
 import com.nbstocks.nbstocks.common.extensions.*
 import com.nbstocks.nbstocks.databinding.FragmentHomeBinding
 import com.nbstocks.nbstocks.presentation.mapper.toTradeHistoryUiModel
@@ -41,26 +39,23 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private var userBalance: Double? = 0.0
 
     override fun start() {
-        setUpAdapter()
-        observer()
-        listeners()
-
-
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        watchlistViewModel.getItemsFromWatchlist()
-        viewModel.getUsersStocks()
-        viewModel.getBalance()
-        viewModel.showBalance(requireContext())
-        viewModel.getTradeHistory()
+        if (FirebaseAuth.getInstance().currentUser == null) {
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToLogInFragment())
+        } else {
+            watchlistViewModel.getItemsFromWatchlist()
+            viewModel.getUsersStocks()
+            viewModel.getBalance()
+            viewModel.showBalance(requireContext())
+            viewModel.getTradeHistory()
+            setUpAdapter()
+            observer()
+            listeners()
+        }
     }
 
     private fun observer() {
         asynchronously {
             watchlistViewModel.watchlistItemsState.collectViewState(binding) {
-//                d("watchlost_list","${it.size}")
                 watchlistViewModel.getUserStocksInformation(it.safeSubList(5), true)
                 binding.rvWatchlist.startLayoutAnimation()
             }
@@ -76,7 +71,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             }
         }
         asynchronously {
-            viewModel.usersStockState.collectViewState(binding) {
+            viewModel.usersStockState.collectViewState(binding) { it ->
                 ownedStocks = it
                 watchlistViewModel.getUserStocksInformation(
                     ownedStocks.map { it.symbol },
@@ -85,7 +80,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             }
         }
         asynchronously {
-            viewModel.usersStockState.collectViewState(binding) {
+            viewModel.usersStockState.collectViewState(binding) { it ->
                 ownedStocks = it
                 watchlistViewModel.getUserStocksInformation(
                     ownedStocks.map { it.symbol },
@@ -95,8 +90,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             }
         }
         asynchronously {
-            viewModel.tradeHistoryState.collectViewState(binding) {
-                tradeHistoryAdapter.submitList(it.map { it.toTradeHistoryUiModel() }.reversed().safeSubList(20))
+            viewModel.tradeHistoryState.collectViewState(binding) { it ->
+                tradeHistoryAdapter.submitList(
+                    it.map { it.toTradeHistoryUiModel() }.reversed().safeSubList(20)
+                )
                 binding.rvTradeHistory.startLayoutAnimation()
             }
         }

@@ -3,7 +3,6 @@ package com.nbstocks.nbstocks.presentation.ui.log_in
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.google.firebase.auth.FirebaseAuth
 import com.nbstocks.nbstocks.common.extensions.*
 import com.nbstocks.nbstocks.databinding.FragmentLogInBinding
 import com.nbstocks.nbstocks.presentation.ui.base.BaseFragment
@@ -15,9 +14,6 @@ class LogInFragment : BaseFragment<FragmentLogInBinding>(FragmentLogInBinding::i
     private val viewModel: LogInViewModel by viewModels()
 
     override fun start() {
-        if (FirebaseAuth.getInstance().currentUser != null) {
-            findNavController().navigate(LogInFragmentDirections.actionLogInFragmentToHomeFragment())
-        }
         listeners()
         observer()
     }
@@ -26,12 +22,13 @@ class LogInFragment : BaseFragment<FragmentLogInBinding>(FragmentLogInBinding::i
         asynchronously {
             viewModel.loginResponse.collect {resource ->
                 resource.doOnSuccess {
-                    findNavController().navigate(LogInFragmentDirections.actionLogInFragmentToHomeFragment())
+                    findNavController().popBackStack()
                 }.doOnFailure {
                     it.localizedMessage?.let { it1 -> binding.root.makeSnackbar(it1, true) }
                 }
             }
         }
+
         asynchronously {
             viewModel.loaderState.collect{
                 binding.progressBar.isVisible = it

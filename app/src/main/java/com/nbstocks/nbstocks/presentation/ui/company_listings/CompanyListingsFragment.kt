@@ -6,7 +6,6 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.nbstocks.nbstocks.R
 import com.nbstocks.nbstocks.common.extensions.asynchronously
 import com.nbstocks.nbstocks.common.extensions.collectViewState
 import com.nbstocks.nbstocks.common.extensions.disable

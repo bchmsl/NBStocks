@@ -1,6 +1,5 @@
 package com.nbstocks.nbstocks.presentation.ui.stock_details
 
-import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.view.LayoutInflater
@@ -8,7 +7,6 @@ import android.view.View
 import com.nbstocks.nbstocks.common.custom_views.CustomDialog
 import com.nbstocks.nbstocks.common.extensions.isValid
 import com.nbstocks.nbstocks.common.extensions.safeSubString
-import com.nbstocks.nbstocks.common.extensions.toPercentString
 import com.nbstocks.nbstocks.databinding.DialogBuyStockBinding
 
 class BuySellDialog(
@@ -23,7 +21,7 @@ class BuySellDialog(
 
     var confirmCallback: ((stockAmount: Double?) -> Unit)? = null
 
-    var isMoneyEnabled = true
+    private var isMoneyEnabled = true
 
     override fun onCreateDialog(inflater: LayoutInflater): View {
         _binding = DialogBuyStockBinding.inflate(inflater)
@@ -34,7 +32,6 @@ class BuySellDialog(
         start()
     }
 
-    @SuppressLint("SetTextI18n")
     private fun start() {
         binding.tvDialogTitle.text = (if (isBuying) "Buy" else "Sell").plus(" Stock")
         binding.btnDialogConfirm.text = if (isBuying) "Buy" else "Sell"
@@ -65,13 +62,14 @@ class BuySellDialog(
                 if (isMoneyEnabled) {
                     tilMoney.visibility = View.VISIBLE
                     tilStock.visibility = View.INVISIBLE
-                    tvStockAmount.text = "You have ${stocksOwned.times(price).toString().safeSubString(7)}"
+                    tvStockAmount.text =
+                        "You have".plus(stocksOwned.times(price).toString().safeSubString(7))
                     etStock.setText("")
                 } else if (!isMoneyEnabled) {
                     tilStock.visibility = View.VISIBLE
                     tilMoney.visibility = View.INVISIBLE
                     tvStockAmount.text =
-                        "You have ${stocksOwned.toString().safeSubString(7)}"
+                        "You have".plus(stocksOwned.toString().safeSubString(7))
                     etMoney.setText("")
                 }
             }

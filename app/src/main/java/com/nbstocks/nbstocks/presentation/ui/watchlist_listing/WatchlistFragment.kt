@@ -4,7 +4,9 @@ import android.os.Bundle
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.nbstocks.nbstocks.common.extensions.*
+import com.nbstocks.nbstocks.common.extensions.asynchronously
+import com.nbstocks.nbstocks.common.extensions.collectViewState
+import com.nbstocks.nbstocks.common.extensions.obtainViewModel
 import com.nbstocks.nbstocks.databinding.FragmentWatchlistBinding
 import com.nbstocks.nbstocks.presentation.ui.base.BaseFragment
 import com.nbstocks.nbstocks.presentation.ui.common.viewmodel.WatchlistViewModel
@@ -46,7 +48,7 @@ class WatchlistFragment :
     private fun observer() {
         asynchronously {
             watchlistViewModel.watchlistItemsState.collectViewState(binding) {
-                watchlistViewModel.getUserStocksInformation(it.safeSubList(5), true)
+                watchlistViewModel.getUserStocksInformation(it, true)
             }
         }
         asynchronously {

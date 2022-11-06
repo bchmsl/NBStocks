@@ -1,8 +1,6 @@
 package com.nbstocks.nbstocks.presentation.ui.user_stock_listing
 
 import android.os.Bundle
-import android.util.Log
-import android.util.Log.d
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -15,7 +13,6 @@ import com.nbstocks.nbstocks.presentation.ui.common.model.WatchlistStockInfoUiMo
 import com.nbstocks.nbstocks.presentation.ui.stock_details.model.UsersStockUiModel
 import com.nbstocks.nbstocks.presentation.ui.user_stock_listing.adapter.UserStockListingAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class UserStockListingFragment :
@@ -52,6 +49,9 @@ class UserStockListingFragment :
             binding.swipeRefresh.isRefreshing = false
             viewModel.getUsersStocks()
         }
+        binding.ibtnBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     private fun observer() {
@@ -59,7 +59,6 @@ class UserStockListingFragment :
             viewModel.usersStockState.collectViewState(binding) { stockList ->
                 symbols = stockList.map { it.symbol }
                 ownedStocks = stockList
-                Log.w("TAG___STOCKS", symbols.toString())
                 collectOwnedStocks()
             }
         }
@@ -74,7 +73,6 @@ class UserStockListingFragment :
                 val data = mutableListOf<WatchlistStockInfoUiModel.DataItem>()
                 ownedStocksInfo.data.forEachIndexed { index, dataItem ->
                     ownedStocks.getOrNull(index)?.let {
-                        Log.w("T A G", it.toString())
                         data.add(
                             dataItem.copy(
                                 owned = true,
@@ -84,7 +82,6 @@ class UserStockListingFragment :
                         )
                     }
                 }
-                Log.w("TAG______", data.toString())
                 userStockAdapter.submitList(data.toList())
                 binding.rvWatchlistStocks.startLayoutAnimation()
             }

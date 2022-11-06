@@ -5,7 +5,6 @@ import com.nbstocks.nbstocks.presentation.model.ViewState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 suspend fun <T: ViewState<D>, D> Flow<T>.collectViewState(binding: ViewBinding, block: (data: D) -> Unit) {

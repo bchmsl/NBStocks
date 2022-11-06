@@ -1,9 +1,7 @@
 package com.nbstocks.nbstocks.presentation.ui.stock_details
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.util.Log.d
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -79,14 +77,14 @@ class StocksDetailsFragment :
 
         asynchronously {
             viewModel.amountOfStock.collectViewState(binding) {
-                amount = it.toDouble() ?: 0.0
+                amount = it.toDouble()
             }
         }
 
         asynchronously {
             viewModel.getBalance()
             viewModel.usersBalanceState.collectViewState(binding) {
-                balance = it.toDouble() ?: 0.0
+                balance = it.toDouble()
             }
         }
         asynchronously {
@@ -166,7 +164,7 @@ class StocksDetailsFragment :
         val dialog = BuySellDialog(requireContext(), price, isBuying, stocksOwned)
         dialog.show()
         dialog.confirmCallback = { stockAmount ->
-            confirm(stockAmount, isBuying, stocksOwned) { isTaskSuccessful, message ->
+            confirm(stockAmount, isBuying) { isTaskSuccessful, message ->
                 binding.root.makeSnackbar(message, !isTaskSuccessful)
             }
         }
@@ -175,7 +173,6 @@ class StocksDetailsFragment :
     private fun confirm(
         amountOfStock: Double?,
         isBuying: Boolean,
-        stocksOwned: Double,
         doAfterTask: (isTaskSuccessful: Boolean, message: String) -> Unit
     ) {
         if (isBuying) {
@@ -227,7 +224,7 @@ class StocksDetailsFragment :
                     UsersStockUiModel(
                         symbol = binding.tvSymbol.text.toString(),
                         price = binding.tvCurrentPrice.text.toString(),
-                        amountInStocks = amountOfStock?.plus(amount)
+                        amountInStocks = amountOfStock.plus(amount)
                     )
                 )
                 addTradeHistory(

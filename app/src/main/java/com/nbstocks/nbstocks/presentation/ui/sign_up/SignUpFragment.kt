@@ -2,14 +2,12 @@ package com.nbstocks.nbstocks.presentation.ui.sign_up
 
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.nbstocks.nbstocks.R
 import com.nbstocks.nbstocks.common.extensions.*
-import com.nbstocks.nbstocks.common.handlers.Resource
 import com.nbstocks.nbstocks.databinding.FragmentSignUpBinding
 import com.nbstocks.nbstocks.presentation.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SignUpFragment : BaseFragment<FragmentSignUpBinding>(FragmentSignUpBinding::inflate) {
@@ -43,10 +41,10 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(FragmentSignUpBinding
         asynchronously {
             viewModel.registerResponse.collect { resource ->
                 resource.doOnSuccess {
-                    findNavController().navigate(SignUpFragmentDirections.actionSignUpFragmentToHomeFragment())
+                    findNavController().popBackStack(R.id.homeFragment, false)
 
-                }.doOnFailure {
-                    it.localizedMessage?.let {binding.root.makeSnackbar(it, true) }
+                }.doOnFailure { it ->
+                    it.localizedMessage?.let { binding.root.makeSnackbar(it, true) }
                 }
             }
         }

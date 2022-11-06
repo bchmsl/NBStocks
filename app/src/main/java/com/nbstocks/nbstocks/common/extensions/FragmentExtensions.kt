@@ -6,7 +6,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-fun <T : ViewModel> Fragment.obtainViewModel(
+fun <T : ViewModel> obtainViewModel(
     owner: ViewModelStoreOwner,
     viewModelClass: Class<T>,
     viewmodelFactory: ViewModelProvider.Factory

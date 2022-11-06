@@ -3,163 +3,117 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph.xml"
-    app:startDestination="@id/logInFragment">
+    app:startDestination="@id/homeFragment">
 
     <fragment
         android:id="@+id/homeFragment"
-        tools:layout="@layout/fragment_home"
         android:name="com.nbstocks.nbstocks.presentation.ui.home.HomeFragment"
-        android:label="HomeFragment" >
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_stocksDetailsFragment"
+            app:destination="@id/stocksDetailsFragment"
             app:enterAnim="@anim/slide_in_fragment"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/slide_out_fragment"
-            app:destination="@id/stocksDetailsFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_stocksFragment"
-            app:destination="@id/companyListingsFragment"
-            app:enterAnim="@anim/slide_in_fragment"
-            app:exitAnim="@anim/fade_out"
-            app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/slide_out_fragment"
-            app:popUpTo="@id/nav_graph.xml" />
+            app:popExitAnim="@anim/slide_out_fragment" />
         <action
             android:id="@+id/action_homeFragment_to_watchlistFragment"
+            app:destination="@id/watchlistFragment"
             app:enterAnim="@anim/slide_in_fragment"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/slide_out_fragment"
-            app:destination="@id/watchlistFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_profileFragment"
-            app:destination="@id/profileFragment"
-            app:enterAnim="@anim/slide_in_fragment"
-            app:exitAnim="@anim/fade_out"
-            app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/slide_out_fragment"
-            app:popUpTo="@id/nav_graph.xml" />
+            app:popExitAnim="@anim/slide_out_fragment" />
         <action
             android:id="@+id/action_homeFragment_to_userStockListingFragment"
+            app:destination="@id/userStockListingFragment"
+            app:enterAnim="@anim/slide_in_fragment"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_fragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_logInFragment"
+            app:destination="@id/logInFragment"
             app:enterAnim="@anim/slide_in_fragment"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/slide_out_fragment"
-            app:destination="@id/userStockListingFragment" />
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="false" />
 
     </fragment>
     <fragment
         android:id="@+id/logInFragment"
-        tools:layout="@layout/fragment_log_in"
         android:name="com.nbstocks.nbstocks.presentation.ui.log_in.LogInFragment"
-        android:label="LogInFragment" >
+        android:label="LogInFragment"
+        tools:layout="@layout/fragment_log_in">
 
         <action
             android:id="@+id/action_logInFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment"
             app:enterAnim="@anim/slide_in_fragment"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/slide_out_fragment"
-            app:destination="@id/signUpFragment" />
+            app:popExitAnim="@anim/slide_out_fragment" />
         <action
             android:id="@+id/action_logInFragment_to_passwordRecoveryFragment"
+            app:destination="@id/passwordRecoveryFragment"
             app:enterAnim="@anim/slide_in_fragment"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/slide_out_fragment"
-            app:destination="@id/passwordRecoveryFragment" />
-        <action
-            android:id="@+id/action_logInFragment_to_homeFragment"
-            app:enterAnim="@anim/slide_in_fragment"
-            app:exitAnim="@anim/fade_out"
-            app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/slide_out_fragment"
-            app:destination="@id/homeFragment"
-            app:popUpTo="@id/nav_graph.xml" />
+            app:popExitAnim="@anim/slide_out_fragment" />
     </fragment>
     <fragment
-        tools:layout="@layout/fragment_password_recovery"
         android:id="@+id/passwordRecoveryFragment"
         android:name="com.nbstocks.nbstocks.presentation.ui.password_recovery.PasswordRecoveryFragment"
-        android:label="PasswordRecoveryFragment" >
+        android:label="PasswordRecoveryFragment"
+        tools:layout="@layout/fragment_password_recovery">
         <argument
             android:name="email"
             app:argType="string" />
-        <action
-            android:id="@+id/action_passwordRecoveryFragment_to_logInFragment"
-            app:enterAnim="@anim/slide_in_fragment"
-            app:exitAnim="@anim/fade_out"
-            app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/slide_out_fragment"
-            app:destination="@id/logInFragment" />
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
-        tools:layout="@layout/fragment_sign_up"
         android:name="com.nbstocks.nbstocks.presentation.ui.sign_up.SignUpFragment"
-        android:label="SignUpFragment" >
-        <action
-            android:id="@+id/action_signUpFragment_to_homeFragment"
-            app:enterAnim="@anim/slide_in_fragment"
-            app:exitAnim="@anim/fade_out"
-            app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/slide_out_fragment"
-            app:destination="@id/homeFragment"
-            app:popUpTo="@id/nav_graph.xml" />
+        android:label="SignUpFragment"
+        tools:layout="@layout/fragment_sign_up">
         <argument
             android:name="email"
             app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/stocksDetailsFragment"
-        tools:layout="@layout/fragment_stock_details"
         android:name="com.nbstocks.nbstocks.presentation.ui.stock_details.StocksDetailsFragment"
-        android:label="StocksDetailsFragment" >
+        android:label="StocksDetailsFragment"
+        tools:layout="@layout/fragment_stock_details">
 
         <argument
             android:name="stockSymbol"
             app:argType="string" />
         <argument
             android:name="stockChangePercent"
-            app:argType="float"
-            android:defaultValue="0.0" />
+            android:defaultValue="0.0"
+            app:argType="float" />
     </fragment>
     <fragment
         android:id="@+id/companyListingsFragment"
-        tools:layout="@layout/fragment_company_listings"
         android:name="com.nbstocks.nbstocks.presentation.ui.company_listings.CompanyListingsFragment"
-        android:label="CompanyListingsFragment">
+        android:label="CompanyListingsFragment"
+        tools:layout="@layout/fragment_company_listings">
 
         <action
             android:id="@+id/action_companyListingsFragment_to_stocksDetailsFragment"
+            app:destination="@id/stocksDetailsFragment"
             app:enterAnim="@anim/slide_in_fragment"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/slide_out_fragment"
-            app:destination="@id/stocksDetailsFragment" />
-        <action
-            android:id="@+id/action_companyListingsFragment_to_profileFragment"
-            app:destination="@id/profileFragment"
-            app:enterAnim="@anim/slide_in_fragment"
-            app:exitAnim="@anim/fade_out"
-            app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/slide_out_fragment"
-            app:popUpTo="@id/nav_graph.xml" />
-        <action
-            android:id="@+id/action_companyListingsFragment_to_homeFragment"
-            app:destination="@id/homeFragment"
-            app:enterAnim="@anim/slide_in_fragment"
-            app:exitAnim="@anim/fade_out"
-            app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/slide_out_fragment"
-            app:popUpTo="@id/nav_graph.xml" />
+            app:popExitAnim="@anim/slide_out_fragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.nbstocks.nbstocks.presentation.ui.profile.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" >
+        tools:layout="@layout/fragment_profile">
         <action
             android:id="@+id/action_profileFragment_to_logInFragment"
             app:destination="@id/logInFragment"
@@ -170,67 +124,52 @@
             app:popUpTo="@id/nav_graph.xml"
             app:popUpToInclusive="true" />
         <action
-            android:id="@+id/action_profileFragment_to_companyListingsFragment"
-            app:destination="@id/companyListingsFragment"
-            app:enterAnim="@anim/slide_in_fragment"
-            app:exitAnim="@anim/fade_out"
-            app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/slide_out_fragment"
-            app:popUpTo="@id/nav_graph.xml" />
-        <action
-            android:id="@+id/action_profileFragment_to_homeFragment"
-            app:destination="@id/homeFragment"
-            app:enterAnim="@anim/slide_in_fragment"
-            app:exitAnim="@anim/fade_out"
-            app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/slide_out_fragment"
-            app:popUpTo="@id/nav_graph.xml" />
-        <action
             android:id="@+id/action_profileFragment_to_passwordChangeFragment"
+            app:destination="@id/passwordChangeFragment"
             app:enterAnim="@anim/slide_in_fragment"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/slide_out_fragment"
-            app:destination="@id/passwordChangeFragment" />
+            app:popExitAnim="@anim/slide_out_fragment" />
     </fragment>
     <fragment
         android:id="@+id/watchlistFragment"
         android:name="com.nbstocks.nbstocks.presentation.ui.watchlist_listing.WatchlistFragment"
         android:label="fragment_watchlist"
 
-        tools:layout="@layout/fragment_watchlist" >
+        tools:layout="@layout/fragment_watchlist">
         <action
             android:id="@+id/action_watchlistFragment_to_stocksDetailsFragment"
+            app:destination="@id/stocksDetailsFragment"
             app:enterAnim="@anim/slide_in_fragment"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/slide_out_fragment"
-            app:destination="@id/stocksDetailsFragment" />
+            app:popExitAnim="@anim/slide_out_fragment" />
     </fragment>
     <fragment
-        tools:layout="@layout/fragment_password_change"
         android:id="@+id/passwordChangeFragment"
         android:name="com.nbstocks.nbstocks.presentation.ui.change_password.PasswordChangeFragment"
-        android:label="PasswordChangeFragment" >
+        android:label="PasswordChangeFragment"
+        tools:layout="@layout/fragment_password_change">
         <action
             android:id="@+id/action_passwordChangeFragment_to_profileFragment"
+            app:destination="@id/profileFragment"
             app:enterAnim="@anim/slide_in_fragment"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/slide_out_fragment"
-            app:destination="@id/profileFragment" />
+            app:popExitAnim="@anim/slide_out_fragment" />
     </fragment>
     <fragment
+        android:label="UserStockListingFragment"
         android:id="@+id/userStockListingFragment"
         android:name="com.nbstocks.nbstocks.presentation.ui.user_stock_listing.UserStockListingFragment"
-        android:label="UserStockListingFragment" >
+        tools:layout="@layout/layout_own_stock_item_fragment">
         <action
             android:id="@+id/action_userStockListingFragment_to_stocksDetailsFragment"
+            app:destination="@id/stocksDetailsFragment"
             app:enterAnim="@anim/slide_in_fragment"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/slide_out_fragment"
-            app:destination="@id/stocksDetailsFragment" />
+            app:popExitAnim="@anim/slide_out_fragment" />
     </fragment>
 
 </navigation>

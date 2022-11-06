@@ -1,6 +1,5 @@
 package com.nbstocks.nbstocks.presentation.ui.home.adapter
 
-import android.annotation.SuppressLint
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -22,7 +21,6 @@ class TradeHistoryAdapter :
     inner class TradeHistoryViewHolder(private val binding: LayoutTradeHistoryItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        @SuppressLint("SetTextI18n")
         fun onBind() {
             val currentItem = getItem(adapterPosition)
             binding.apply {
@@ -30,7 +28,7 @@ class TradeHistoryAdapter :
                 tvStockTradeDate.text = currentItem.tradeDate.safeSubString(12)
                 if (currentItem.isBuy.toString() == "true"){
                     binding.ivTradeType.setImageResource(R.drawable.ic_buy)
-                    tvMoney.text = "-${currentItem.money.toCurrencyDouble().toCurrencyString()}"
+                    tvMoney.text = "-".plus(currentItem.money.toCurrencyDouble().toCurrencyString())
                     tvMoney.setTextColor(Color.parseColor("#63C10A"))
                 }else{
                     binding.ivTradeType.setImageResource(R.drawable.ic_sell)

@@ -10,7 +10,6 @@ import retrofit2.http.Query
 interface IntervalStockPricesService {
     companion object{
         const val PATH = YahooFinanceService.PATH_CHART
-        val TIMESTAMP = YahooFinanceService.ServiceTimestamps
     }
     @GET(PATH)
     suspend fun getIntervalStockPrices(

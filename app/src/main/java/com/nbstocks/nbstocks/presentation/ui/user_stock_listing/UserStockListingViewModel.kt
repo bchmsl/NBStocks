@@ -1,6 +1,5 @@
 package com.nbstocks.nbstocks.presentation.ui.user_stock_listing
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nbstocks.nbstocks.common.extensions.*

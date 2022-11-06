@@ -1,6 +1,5 @@
 package com.nbstocks.nbstocks.data.repositories.multiple_stocks
 
-import android.util.Log
 import com.nbstocks.nbstocks.common.handlers.Resource
 import com.nbstocks.nbstocks.data.mapper.toWatchlistStockInfoDomainModel
 import com.nbstocks.nbstocks.data.remote.services.WatchlistStockInfoService
@@ -23,7 +22,6 @@ class MultipleStocksRepositoryImpl @Inject constructor(
                 api.getWatchlistStockInfo(symbols = symbols)
             }, { toWatchlistStockInfoDomainModel() })
             emit(resource)
-            Log.w("TAG____Repo", symbols)
         }
         emit(Resource.Loading(false))
     }

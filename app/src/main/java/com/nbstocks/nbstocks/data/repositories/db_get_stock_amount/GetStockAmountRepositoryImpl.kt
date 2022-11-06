@@ -1,11 +1,7 @@
 package com.nbstocks.nbstocks.data.repositories.db_get_stock_amount
 
-import android.util.Log.d
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import com.nbstocks.nbstocks.common.extensions.addOnDataChangedListener
 import com.nbstocks.nbstocks.common.handlers.Resource
 import com.nbstocks.nbstocks.domain.model.UsersStockDomainModel
@@ -33,7 +29,6 @@ class GetStockAmountRepositoryImpl @Inject constructor(
             if (snapshot.exists()) {
 
                 val stockInfo = snapshot.getValue(UsersStockDomainModel::class.java)!!
-                d("Tag_rep", "${stockInfo.amountInStocks}")
                 _stockAmount.tryEmit(Resource.Success(stockInfo.amountInStocks.toString()))
 
                 if (stockInfo.amountInStocks!! < 0) {

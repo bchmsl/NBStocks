@@ -27,7 +27,6 @@ class CompanyListingsViewModel @Inject constructor(private val repository: Compa
             _companyListingViewState.resetViewState()
             repository.getCompanyListings(fetchFromRemote, query).collect { resource ->
                 _loaderState.value = resource.isLoading
-
                 resource.doOnSuccess {
                     _companyListingViewState.emitSuccessViewState(this){
                         it.map { it.toCompanyListingUiModel() }

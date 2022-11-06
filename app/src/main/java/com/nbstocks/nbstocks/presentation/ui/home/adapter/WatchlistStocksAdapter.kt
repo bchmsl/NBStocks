@@ -1,6 +1,5 @@
 package com.nbstocks.nbstocks.presentation.ui.home.adapter
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -9,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.nbstocks.nbstocks.R
 import com.nbstocks.nbstocks.common.extensions.toCurrencyString
 import com.nbstocks.nbstocks.common.extensions.toPercentString
-import com.nbstocks.nbstocks.common.extensions.toPercentStringTimes100
 import com.nbstocks.nbstocks.databinding.LayoutWatchlistItemBinding
 import com.nbstocks.nbstocks.presentation.ui.common.model.WatchlistStockInfoUiModel
 

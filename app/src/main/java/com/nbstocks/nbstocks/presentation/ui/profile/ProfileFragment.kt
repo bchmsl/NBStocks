@@ -1,10 +1,7 @@
 package com.nbstocks.nbstocks.presentation.ui.profile
 
 import android.app.Activity
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
-import android.util.Log
 import android.widget.ImageView
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -13,15 +10,10 @@ import com.bumptech.glide.Glide
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.firebase.auth.FirebaseAuth
 import com.nbstocks.nbstocks.R
-import com.nbstocks.nbstocks.common.custom_views.CustomDialog
-import com.nbstocks.nbstocks.common.extensions.asynchronously
-import com.nbstocks.nbstocks.common.extensions.makeSnackbar
-import com.nbstocks.nbstocks.common.extensions.obtainViewModel
-import com.nbstocks.nbstocks.common.handlers.Resource
+import com.nbstocks.nbstocks.common.extensions.*
 import com.nbstocks.nbstocks.databinding.FragmentProfileBinding
 import com.nbstocks.nbstocks.presentation.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
-import java.io.File
 
 @AndroidEntryPoint
 class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBinding::inflate) {
@@ -46,16 +38,14 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
         asynchronously {
             viewModel.getShownBalanceState(requireContext()).collect {
                 binding.swBalanceVisible.isChecked = it
-                Log.wtf("TAGGGG", it.toString())
             }
         }
         asynchronously {
-            viewModel.profilePic.collect{
-                when(it){
-                    is Resource.Success ->{
-                        binding.civProfileImage.setImageBitmap(it.data)
-                    }
-                    else -> {}
+            viewModel.profilePic.collect { resource ->
+                resource.doOnSuccess {
+                    it?.let { binding.civProfileImage.setImageBitmap(it) }
+                }.doOnFailure {
+                    binding.root.makeSnackbar("Please upload profile picture!", true)
                 }
             }
         }
@@ -63,8 +53,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
 
     private fun listeners() {
         binding.apply {
-
-
             binding.btnUploadPhoto.setOnClickListener {
                 choosePhoto()
             }
@@ -73,11 +61,14 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
                 viewModel.setShownBalance(requireContext(), isChecked)
             }
             tvAbout.setOnClickListener {
-
+                val dialog = AboutDialog(requireContext())
+                dialog.show()
             }
+
             tvChangePassword.setOnClickListener {
                 findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToPasswordChangeFragment())
             }
+
             tvLogOut.setOnClickListener {
                 signOut()
             }
@@ -96,15 +87,12 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
     private fun uploadProfilePic() {
         viewModel.uploadProfilePic(imageUri)
         asynchronously {
-            viewModel.uploadProfilePicResponse.collect {
-                when (it) {
-                    is Resource.Success<*> -> {
-                        binding.root.makeSnackbar("Upload successfully",false)
-                    }
-                    is Resource.Error -> {
-                        binding.root.makeSnackbar("Upload failed",true)
-                    }
-                    else -> {}
+            viewModel.uploadProfilePicResponse.collect { resource ->
+                resource.doOnSuccess {
+                    binding.root.makeSnackbar("Upload successfully", false)
+
+                }.doOnFailure {
+                    binding.root.makeSnackbar("Upload failed", true)
                 }
             }
         }
@@ -117,19 +105,14 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
             val data = result.data
             when (resultCode) {
                 Activity.RESULT_OK -> {
-
                     imageUri = data?.data!!
-
                     if(imageUri != null){
                         uploadProfilePic()
                     }
-
                     Glide.with(this)
                         .load(imageUri)
                         .into((binding.civProfileImage) as ImageView)
-
                 }
-
                 ImagePicker.RESULT_ERROR -> {
                     binding.root.makeSnackbar(ImagePicker.getError(data), true)
                 }
@@ -144,6 +127,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
 
     private fun signOut() {
         FirebaseAuth.getInstance().signOut()
-        findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToLogInFragment())
+        findNavController().popBackStack(R.id.homeFragment, false)
     }
 }

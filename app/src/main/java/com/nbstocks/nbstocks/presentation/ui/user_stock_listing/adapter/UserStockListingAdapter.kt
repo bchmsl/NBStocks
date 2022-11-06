@@ -9,14 +9,8 @@ import com.nbstocks.nbstocks.R
 import com.nbstocks.nbstocks.common.extensions.safeSubString
 import com.nbstocks.nbstocks.common.extensions.toCurrencyString
 import com.nbstocks.nbstocks.common.extensions.toPercentString
-import com.nbstocks.nbstocks.databinding.FragmentOwnStockItemsBinding
-import com.nbstocks.nbstocks.databinding.LayoutOwnStockItemBinding
 import com.nbstocks.nbstocks.databinding.LayoutOwnStockItemFragmentBinding
-import com.nbstocks.nbstocks.databinding.LayoutWatchlistItemFragmentBinding
 import com.nbstocks.nbstocks.presentation.ui.common.model.WatchlistStockInfoUiModel
-import com.nbstocks.nbstocks.presentation.ui.stock_details.model.UsersStockUiModel
-
-
 
 
 class UserStockListingAdapter : ListAdapter<WatchlistStockInfoUiModel.DataItem, UserStockListingAdapter.UserStockViewHolder>(callback) {

@@ -5,16 +5,15 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.first
-import javax.inject.Inject
 
 object DatastoreProvider {
-    const val DATASTORE_NAME = "userSettingsDataStore"
-    val SHOW_BALANCE_PREF_KEY = booleanPreferencesKey("showBalance")
+    private const val DATASTORE_NAME = "userSettingsDataStore"
+    private val SHOW_BALANCE_PREF_KEY = booleanPreferencesKey("showBalance")
 
-    val Context.dataStore by preferencesDataStore(DATASTORE_NAME)
+    private val Context.dataStore by preferencesDataStore(DATASTORE_NAME)
 
     suspend fun Context.savePreference(showBalance: Boolean) {
-        this.dataStore.edit{
+        this.dataStore.edit {
             it[SHOW_BALANCE_PREF_KEY] = showBalance
         }
     }

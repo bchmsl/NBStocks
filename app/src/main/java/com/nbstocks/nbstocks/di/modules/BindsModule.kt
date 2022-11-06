@@ -1,19 +1,16 @@
 package com.nbstocks.nbstocks.di.modules
 
-import com.nbstocks.nbstocks.common.handlers.ResponseHandler
 import com.nbstocks.nbstocks.data.repositories.base_repository.BaseRepositoryImpl
-import com.nbstocks.nbstocks.data.repositories.change_password.ChangePasswordRepositoryImpl
 import com.nbstocks.nbstocks.data.repositories.company_listings.CompanyListingsRepositoryImpl
 import com.nbstocks.nbstocks.data.repositories.current_stock.CurrentStockRepositoryImpl
 import com.nbstocks.nbstocks.data.repositories.daily_stock.DailyStockPricesPricesRepositoryImpl
-import com.nbstocks.nbstocks.data.repositories.db_owned_stocks.OwnedStocksRepositoryImpl
 import com.nbstocks.nbstocks.data.repositories.db_balance.BalanceRepositoryImpl
 import com.nbstocks.nbstocks.data.repositories.db_get_stock_amount.GetStockAmountRepositoryImpl
+import com.nbstocks.nbstocks.data.repositories.db_owned_stocks.OwnedStocksRepositoryImpl
 import com.nbstocks.nbstocks.data.repositories.multiple_stocks.MultipleStocksRepositoryImpl
 import com.nbstocks.nbstocks.data.repositories.trade_history.TradeHistoryRepositoryImpl
 import com.nbstocks.nbstocks.data.repositories.watchlist_stock.WatchlistRepositoryImpl
 import com.nbstocks.nbstocks.domain.repositories.base_repository.BaseRepository
-import com.nbstocks.nbstocks.domain.repositories.change_password.ChangePasswordRepository
 import com.nbstocks.nbstocks.domain.repositories.company_listings.CompanyListingsRepository
 import com.nbstocks.nbstocks.domain.repositories.current_stock.CurrentStockRepository
 import com.nbstocks.nbstocks.domain.repositories.daily_stock.DailyStockPricesRepository
@@ -63,12 +60,6 @@ abstract class BindsModule {
         watchlistRepositoryImpl: WatchlistRepositoryImpl
     ): WatchlistRepository
 
-
-//    @Binds
-//    @Singleton
-//    abstract fun provideResponseHandler(
-//        responseHandler: ResponseHandler
-//    ): ResponseHandler
 
     @Binds
     @Singleton

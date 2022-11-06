@@ -1,7 +1,6 @@
 package com.nbstocks.nbstocks.presentation.ui
 
 import android.os.Bundle
-import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.isVisible
@@ -10,8 +9,8 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.navigation.NavigationView
 import com.nbstocks.nbstocks.R
+import com.nbstocks.nbstocks.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -19,16 +18,16 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var navView: BottomNavigationView
 
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen()
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         supportActionBar?.hide()
 
-
-
-        navView = findViewById(R.id.bottomNavigationView)
+        navView = binding.bottomNavigationView
         val navController = findNavController(R.id.fragmentContainerView)
 
 
@@ -57,8 +56,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-    }
 
+    }
 
     private fun showToolBar() {
         navView.isVisible = true
@@ -67,6 +66,5 @@ class MainActivity : AppCompatActivity() {
     private fun hideToolBar() {
         navView.isVisible = false
     }
-
 
 }

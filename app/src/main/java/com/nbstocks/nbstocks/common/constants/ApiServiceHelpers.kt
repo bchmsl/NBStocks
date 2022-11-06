@@ -18,15 +18,8 @@ object ApiServiceHelpers {
         }
         object ServiceTimestamps{
             const val DAY1 = "1d"
-            const val DAY5 = "5d"
             const val MONTH1 = "1mo"
-            const val MONTH3 = "3mo"
-            const val MONTH6 = "6mo"
             const val YEAR1 = "1y"
-            const val YEAR2 = "2y"
-            const val YEAR5 = "5y"
-            const val YEAR10 = "10y"
-            const val MAX = "max"
         }
     }
 

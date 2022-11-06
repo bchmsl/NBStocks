@@ -55,4 +55,6 @@
     <string name="trade_history">Latest trade history</string>
     <string name="add">Add</string>
     <string name="processing">processing</string>
+    <string name="info">NB Stocks is a stock trading application. You can manage your balance, track stock prices in realtime, and ease your life. NB Stocks is a unique app as it provides trade buy/sell functionality, has a built-in chart based on stock price changes, and provides real-time stock information, such as maximum and minimum value in 24 hours, monthly price change, latest trade history and so on.</string>
+    <string name="close">Close</string>
 </resources>

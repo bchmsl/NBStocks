@@ -1,13 +1,12 @@
 package com.nbstocks.nbstocks.presentation.ui.stock_details
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nbstocks.nbstocks.common.extensions.*
 import com.nbstocks.nbstocks.data.mapper.toUserStockDomainModel
-import com.nbstocks.nbstocks.data.repositories.db_owned_stocks.OwnedStocksRepositoryImpl
 import com.nbstocks.nbstocks.data.repositories.db_balance.BalanceRepositoryImpl
 import com.nbstocks.nbstocks.data.repositories.db_get_stock_amount.GetStockAmountRepositoryImpl
+import com.nbstocks.nbstocks.data.repositories.db_owned_stocks.OwnedStocksRepositoryImpl
 import com.nbstocks.nbstocks.data.repositories.watchlist_stock.WatchlistRepositoryImpl
 import com.nbstocks.nbstocks.domain.repositories.current_stock.CurrentStockRepository
 import com.nbstocks.nbstocks.domain.repositories.daily_stock.DailyStockPricesRepository
@@ -117,9 +116,6 @@ class StocksDetailsViewModel @Inject constructor(
                 _loaderState.value = resource.isLoading
                 resource.doOnSuccess {
                     _watchlistItems.emitSuccessViewState(this) {
-                        Log.wtf(
-                            "TTAAGG", it.toString()
-                        )
                         it.toList()
                     }
                 }.doOnFailure {
