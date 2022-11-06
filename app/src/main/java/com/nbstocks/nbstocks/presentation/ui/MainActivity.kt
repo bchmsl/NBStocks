@@ -48,6 +48,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.passwordRecoveryFragment -> hideToolBar()
                 R.id.stocksDetailsFragment -> hideToolBar()
                 R.id.watchlistFragment -> hideToolBar()
+                R.id.userStockListingFragment -> hideToolBar()
                 else -> showToolBar()
             }
         }

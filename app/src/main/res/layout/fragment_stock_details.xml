@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?android:attr/colorBackground">
+    android:background="@drawable/main_background">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -15,7 +15,6 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:scaleType="fitXY"
-            android:tint="?attr/colorPrimary"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/mini_header" />
 
@@ -25,7 +24,7 @@
             android:layout_height="35dp"
             android:layout_marginStart="15dp"
             android:layout_marginTop="20dp"
-            android:background="?attr/colorPrimary"
+            android:background="@android:color/transparent"
             android:padding="3dp"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_arrow_back"
@@ -44,43 +43,33 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/ibtnBack" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/ivCompanyLogo"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="10dp"
-            android:tint="?attr/colorOnSecondary"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ivHeader"
-            tools:src="@drawable/ic_logo" />
-
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvSymbol"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:fontFamily="sans-serif-light"
+            android:layout_marginTop="5dp"
+            android:fontFamily="sans-serif-medium"
             android:textColor="?attr/colorOnSecondary"
-            android:textSize="22sp"
-            app:layout_constraintBottom_toBottomOf="@id/ivCompanyLogo"
-            app:layout_constraintStart_toEndOf="@id/ivCompanyLogo"
-            app:layout_constraintTop_toTopOf="@id/ivCompanyLogo"
+            android:textSize="25sp"
+            android:layout_marginStart="15dp"
+            app:layout_constraintBottom_toTopOf="@id/progressBar"
+            app:layout_constraintStart_toEndOf="@+id/tbFavorite"
+            app:layout_constraintTop_toBottomOf="@id/ivHeader"
             tools:text="SYM" />
 
         <androidx.appcompat.widget.AppCompatToggleButton
             android:id="@+id/tbFavorite"
             android:layout_width="40dp"
             android:layout_height="0dp"
-            android:layout_marginEnd="15dp"
             android:background="@drawable/ic_favorite"
             android:backgroundTint="?attr/colorPrimary"
             android:checked="false"
+            android:layout_marginStart="10dp"
             android:textOff=""
             android:textOn=""
-            app:layout_constraintBottom_toBottomOf="@id/tvSymbol"
+            app:layout_constraintBottom_toBottomOf="@+id/tvSymbol"
             app:layout_constraintDimensionRatio="1"
-            app:layout_constraintEnd_toStartOf="@id/tvPrice"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvSymbol" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -88,19 +77,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="15dp"
+            app:layout_constraintBottom_toTopOf="@id/tvPercentage"
             android:fontFamily="sans-serif-medium"
             android:textColor="?attr/colorOnSecondary"
             android:textSize="22sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/ivCompanyLogo"
+            app:layout_constraintTop_toTopOf="@id/tvSymbol"
             tools:text="$250" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvPercentage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#8BC34A"
-            android:textSize="15sp"
+            android:background="@drawable/shape_rectangle_increase"
+            android:fontFamily="sans-serif-medium"
+            android:paddingHorizontal="3dp"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@id/tvSymbol"
+            android:textSize="13sp"
+            android:layout_marginTop="5dp"
             app:layout_constraintEnd_toEndOf="@id/tvPrice"
             app:layout_constraintTop_toBottomOf="@id/tvPrice"
             tools:text="+5.00%" />
@@ -109,8 +104,9 @@
             android:id="@+id/progressBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:indeterminate="true"
+            app:layout_constraintTop_toBottomOf="@id/tvPercentage"
+            android:layout_marginTop="5dp"
             app:indicatorColor="?attr/colorPrimary"
             app:layout_constraintBottom_toTopOf="@id/tlSwitchStocks"
             app:trackColor="?attr/colorOnPrimary"
@@ -124,7 +120,7 @@
             android:layout_marginTop="18dp"
             android:background="@drawable/shape_cornered"
             android:backgroundTint="?attr/background"
-            app:layout_constraintTop_toBottomOf="@id/ivCompanyLogo"
+            app:layout_constraintTop_toBottomOf="@id/progressBar"
             app:tabIndicator="@drawable/shape_cornered"
             app:tabIndicatorAnimationMode="elastic"
             app:tabIndicatorColor="?attr/colorPrimary"
@@ -144,12 +140,26 @@
                 android:text="@string/monthly" />
         </com.google.android.material.tabs.TabLayout>
 
-        <com.anychart.AnyChartView
-            android:id="@+id/chart"
+
+        <View
+            android:id="@+id/chartBackground"
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:layout_marginTop="15dp"
-            app:layout_constraintTop_toBottomOf="@id/tlSwitchStocks" />
+            android:layout_margin="15dp"
+            android:backgroundTint="?attr/background"
+            app:layout_constraintTop_toBottomOf="@id/tlSwitchStocks"
+            android:background="@drawable/shape_rectangle" />
+
+        <com.anychart.AnyChartView
+            android:id="@+id/chart"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="10dp"
+            android:background="?attr/background"
+            app:layout_constraintBottom_toBottomOf="@id/chartBackground"
+            app:layout_constraintEnd_toEndOf="@id/chartBackground"
+            app:layout_constraintStart_toStartOf="@id/chartBackground"
+            app:layout_constraintTop_toTopOf="@id/chartBackground" />
 
         <View
             android:id="@+id/viewCardPrices"
@@ -315,10 +325,10 @@
             android:id="@+id/pbChartLoader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@id/chart"
+            app:layout_constraintBottom_toBottomOf="@id/chart"
             app:layout_constraintEnd_toEndOf="@id/chart"
-            app:layout_constraintTop_toTopOf="@id/chart"
-            app:layout_constraintBottom_toBottomOf="@id/chart"/>
+            app:layout_constraintStart_toStartOf="@id/chart"
+            app:layout_constraintTop_toTopOf="@id/chart" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

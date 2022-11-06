@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="7dp"
     android:layout_marginHorizontal="10dp"
-    android:background="@drawable/shape_rectangle_clickable">
+    android:background="@drawable/shape_search_background">
 
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -16,7 +16,7 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
         android:fontFamily="sans-serif-light"
-        android:textColor="?attr/colorOnSecondary"
+        android:textColor="@color/white"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,7 +31,7 @@
         android:layout_marginTop="7dp"
         android:layout_marginBottom="15dp"
         android:fontFamily="sans-serif-light"
-        android:textColor="?attr/colorOnSecondary"
+        android:textColor="@color/white"
         android:textSize="17sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/tvItemSymbol"

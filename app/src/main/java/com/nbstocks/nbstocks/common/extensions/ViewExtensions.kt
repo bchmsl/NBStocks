@@ -6,9 +6,9 @@ import com.google.android.material.snackbar.Snackbar
 
 fun View.makeSnackbar(s: String, isError: Boolean) {
     if (isError) {
-        Snackbar.make(this, s, Snackbar.LENGTH_SHORT).setBackgroundTint(Color.RED).show()
+        Snackbar.make(this, s, Snackbar.LENGTH_SHORT).setBackgroundTint(Color.parseColor("#E82F46")).show()
     } else {
-        Snackbar.make(this, s, Snackbar.LENGTH_SHORT).setBackgroundTint(Color.GREEN).show()
+        Snackbar.make(this, s, Snackbar.LENGTH_SHORT).setBackgroundTint(Color.parseColor("#63C10A")).show()
     }
 }
 

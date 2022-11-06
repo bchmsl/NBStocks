@@ -29,13 +29,13 @@ class TradeHistoryAdapter :
                 tvStockSymbol.text = currentItem.symbol
                 tvStockTradeDate.text = currentItem.tradeDate.safeSubString(12)
                 if (currentItem.isBuy.toString() == "true"){
-                    binding.ivTradeType.setImageResource(R.drawable.buy_icon)
+                    binding.ivTradeType.setImageResource(R.drawable.ic_buy)
                     tvMoney.text = "-${currentItem.money.toCurrencyDouble().toCurrencyString()}"
-                    tvMoney.setTextColor(Color.parseColor("#E82F46"))
-                }else{
-                    binding.ivTradeType.setImageResource(R.drawable.sell_icon)
-                    tvMoney.text = currentItem.money.toCurrencyDouble().toCurrencyString()
                     tvMoney.setTextColor(Color.parseColor("#63C10A"))
+                }else{
+                    binding.ivTradeType.setImageResource(R.drawable.ic_sell)
+                    tvMoney.text = currentItem.money.toCurrencyDouble().toCurrencyString()
+                    tvMoney.setTextColor(Color.parseColor("#E82F46"))
                 }
             }
         }
