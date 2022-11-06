@@ -1,6 +1,7 @@
 package com.nbstocks.nbstocks.presentation.ui
 
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.isVisible
@@ -9,6 +10,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationView
 import com.nbstocks.nbstocks.R
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -32,7 +34,9 @@ class MainActivity : AppCompatActivity() {
 
         val appBarConfig = AppBarConfiguration(
             setOf(
-                R.id.homeFragment, R.id.companyListingsFragment, R.id.profileFragment
+                R.id.homeFragment,
+                R.id.companyListingsFragment,
+                R.id.profileFragment
             )
         )
 
@@ -53,15 +57,16 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-
     }
+
 
     private fun showToolBar() {
         navView.isVisible = true
     }
 
-    fun hideToolBar() {
+    private fun hideToolBar() {
         navView.isVisible = false
     }
+
 
 }

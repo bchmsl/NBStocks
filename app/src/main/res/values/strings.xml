@@ -53,4 +53,6 @@
     <string name="owned_stocks">Owned Stocks:</string>
     <string name="total_value">Total Value:</string>
     <string name="trade_history">Latest trade history</string>
+    <string name="add">Add</string>
+    <string name="processing">processing</string>
 </resources>
