@@ -80,6 +80,10 @@
         <argument
             android:name="stockSymbol"
             app:argType="string" />
+        <argument
+            android:name="stockChangePercent"
+            app:argType="float"
+            android:defaultValue="0.0" />
     </fragment>
     <fragment
         android:id="@+id/companyListingsFragment"

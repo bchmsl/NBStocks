@@ -4,14 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/main_background"
     tools:context=".presentation.ui.profile.ProfileFragment"
     tools:targetApi="m">
 
     <View
         android:id="@+id/viewHeader"
         android:layout_width="match_parent"
-        android:layout_height="115dp"
-        android:background="?attr/colorPrimary"
+        android:layout_height="230dp"
+        android:background="@drawable/profile_header"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -31,14 +32,13 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/civProfileImage"
         android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="1"
         android:src="@drawable/img_avatar"
-        app:civ_border_color="?attr/colorPrimary"
-        app:civ_border_width="15dp"
+        android:layout_marginBottom="18dp"
         app:layout_constraintBottom_toBottomOf="@id/viewHeader"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/viewHeader" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvTitleAppSettings"

@@ -1,12 +1,14 @@
 package com.nbstocks.nbstocks.presentation.ui.stock_details
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.util.Log.d
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.nbstocks.nbstocks.R
 import com.nbstocks.nbstocks.common.extensions.*
 import com.nbstocks.nbstocks.databinding.FragmentStockDetailsBinding
 import com.nbstocks.nbstocks.presentation.ui.base.BaseFragment
@@ -36,7 +38,7 @@ class StocksDetailsFragment :
     }
 
     private fun setupChart() {
-        val viewColor = binding.root.background as ColorDrawable
+        val viewColor = binding.chart.background as ColorDrawable
         val hexColor = String.format("#%06X", 0xFFFFFF and viewColor.color)
         stockPricesChart.apply {
             backgroundColor = hexColor
@@ -103,8 +105,20 @@ class StocksDetailsFragment :
                 tvSymbol.text = symbol
                 tvLowPrice.text = targetLowPrice?.raw.toCurrencyString()
                 tvHighPrice.text = targetHighPrice?.raw.toCurrencyString()
-                tvPercentage.text = revenueGrowth?.raw.toPercentStringTimes100()
+                tvPercentage.text =
+                    if (args.stockChangePercent == 0.0f){
+                        revenueGrowth?.raw.toPercentStringTimes100()
+                    }else{
+                        args.stockChangePercent.toDouble().toPercentString()
+                    }
                 tvTitleName.text = symbol
+                tvPercentage.setBackgroundResource(
+                    if (args.stockChangePercent < 0) {
+                        R.drawable.shape_rectangle_decrease
+                    } else {
+                        R.drawable.shape_rectangle_increase
+                    }
+                )
             }
         }
     }
@@ -202,7 +216,8 @@ class StocksDetailsFragment :
                     TradeHistoryUiModel(
                         isBuy = true,
                         symbol = binding.tvSymbol.text.toString(),
-                        money = (amountOfStock * binding.tvPrice.text.toString().toCurrencyDouble()).toString(),
+                        money = (amountOfStock * binding.tvPrice.text.toString()
+                            .toCurrencyDouble()).toString(),
                         tradeDate = getCurrentDate()
                     )
                 )
@@ -219,7 +234,8 @@ class StocksDetailsFragment :
                     TradeHistoryUiModel(
                         isBuy = true,
                         symbol = binding.tvSymbol.text.toString(),
-                        money = (amountOfStock * binding.tvPrice.text.toString().toCurrencyDouble()).toString(),
+                        money = (amountOfStock * binding.tvPrice.text.toString()
+                            .toCurrencyDouble()).toString(),
                         tradeDate = getCurrentDate()
                     )
                 )
@@ -253,7 +269,8 @@ class StocksDetailsFragment :
                 TradeHistoryUiModel(
                     isBuy = false,
                     symbol = binding.tvSymbol.text.toString(),
-                    money = (amountOfStock * binding.tvPrice.text.toString().toCurrencyDouble()).toString(),
+                    money = (amountOfStock * binding.tvPrice.text.toString()
+                        .toCurrencyDouble()).toString(),
                     tradeDate = getCurrentDate()
                 )
             )

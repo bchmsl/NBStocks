@@ -92,7 +92,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         }
         asynchronously {
             viewModel.tradeHistoryState.collectViewState(binding) {
-                tradeHistoryAdapter.submitList(it.map { it.toTradeHistoryUiModel() }.reversed().safeSubList(20))
+                tradeHistoryAdapter.submitList(
+                    it.map { it.toTradeHistoryUiModel() }.reversed().safeSubList(20)
+                )
             }
         }
         asynchronously {
@@ -167,19 +169,22 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         binding.tvYourStocksSeeAll.setOnClickListener {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToUserStockListingFragment())
         }
-        watchlistAdapter.stockItemClicked = {
-            it.symbol?.let {
+        watchlistAdapter.stockItemClicked = { dataItem ->
+            dataItem.symbol?.let {
                 findNavController().navigate(
                     HomeFragmentDirections.actionHomeFragmentToStocksDetailsFragment(
-                        it
+                        it, dataItem.regularMarketChangePercent?.toFloat() ?: 0.0f
                     )
                 )
             }
         }
-        userStockAdapter.stockItemClicked = {
-            it.symbol?.let {
+        userStockAdapter.stockItemClicked = { dataItem ->
+            dataItem.symbol?.let {
                 findNavController().navigate(
-                    HomeFragmentDirections.actionHomeFragmentToStocksDetailsFragment(it)
+                    HomeFragmentDirections.actionHomeFragmentToStocksDetailsFragment(
+                        it,
+                        dataItem.regularMarketChangePercent?.toFloat() ?: 0.0f
+                    )
                 )
             }
         }

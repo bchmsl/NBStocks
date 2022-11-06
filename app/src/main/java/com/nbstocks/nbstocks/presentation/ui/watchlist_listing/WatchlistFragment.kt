@@ -62,11 +62,11 @@ class WatchlistFragment :
     }
 
     private fun listeners() {
-        watchlistAdapter.stockItemClicked = {
-            it.symbol?.let {
+        watchlistAdapter.stockItemClicked = {dataItem ->
+            dataItem.symbol?.let {
                 findNavController().navigate(
                     WatchlistFragmentDirections.actionWatchlistFragmentToStocksDetailsFragment(
-                        it
+                        it, dataItem.regularMarketChangePercent?.toFloat() ?: 0.0f
                     )
                 )
             }

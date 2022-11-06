@@ -39,14 +39,18 @@ class UserStockListingFragment :
     }
 
     private fun listeners() {
-        userStockAdapter.stockItemClicked = {
-            it.symbol?.let {
+        userStockAdapter.stockItemClicked = {dataItem ->
+            dataItem.symbol?.let {
                 findNavController().navigate(
                     UserStockListingFragmentDirections.actionUserStockListingFragmentToStocksDetailsFragment(
-                        it
+                        it, dataItem.regularMarketChangePercent?.toFloat() ?: 0.0f
                     )
                 )
             }
+        }
+        binding.swipeRefresh.setOnRefreshListener {
+            binding.swipeRefresh.isRefreshing = false
+            viewModel.getUsersStocks()
         }
     }
 

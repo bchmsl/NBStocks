@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/main_background"
     tools:context=".presentation.ui.watchlist_listing.WatchlistFragment">
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -11,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:scaleType="fitXY"
-        android:tint="?attr/colorPrimary"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/mini_header" />
 
@@ -21,7 +21,7 @@
         android:layout_height="35dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="20dp"
-        android:background="?attr/colorPrimary"
+        android:background="@android:color/transparent"
         android:padding="3dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_arrow_back"
@@ -45,7 +45,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="25dp"
-        android:layout_marginTop="5dp"
         android:indeterminate="true"
         app:indicatorColor="?attr/colorPrimary"
         app:layout_constraintBottom_toTopOf="@id/swipeRefresh"
@@ -63,12 +62,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvWatchlistStocks"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ivHeader"
+            android:layout_height="match_parent"
             tools:listitem="@layout/layout_watchlist_item_fragment" />
+
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

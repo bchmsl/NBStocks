@@ -1,222 +1,238 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="60dp"
-    android:layout_width="match_parent">
+    android:background="@drawable/main_background"
+    tools:targetApi="m"
+    android:paddingBottom="60dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/new_main_background">
+        android:layout_height="0dp"
+        android:layout_marginTop="-20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivHeader">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/ivHeader"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="85dp"
-            android:scaleType="fitXY"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/new_header" />
+            android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/ivLogo"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="10dp"
-            android:padding="1dp"
-            android:src="@drawable/ic_logo_letters"
-            android:tint="@color/lightGrey"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <View
+                android:id="@+id/viewCardBalance"
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/shape_balance_background"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <View
-            android:id="@+id/viewCardBalance"
-            android:layout_width="match_parent"
-            android:layout_height="140dp"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginEnd="10dp"
-            android:background="@drawable/new_balance"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ivHeader" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvTitleCurrentBalance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="sans-serif"
+                android:text="@string/current_balance"
+                android:textColor="@color/lightGrey"
+                android:textSize="15sp"
+                app:layout_constraintStart_toStartOf="@+id/viewCardBalance"
+                app:layout_constraintTop_toTopOf="@+id/viewCardBalance" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvTitleCurrentBalance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:fontFamily="sans-serif"
-            android:text="@string/current_balance"
-            android:textColor="@color/lightGrey"
-            android:textSize="15sp"
-            app:layout_constraintStart_toStartOf="@+id/viewCardBalance"
-            app:layout_constraintTop_toTopOf="@+id/viewCardBalance" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvCurrentBalance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:fontFamily="sans-serif-medium"
-            android:textColor="@color/white"
-            android:textSize="22sp"
-            app:layout_constraintStart_toStartOf="@+id/tvTitleCurrentBalance"
-            app:layout_constraintTop_toBottomOf="@+id/tvTitleCurrentBalance"
-            tools:text="$10 000" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvCurrentBalance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/white"
+                android:textSize="22sp"
+                app:layout_constraintStart_toStartOf="@+id/tvTitleCurrentBalance"
+                app:layout_constraintTop_toBottomOf="@+id/tvTitleCurrentBalance"
+                tools:text="$10 000" />
 
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnDeposit"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:background="@drawable/button_background_variant"
-            android:fontFamily="sans-serif"
-            android:paddingHorizontal="15dp"
-            android:text="@string/deposit"
-            android:textAllCaps="false"
-            android:textColor="?attr/colorOnSecondary"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="@+id/viewCardBalance"
-            app:layout_constraintTop_toTopOf="@+id/viewCardBalance" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnDeposit"
+                android:drawableStart="@drawable/ic_deposit"
+                android:layout_width="130dp"
+                android:drawableTint="?attr/colorOnSecondary"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/button_background_variant"
+                android:fontFamily="sans-serif"
+                android:paddingHorizontal="15dp"
+                android:text="@string/deposit"
+                android:textAllCaps="false"
+                android:textColor="?attr/colorOnSecondary"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/viewCardBalance"
+                app:layout_constraintTop_toTopOf="@+id/viewCardBalance" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnWithdraw"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:background="@drawable/button_stroke_variant"
-            android:fontFamily="sans-serif"
-            android:paddingHorizontal="15dp"
-            android:text="@string/withdraw"
-            android:textAllCaps="false"
-            android:textColor="@color/lightGrey"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@+id/viewCardBalance"
-            app:layout_constraintEnd_toEndOf="@+id/btnDeposit"
-            app:layout_constraintStart_toStartOf="@+id/btnDeposit"
-            app:layout_constraintTop_toBottomOf="@+id/btnDeposit" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnWithdraw"
+                android:drawableStart="@drawable/ic_withdraw"
+                android:drawableTint="@color/white"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:background="@drawable/button_stroke_variant"
+                android:fontFamily="sans-serif"
+                android:paddingHorizontal="15dp"
+                android:text="@string/withdraw"
+                android:textAllCaps="false"
+                android:textColor="@color/lightGrey"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/viewCardBalance"
+                app:layout_constraintEnd_toEndOf="@+id/btnDeposit"
+                app:layout_constraintStart_toStartOf="@+id/btnDeposit"
+                app:layout_constraintTop_toBottomOf="@+id/btnDeposit" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvTitleWatchlist"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:fontFamily="sans-serif"
-            android:text="@string/watchlist"
-            android:textColor="?attr/colorOnSecondary"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@+id/viewCardBalance"
-            app:layout_constraintTop_toBottomOf="@+id/viewCardBalance" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvTitleWatchlist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:fontFamily="sans-serif"
+                android:text="@string/watchlist"
+                android:textColor="?attr/colorOnSecondary"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@+id/viewCardBalance"
+                app:layout_constraintTop_toBottomOf="@+id/viewCardBalance" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvWatchlistSeeAll"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
-            android:padding="15dp"
-            android:text="@string/see_all"
-            android:textColor="?attr/colorOnSecondary"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/tvTitleWatchlist"
-            app:layout_constraintEnd_toEndOf="@+id/viewCardBalance"
-            app:layout_constraintTop_toTopOf="@+id/tvTitleWatchlist" />
-
-        <com.google.android.material.progressindicator.LinearProgressIndicator
-            android:id="@+id/pbWatchlist"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="25dp"
-            android:indeterminate="true"
-            app:indicatorColor="?attr/colorPrimary"
-            app:layout_constraintBottom_toTopOf="@+id/viewCardBalance"
-            app:layout_constraintTop_toBottomOf="@+id/ivHeader"
-            app:trackColor="?attr/background"
-            app:trackCornerRadius="5dp"
-            tools:layout_editor_absoluteX="25dp" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvWatchlist"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvTitleWatchlist"
-            tools:itemCount="1"
-            tools:listitem="@layout/layout_watchlist_item" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/appCompatTextView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:fontFamily="sans-serif"
-            android:text="@string/your_stocks"
-            android:textColor="?attr/colorOnSecondary"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@+id/tvTitleWatchlist"
-            app:layout_constraintTop_toBottomOf="@+id/rvWatchlist" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvYourStocksSeeAll"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
-            android:text="@string/see_all"
-            android:padding="15dp"
-            android:textColor="?attr/colorOnSecondary"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/appCompatTextView4"
-            app:layout_constraintEnd_toEndOf="@+id/tvWatchlistSeeAll"
-            app:layout_constraintTop_toTopOf="@+id/appCompatTextView4" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvYourStocks"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="vertical"
-            tools:listitem="@layout/layout_own_stock_item"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appCompatTextView4"
-            tools:itemCount="1" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvTradeHistory"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:fontFamily="sans-serif"
-            android:text="@string/trade_history"
-            android:textColor="?attr/colorOnSecondary"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@+id/appCompatTextView4"
-            app:layout_constraintTop_toBottomOf="@+id/rvYourStocks" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvWatchlistSeeAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:padding="15dp"
+                android:text="@string/see_all"
+                android:textColor="?attr/colorOnSecondary"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/tvTitleWatchlist"
+                app:layout_constraintEnd_toEndOf="@+id/viewCardBalance"
+                app:layout_constraintTop_toTopOf="@+id/tvTitleWatchlist" />
 
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvTradeHistory"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            tools:listitem="@layout/layout_trade_history_item"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvTradeHistory"
-            tools:itemCount="1" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvWatchlist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvTitleWatchlist"
+                tools:itemCount="1"
+                tools:listitem="@layout/layout_watchlist_item" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.core.widget.NestedScrollView>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/appCompatTextView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:fontFamily="sans-serif"
+                android:text="@string/your_stocks"
+                android:textColor="?attr/colorOnSecondary"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@+id/tvTitleWatchlist"
+                app:layout_constraintTop_toBottomOf="@+id/rvWatchlist" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvYourStocksSeeAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:padding="15dp"
+                android:text="@string/see_all"
+                android:textColor="?attr/colorOnSecondary"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/appCompatTextView4"
+                app:layout_constraintEnd_toEndOf="@+id/tvWatchlistSeeAll"
+                app:layout_constraintTop_toTopOf="@+id/appCompatTextView4" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvYourStocks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/appCompatTextView4"
+                tools:itemCount="3"
+                tools:listitem="@layout/layout_own_stock_item" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvTradeHistory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:fontFamily="sans-serif"
+                android:text="@string/trade_history"
+                android:textColor="?attr/colorOnSecondary"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@+id/appCompatTextView4"
+                app:layout_constraintTop_toBottomOf="@+id/rvYourStocks" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvTradeHistory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvTradeHistory"
+                tools:itemCount="5"
+                tools:listitem="@layout/layout_trade_history_item" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivHeader"
+        android:layout_width="match_parent"
+        android:layout_height="85dp"
+        android:scaleType="fitXY"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/mini_header" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="10dp"
+        android:padding="1dp"
+        android:src="@drawable/ic_logo_letters"
+        android:tint="@color/lightGrey"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/pbWatchlist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="25dp"
+        android:indeterminate="true"
+        app:indicatorColor="?attr/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="@id/ivHeader"
+        app:layout_constraintTop_toBottomOf="@+id/ivHeader"
+        app:trackColor="?attr/background"
+        app:trackCornerRadius="5dp"
+        tools:layout_editor_absoluteX="25dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
