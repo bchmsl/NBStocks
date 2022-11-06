@@ -5,13 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/main_background"
-    tools:targetApi="m"
-    android:paddingBottom="60dp">
+    tools:targetApi="m">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="-20dp"
+        android:layout_marginTop="-60dp"
+        android:clipToPadding="false"
+        android:paddingTop="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ivHeader">
 
@@ -61,13 +62,13 @@
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnDeposit"
-                android:drawableStart="@drawable/ic_deposit"
                 android:layout_width="130dp"
-                android:drawableTint="?attr/colorOnSecondary"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/button_background_variant"
+                android:drawableStart="@drawable/ic_deposit"
+                android:drawableTint="?attr/colorOnSecondary"
                 android:fontFamily="sans-serif"
                 android:paddingHorizontal="15dp"
                 android:text="@string/deposit"
@@ -79,12 +80,12 @@
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnWithdraw"
-                android:drawableStart="@drawable/ic_withdraw"
-                android:drawableTint="@color/white"
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
                 android:background="@drawable/button_stroke_variant"
+                android:drawableStart="@drawable/ic_withdraw"
+                android:drawableTint="@color/white"
                 android:fontFamily="sans-serif"
                 android:paddingHorizontal="15dp"
                 android:text="@string/withdraw"
@@ -127,13 +128,17 @@
                 android:id="@+id/rvWatchlist"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:layoutAnimation="@anim/watchlist_animation"
                 android:orientation="horizontal"
+                android:paddingHorizontal="10dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvTitleWatchlist"
-                tools:itemCount="1"
+                tools:itemCount="10"
                 tools:listitem="@layout/layout_watchlist_item" />
+
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/appCompatTextView4"
@@ -165,6 +170,7 @@
                 android:id="@+id/rvYourStocks"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layoutAnimation="@anim/item_layout_anim"
                 android:orientation="vertical"
                 android:paddingTop="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -191,6 +197,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:clipToPadding="false"
+                android:layoutAnimation="@anim/item_layout_anim"
+                android:paddingBottom="65dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvTradeHistory"
