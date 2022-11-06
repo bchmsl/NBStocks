@@ -53,7 +53,7 @@ using URI, control balance visibility, change password, see information about th
 ## 🤓 Documentation for geeks 🙂
 NB Stocks application uses *Kotlin* as its base language and standard Android
 SDK with *XML layouts* and *MVVM* with *clean architecture*. The application follows all **SOLID
-Principles** and uses *single activity architecture*. GB Bank application uses [Dagger Hilt](https://github.com/google/dagger/tree/master/java/dagger/hilt)
+Principles** and uses *single activity architecture*. NB Stocks application uses [Dagger Hilt](https://github.com/google/dagger/tree/master/java/dagger/hilt)
 for *dependency injection* and [Retrofit2](https://github.com/square/retrofit) for *API requests*.
   
 
