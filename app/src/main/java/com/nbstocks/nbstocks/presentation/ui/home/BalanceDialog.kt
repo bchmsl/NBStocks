@@ -8,8 +8,7 @@ import com.nbstocks.nbstocks.common.custom_views.CustomDialog
 import com.nbstocks.nbstocks.common.extensions.isValid
 import com.nbstocks.nbstocks.databinding.DialogDepositWithdrawBinding
 
-class BalanceDialog(context: Context, private val isDeposit: Boolean) :
-    CustomDialog(context) {
+class BalanceDialog(context: Context, private val isDeposit: Boolean) : CustomDialog(context) {
 
     private var _binding: DialogDepositWithdrawBinding? = null
     private val binding get() = _binding!!

@@ -2,11 +2,13 @@ package com.nbstocks.nbstocks.presentation.ui.home
 
 
 import android.os.Bundle
+import android.util.Log.d
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
+import com.nbstocks.nbstocks.R
 import com.nbstocks.nbstocks.common.extensions.*
 import com.nbstocks.nbstocks.databinding.FragmentHomeBinding
 import com.nbstocks.nbstocks.presentation.mapper.toTradeHistoryUiModel
@@ -58,6 +60,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private fun observer() {
         asynchronously {
             watchlistViewModel.watchlistItemsState.collectViewState(binding) {
+//                d("watchlost_list","${it.size}")
                 watchlistViewModel.getUserStocksInformation(it.safeSubList(5), true)
                 binding.rvWatchlist.startLayoutAnimation()
             }
